@@ -1,57 +1,101 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مجتمع الروايات</title><link rel="icon" href="images/favicon.png" type="image/png" />
+  <title>مجتمع الروايات</title>
   <style>
-    /* Reset بسيط */
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color:#fafafa; color:#222; }
-    header { background-color:#fff; padding:20px; box-shadow:0 2px 4px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:space-between; }
-    .logo { font-size:24px; font-weight:bold; }
-    nav a { margin:0 15px; text-decoration:none; color:#222; font-size:16px; }
-    nav a:hover { color:#0077cc; }
-    .hero { padding:40px 20px; text-align:center; background-image:url('images/hero-bg.jpg'); background-size:cover; background-position:center; color:#fff; }
-    .hero h1 { font-size:36px; margin-bottom:10px; }
-    .hero p { font-size:18px; margin-bottom:20px; }
-    .btn-primary { background-color:#0077cc; color:#fff; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; font-size:16px; }
-    .btn-primary:hover { background-color:#005fa3; }
-    .section { padding:40px 20px; }
-    .section-title { font-size:28px; margin-bottom:20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:20px; }
-    .card { background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.1); text-align:center; }
-    .card img { width:100%; height:300px; object-fit:cover; }
-    .card .title { font-size:18px; font-weight:bold; margin:10px 0; }
-    .card .meta { font-size:14px; color:#555; margin-bottom:10px; }
-    .footer { padding:20px; text-align:center; font-size:14px; color:#777; }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .button-link {
+      position: absolute;
+      bottom: 26%; /* اضبط حسب مكان الزر في الصورة */
+      right: 17%;   /* اضبط حسب مكان الزر في الصورة */
+      width: 13%;
+      height: 7%;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">مجتمع الروايات</div>
-    <nav>
-      <a href="#">الروايات</a>
-      <a href="#">التصنيفات</a>
-      <a href="#">الأحدث</a>
-      <a href="#">الأكثر شهرة</a>
-      <a href="#">تسجيل / دخول</a>
-    </nav>
-  </header>  <section class="hero">
-    <h1>مرحبًا بك في مجتمع الروايات</h1>
-    <p>استمتع بأفضل روايات الويب المترجمة والمبتكرة من عالم الأنمي والمانجا.</p>
-    <button class="btn-primary">استكشف الروايات</button>
-  </section>  <section class="section">
-    <h2 class="section-title">روايات مميزة</h2>
-    <div class="grid">
-      <div class="card">
-        <img src="images/cover1.jpg" alt="غلاف رواية">
-        <div class="title">عاشق بدم بارد</div>
-        <div class="meta">رومانسية · 120 فصل</div>
-      </div>
-      <!-- كرر الكاردات مع تعديل الصورة والعنوان -->
+  <div class="hero">
+    <img src="images/main-hero.jpg" alt="واجهة الروايات">
+    <a class="button-link" href="novels.html" title="استكشف الروايات"></a>
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>روايات</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; }
+
+    header {
+      background: #222;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .novels-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .novel-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .novel-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .novel-card h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>مجتمع الروايات</header>
+
+  <div class="novels-container">
+    <div class="novel-card">
+      <img src="images/cover1.jpg" alt="رواية 1">
+      <h3>رواية البطل الخارق</h3>
     </div>
-  </section>  <footer class="footer">
-    &copy; 2025 مجتمع الروايات. كل الحقوق محفوظة.
-  </footer>
+    <div class="novel-card">
+      <img src="images/cover2.jpg" alt="رواية 2">
+      <h3>يوميات الشرير</h3>
+    </div>
+    <!-- أضف المزيد من الروايات بنفس الشكل -->
+  </div>
+
 </body>
 </html>
