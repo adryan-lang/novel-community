@@ -1,4 +1,4 @@
-// js/plugin.js
+// محتوى الملف js/plugin.js
 
 // 1) منع النسخ وإظهار رسالة
 ;(function(){
@@ -45,56 +45,37 @@
   });
 })();
 
-// 2) نظام الإيموجي مع حفظ فعلي في قاعدة بيانات عبر Netlify + FaunaDB
+// 2) نظام الإيموجي البسيط LocalStorage
 ;(function(){
   document.addEventListener('DOMContentLoaded', ()=>{
     const container = document.querySelector('.reactions[data-chapter-id]');
     if (!container) return;
     const chapterId = container.dataset.chapterId;
     const buttons = container.querySelectorAll('.react-btn');
-    const storageKey = `reacted_${chapterId}`;
 
-    buttons.forEach(btn => btn.disabled = true);
+    // تحميل وعرض الأعداد من localStorage
+    buttons.forEach(btn=>{
+      const key = `${chapterId}_${btn.dataset.reaction}`;
+      const cnt = parseInt(localStorage.getItem(key)) || 0;
+      btn.querySelector('.count').innerText = cnt;
+      if (cnt > 0) disableAll();
+    });
 
-    // جلب الأعداد من السيرفر
-    fetch(`/.netlify/functions/getReactions?chapter=${chapterId}`)
-      .then(res => res.json())
-      .then(data => {
-        buttons.forEach(btn => {
-          const type = btn.dataset.reaction;
-          btn.querySelector('.count').innerText = data[type] || 0;
-          btn.disabled = false;
+    // حدث الضغط
+    buttons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        buttons.forEach(b=>{
+          const key = `${chapterId}_${b.dataset.reaction}`;
+          const newCount = (b === btn ? 1 : 0);
+          localStorage.setItem(key, newCount);
+          b.querySelector('.count').innerText = newCount;
         });
-
-        const prev = localStorage.getItem(storageKey);
-        if (prev) {
-          buttons.forEach(btn => {
-            if (btn.dataset.reaction === prev) btn.classList.add('selected');
-            btn.disabled = true;
-          });
-        }
-      });
-
-    // عند الضغط
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const reaction = btn.dataset.reaction;
-        fetch('/.netlify/functions/addReaction', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chapter: chapterId, reaction })
-        })
-        .then(res => res.json())
-        .then(data => {
-          buttons.forEach(btn => {
-            const type = btn.dataset.reaction;
-            btn.querySelector('.count').innerText = data[type] || 0;
-            btn.disabled = true;
-            if (type === reaction) btn.classList.add('selected');
-          });
-          localStorage.setItem(storageKey, reaction);
-        });
+        disableAll();
       });
     });
+
+    function disableAll(){
+      buttons.forEach(b=> b.disabled = true);
+    }
   });
 })();
