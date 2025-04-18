@@ -2,6 +2,7 @@
 
 // 1) منع النسخ وإظهار رسالة
 ;(function(){
+  // إضافة أنماط التوست وعدم اختيار النص
   const style = document.createElement('style');
   style.innerHTML = `
     .chapter-content {
@@ -28,17 +29,25 @@
   document.head.appendChild(style);
 
   function showToast(){
-    if (document.querySelector('.copy-toast')) return;
-    const t = document.createElement('div');
-    t.className = 'copy-toast';
-    t.innerText = '❗ النسخ ممنوع';
-    document.body.appendChild(t);
-    setTimeout(()=> t.classList.add('visible'), 10);
-    setTimeout(()=> t.remove(), 3100);
+    // إذا التوست موجود، فقط أعد إظهاره
+    let t = document.querySelector('.copy-toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.className = 'copy-toast';
+      t.innerText = '❗ النسخ ممنوع';
+      document.body.appendChild(t);
+    }
+    // إظهار التوست ثم إزالته بعد 3.1 ث
+    t.classList.add('visible');
+    setTimeout(() => {
+      t.classList.remove('visible');
+      t.remove();
+    }, 3100);
   }
 
-  document.addEventListener('copy', e=>{
-    if (e.target.closest('.chapter-content')) {
+  document.addEventListener('copy', e => {
+    const content = document.getElementById('content');
+    if (content && content.contains(e.target)) {
       e.preventDefault();
       showToast();
     }
