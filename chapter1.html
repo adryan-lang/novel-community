@@ -1,4 +1,4 @@
-
+<!-- تحديث ملف chapter1.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -15,19 +15,16 @@
       transition: background 0.3s, color 0.3s;
       line-height: 1.8;
     }
-
     .reader-container {
       max-width: 800px;
       margin: auto;
       padding: 30px 20px;
     }
-
     h1 {
       font-size: 26px;
       margin-bottom: 20px;
       text-align: center;
     }
-
     .settings {
       display: flex;
       justify-content: center;
@@ -35,7 +32,6 @@
       flex-wrap: wrap;
       margin-bottom: 20px;
     }
-
     .settings button {
       padding: 10px 20px;
       font-size: 16px;
@@ -46,11 +42,9 @@
       color: white;
       transition: background 0.3s;
     }
-
     .settings button:hover {
       background-color: #2980b9;
     }
-
     .chapter-content {
       font-size: var(--font-size, 18px);
     }
@@ -76,13 +70,26 @@
         لأول مرة، لم يكن خائفًا... بل شعر بشيء جديد: السيطرة. كانت تلك لحظة البداية، حين يصبح الفتى العادي شيئًا آخر.
       </p>
     </div>
+
+    <!-- إضافة تفاعلات الإيموجي -->
+    <div class="reactions" data-chapter-id="chapter-1">
+      <button class="react-btn" data-reaction="like">👍 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="love">❤️ <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="haha">😆 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="sad">😢 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="angry">😡 <span class="count">0</span></button>
+    </div>
+
   </div>
 
+  <!-- ربط كود الحماية والتفاعلات -->
+  <script src="js/plugin.js"></script>
+
+  <!-- كود تغيير الخط والليلي لديك -->
   <script>
     function setFontSize(size) {
       document.documentElement.style.setProperty('--font-size', size);
     }
-
     function setTheme(theme) {
       if (theme === 'dark') {
         document.documentElement.style.setProperty('--bg-color', '#1e1e1e');
@@ -94,4 +101,4 @@
     }
   </script>
 </body>
-</html>
+                                                        </html>
