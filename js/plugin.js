@@ -1,16 +1,9 @@
 // محتوى الملف js/plugin.js
 
-// 1) منع النسخ وإظهار رسالة
 ;(function(){
-  // إضافة أنماط التوست وعدم اختيار النص
+  // 1) أنماط التوست فقط (دون منع التحديد)
   const style = document.createElement('style');
   style.innerHTML = `
-    .chapter-content {
-      user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      -webkit-touch-callout: none;
-    }
     .copy-toast {
       position: fixed;
       bottom: 20px; left: 50%;
@@ -29,7 +22,6 @@
   document.head.appendChild(style);
 
   function showToast(){
-    // إذا التوست موجود، فقط أعد إظهاره
     let t = document.querySelector('.copy-toast');
     if (!t) {
       t = document.createElement('div');
@@ -37,7 +29,6 @@
       t.innerText = '❗ النسخ ممنوع';
       document.body.appendChild(t);
     }
-    // إظهار التوست ثم إزالته بعد 3.1 ث
     t.classList.add('visible');
     setTimeout(() => {
       t.classList.remove('visible');
@@ -45,16 +36,22 @@
     }, 3100);
   }
 
+  // 2) اعتراض حدث النسخ عبر فحص التحديد داخل العنصر #content
   document.addEventListener('copy', e => {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
     const content = document.getElementById('content');
-    if (content && content.contains(e.target)) {
-      e.preventDefault();
-      showToast();
+    if (content && content.contains(range.commonAncestorContainer)) {
+      e.preventDefault();   // يمنع النسخ
+      showToast();          // يعرض التوست
     }
   });
 })();
 
-// 2) نظام الإيموجي البسيط LocalStorage
+// ------------------------------
+// 3) نظام الإيموجي (كما في السابق)
+// ------------------------------
 ;(function(){
   document.addEventListener('DOMContentLoaded', ()=>{
     const container = document.querySelector('.reactions[data-chapter-id]');
@@ -62,7 +59,6 @@
     const chapterId = container.dataset.chapterId;
     const buttons = container.querySelectorAll('.react-btn');
 
-    // تحميل وعرض الأعداد من localStorage
     buttons.forEach(btn=>{
       const key = `${chapterId}_${btn.dataset.reaction}`;
       const cnt = parseInt(localStorage.getItem(key)) || 0;
@@ -70,7 +66,6 @@
       if (cnt > 0) disableAll();
     });
 
-    // حدث الضغط
     buttons.forEach(btn=>{
       btn.addEventListener('click', ()=>{
         buttons.forEach(b=>{
