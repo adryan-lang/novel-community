@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>روايات</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+    }
+    header {
+      background: #2c3e50;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      font-size: 26px;
+    }
+    .novels-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+    .novel-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+      color: #000;
+    }
+    .novel-card:hover {
+      transform: scale(1.02);
+    }
+    .novel-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    .novel-card h3 {
+      margin: 15px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>📚 مجتمع الروايات</header>
+
+  <div class="novels-container">
+    <a class="novel-card" href="novel1.html">
+      <img src="images/cover1.jpg" alt="رواية البطل الخارق">
+      <h3>رواية البطل الخارق</h3>
+    </a>
+    <a class="novel-card" href="novel2.html">
+      <img src="images/cover2.jpg" alt="يوميات الشرير">
+      <h3>يوميات الشرير</h3>
+    </a>
+  </div>
+
+</body>
+</html>

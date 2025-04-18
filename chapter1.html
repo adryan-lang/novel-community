@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قراءة الفصل</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color, #ffffff);
+      color: var(--text-color, #000000);
+      transition: background 0.3s, color 0.3s;
+      line-height: 1.8;
+    }
+
+    .reader-container {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .settings {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .settings button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #3498db;
+      color: white;
+      transition: background 0.3s;
+    }
+
+    .settings button:hover {
+      background-color: #2980b9;
+    }
+
+    .chapter-content {
+      font-size: var(--font-size, 18px);
+    }
+  </style>
+</head>
+<body>
+  <div class="reader-container">
+    <h1>الفصل 1: بداية القوة</h1>
+
+    <div class="settings">
+      <button onclick="setFontSize('16px')">خط صغير</button>
+      <button onclick="setFontSize('18px')">خط متوسط</button>
+      <button onclick="setFontSize('22px')">خط كبير</button>
+      <button onclick="setTheme('light')">وضع النهار</button>
+      <button onclick="setTheme('dark')">الوضع الليلي</button>
+    </div>
+
+    <div class="chapter-content" id="content">
+      <p>
+        كانت السماء تمطر بشدة حين اكتشف "آدم" أن شيئًا ما قد تغير بداخله. كان جسده يرتجف، ليس من البرد، بل من القوة التي بدأت تتسلل في عروقه.
+      </p>
+      <p>
+        لأول مرة، لم يكن خائفًا... بل شعر بشيء جديد: السيطرة. كانت تلك لحظة البداية، حين يصبح الفتى العادي شيئًا آخر.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function setFontSize(size) {
+      document.documentElement.style.setProperty('--font-size', size);
+    }
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.style.setProperty('--bg-color', '#1e1e1e');
+        document.documentElement.style.setProperty('--text-color', '#ffffff');
+      } else {
+        document.documentElement.style.setProperty('--bg-color', '#ffffff');
+        document.documentElement.style.setProperty('--text-color', '#000000');
+      }
+    }
+  </script>
+</body>
+</html>
