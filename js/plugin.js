@@ -1,6 +1,6 @@
 // js/plugin.js
 ;(function(){
-  // 1) إضافة أنماط: منع تحديد النص في .chapter-content، وتنسيق التوست
+  // 1) إضافة أنماط: منع تحديد النص في .chapter-content، وتنسيق التوست، وأزرار التنقل
   const style = document.createElement('style');
   style.innerHTML = `
     .chapter-content {
@@ -26,6 +26,24 @@
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
+
+    /* ===== تنسيق أزرار التنقل ===== */
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      margin: 30px 0;
+    }
+    .chapter-nav a {
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background .3s;
+    }
+    .chapter-nav a:hover {
+      background-color: #2980b9;
+    }
   `;
   document.head.appendChild(style);
 
@@ -38,7 +56,6 @@
       t.innerText = '❗ النسخ ممنوع';
       document.body.appendChild(t);
     }
-    // إعادة إظهار حتى لو كان موجود
     t.classList.add('visible');
     setTimeout(()=>{
       t.classList.remove('visible');
@@ -71,5 +88,38 @@
     e.preventDefault();
     showToast();
   });
+
+  // 7) إضافة أزرار التنقل بين الفصول بشكل ديناميكي
+  (function(){
+    // اقرأ قائمة الفصول من window.CHAPTERS
+    const chapters = window.CHAPTERS || [];
+    // اسم ملف الفصل الحالي (مثلاً "chapter1.html")
+    const currentFile = window.location.pathname.split('/').pop();
+    const idx = chapters.indexOf(currentFile);
+
+    if (idx !== -1) {
+      // إنشاء حاوية الأزرار
+      const nav = document.createElement('div');
+      nav.className = 'chapter-nav';
+      let links = '';
+
+      // زرّ الفصل السابق
+      if (idx > 0) {
+        links += `<a href="${chapters[idx - 1]}">← الفصل السابق</a>`;
+      } else {
+        links += `<span></span>`;
+      }
+
+      // زرّ الفصل التالي
+      if (idx < chapters.length - 1) {
+        links += `<a href="${chapters[idx + 1]}">الفصل التالي →</a>`;
+      }
+
+      nav.innerHTML = links;
+      // إلحاقه أسفل .reader-container أو أسفل المحتوى إذا كان الهيكل مختلف
+      const container = document.querySelector('.reader-container') || document.body;
+      container.appendChild(nav);
+    }
+  })();
 
 })();
