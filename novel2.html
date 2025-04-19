@@ -1,44 +1,66 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>كوروكو نو باسكت: المختار المُكرَّم</title>
   <style>
     body { font-family: 'Arial', sans-serif; margin: 0; background: #fff; }
     .container { padding: 30px; max-width: 800px; margin: auto; }
     h1 { font-size: 28px; margin-bottom: 10px; }
     img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; }
-    p.description { font-size: 18px; margin-top: 20px; color: #333; white-space: pre-wrap;}
+    p.description { font-size: 18px; margin-top: 20px; color: #333; white-space: pre-wrap; }
     .chapters { margin-top: 30px; }
     .chapters h2 { font-size: 22px; margin-bottom: 10px; }
     .chapters ul { list-style: none; padding: 0; }
     .chapters li { margin-bottom: 10px; }
     .chapters a { text-decoration: none; color: #e74c3c; font-size: 18px; }
   </style>
+
+  <!-- 1) هنا نعرّف قائمة فصول الرواية الثانية -->
+  <script>
+    window.CHAPTERS = [
+      'novel2_chapters/chapter1.html',
+      'novel2_chapters/chapter2.html'
+      // عند إضافة فصول جديدة ضعها هنا بالترتيب
+    ];
+  </script>
+
+  <!-- 2) تحميل السكربت العام (منع النسخ + تنقل بين الفصول) -->
+  <script src="js/plugin.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>كوروكو نو باسكت: المختار المُكرَّم</h1>
-    <img src="images/cover2.jpg" alt="غلاف الرواية">
-    <p class="description">يجد تيندو كاجيوشي نفسه في عالم كوروكو نو باسكت.
+    <img src="images/cover2.jpg" alt="غلاف الرواية" />
+    <p class="description">
+      يجد تيندو كاجيوشي نفسه في عالم كوروكو نو باسكت.
+      بدلًا من أن يتعب نفسه في لعب كرة السلة، قرر أن طريق الاستثمار وامتلاك فريق
+      سيكون أسهل بكثير، فرفض النظام الذي فُرض عليه بلا تردد.
 
-بدلًا من أن يتعب نفسه في لعب كرة السلة، قرر أن طريق الاستثمار وامتلاك فريق سيكون أسهل بكثير، فرفض النظام الذي فُرض عليه بلا تردد.
+      لكن الحياة لا تسير دائمًا كما نشاء—فكل شيء قابل للنقاش إذا كانت المكافآت
+      مغرية بما فيه الكفاية.
 
-      
-  لكن الحياة لا تسير دائمًا كما نشاء—فكل شيء قابل للنقاش إذا كانت المكافآت مغرية بما فيه الكفاية.
-      
-ومن هنا، بدأ تيندو رحلته ليصبح النجم المفضل لدى الجماهير، ومعه نظامه... وإن كان مجبرًا على مرافقته.
+      ومن هنا، بدأ تيندو رحلته ليصبح النجم المفضل لدى الجماهير، ومعه نظامه...
+      وإن كان مجبرًا على مرافقته.
 
-تيندو كاجيوشي: "لنباشر بهدف صغير أولًا—تحويل كوروكو نو باسكت إلى تيندو نو باسكت!"
+      تيندو كاجيوشي: "لنباشر بهدف صغير أولًا—تحويل كوروكو نو باسكت إلى
+      تيندو نو باسكت!"
     </p>
+
     <div class="chapters">
       <h2>الفصول:</h2>
       <ul>
-        <li><a href="#">الفصل 1: اللعنة على لعب كرة السلة!</a></li>
-        <li><a href="#">الفصل 2: ماذا أعطيتني؟
-</a></li>
+        <li>
+          <a href="novel2_chapters/chapter1.html">
+            الفصل 1: اللعنة على لعب كرة السلة!
+          </a>
+        </li>
+        <li>
+          <a href="novel2_chapters/chapter2.html">
+            الفصل 2: ماذا أعطيتني؟
+          </a>
+        </li>
       </ul>
     </div>
   </div>
