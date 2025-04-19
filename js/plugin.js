@@ -91,15 +91,13 @@
 
   // 7) إضافة أزرار التنقل بين الفصول بشكل ديناميكي
   (function(){
-    // اقرأ قائمة الفصول من window.CHAPTERS
     const chapters = window.CHAPTERS || [];
-    // اسم ملف الفصل الحالي (مثلاً "chapter1.html")
-    const currentFile = window.location.pathname.split('/').pop();
-    // ابحث عن الفهرس باستخدام نهاية المسار لضمان مطابقة المجلد والاسم
-    const idx = chapters.findIndex(ch => ch.endsWith(currentFile));
+
+    // استخراج المسار الكامل بالنسبة للمجلد (chapters أو novel2_chapters)
+    const currentPath = window.location.pathname.replace(/^.*?\/(chapters|novel2_chapters)\//, '$1/');
+    const idx = chapters.findIndex(ch => ch.endsWith(currentPath));
 
     if (idx !== -1) {
-      // إنشاء حاوية الأزرار
       const nav = document.createElement('div');
       nav.className = 'chapter-nav';
       let links = '';
@@ -117,7 +115,7 @@
       }
 
       nav.innerHTML = links;
-      // إلحاقه أسفل .reader-container أو أسفل المحتوى إذا كان الهيكل مختلف
+
       const container = document.querySelector('.reader-container') || document.body;
       container.appendChild(nav);
     }
