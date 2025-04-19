@@ -1,8 +1,10 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>قراءة الفصل - الفصل الأول</title>
+  <title>قراءة الفصل - الفصل الثالث</title>
+
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -47,32 +49,70 @@
       font-size: var(--font-size, 18px);
       white-space: pre-wrap;
     }
+
+    /* تنسيق أزرار التنقل (أضفناه هنا) */
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      margin: 30px 0;
+    }
+    .chapter-nav a {
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background .3s;
+    }
+    .chapter-nav a:hover {
+      background-color: #2980b9;
+    }
   </style>
+
+  <!-- 1) عرّفي هنا قائمة الفصول (بأسماء ملفاتها فقط) -->
+  <script>
+    window.CHAPTERS = [
+      'chapter1.html',
+      'chapter2.html',
+      'chapter3.html'
+      // عند إضافة chapter4.html، ضعيها هنا بالترتيب
+    ];
+  </script>
+
 </head>
 <body>
   <div class="reader-container">
-    <h1>الفصل الأول</h1><div class="settings">
-  <button onclick="setFontSize('16px')">خط صغير</button>
-  <button onclick="setFontSize('18px')">خط متوسط</button>
-  <button onclick="setFontSize('22px')">خط كبير</button>
-  <button onclick="setTheme('light')">وضع النهار</button>
-  <button onclick="setTheme('dark')">الوضع الليلي</button>
-</div>
+    <h1>الفصل الثالث: عنوان الفصل هنا</h1>
 
-<div class="chapter-content" id="content">
+    <div class="settings">
+      <button onclick="setFontSize('16px')">خط صغير</button>
+      <button onclick="setFontSize('18px')">خط متوسط</button>
+      <button onclick="setFontSize('22px')">خط كبير</button>
+      <button onclick="setTheme('light')">وضع النهار</button>
+      <button onclick="setTheme('dark')">الوضع الليلي</button>
+    </div>
 
-نص. </div>
+    <div class="chapter-content" id="content">
+      هنا نص الفصل  بالكامل...
+    </div>
 
-<!-- إضافة تفاعلات الإيموجي -->
-<div class="reactions" data-chapter-id="chapter-1">
-  <button class="react-btn" data-reaction="like">👍 <span class="count">0</span></button>
-  <button class="react-btn" data-reaction="love">❤️ <span class="count">0</span></button>
-  <button class="react-btn" data-reaction="haha">😆 <span class="count">0</span></button>
-  <button class="react-btn" data-reaction="sad">😢 <span class="count">0</span></button>
-  <button class="react-btn" data-reaction="angry">😡 <span class="count">0</span></button>
-</div>
+    <!-- إضافة تفاعلات الإيموجي (لم يُحذف شيء من هنا) -->
+    <div class="reactions" data-chapter-id="chapter-3">
+      <button class="react-btn" data-reaction="like">👍 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="love">❤️ <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="haha">😆 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="sad">😢 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="angry">😡 <span class="count">0</span></button>
+    </div>
 
-  </div>  <!-- ربط كود الحماية والتفاعلات -->  <script src="../js/plugin.js"></script>  <!-- كود تغيير الخط والليلي لديك -->  <script>
+    <!-- 2) هنا سيقوم plugin.js بإضافة شريط التنقل تلقائيًا -->
+  </div>
+
+  <!-- 3) تحميل سكربت المنع والتنقل (بلا أي تعديل عليه) -->
+  <script src="../js/plugin.js"></script>
+
+  <!-- 4) كود تغيير حجم الخط والوضع الليلي كما كان لديك -->
+  <script>
     function setFontSize(size) {
       document.documentElement.style.setProperty('--font-size', size);
     }
@@ -85,5 +125,6 @@
         document.documentElement.style.setProperty('--text-color', '#000000');
       }
     }
-  </script></body>
+  </script>
+</body>
   </html>
