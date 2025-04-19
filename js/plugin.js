@@ -95,7 +95,8 @@
     const chapters = window.CHAPTERS || [];
     // اسم ملف الفصل الحالي (مثلاً "chapter1.html")
     const currentFile = window.location.pathname.split('/').pop();
-    const idx = chapters.indexOf(currentFile);
+    // ابحث عن الفهرس باستخدام نهاية المسار لضمان مطابقة المجلد والاسم
+    const idx = chapters.findIndex(ch => ch.endsWith(currentFile));
 
     if (idx !== -1) {
       // إنشاء حاوية الأزرار
