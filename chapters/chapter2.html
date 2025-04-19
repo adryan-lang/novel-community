@@ -1,8 +1,10 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>قراءة الفصل - الفصل الأول</title>
+  <title>قراءة الفصل - الفصل الثاني</title>
+
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -47,32 +49,246 @@
       font-size: var(--font-size, 18px);
       white-space: pre-wrap;
     }
+
+    /* تنسيق أزرار التنقل (أضفناه هنا) */
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      margin: 30px 0;
+    }
+    .chapter-nav a {
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background .3s;
+    }
+    .chapter-nav a:hover {
+      background-color: #2980b9;
+    }
   </style>
+
+  <!-- 1) عرّفي هنا قائمة الفصول (بأسماء ملفاتها فقط) -->
+  <script>
+  window.CHAPTERS = [
+    'chapter1.html',
+    'chapter2.html',
+    'chapter3.html',
+    'chapter4.html',
+    'chapter5.html',
+    'chapter6.html',
+    'chapter7.html',
+    'chapter8.html',
+    'chapter9.html',
+    'chapter10.html',
+    'chapter11.html',
+    'chapter12.html',
+    'chapter13.html',
+    'chapter14.html',
+    'chapter15.html',
+    'chapter16.html',
+    'chapter17.html',
+    'chapter18.html',
+    'chapter19.html',
+    'chapter20.html',
+    'chapter21.html',
+    'chapter22.html',
+    'chapter23.html',
+    'chapter24.html',
+    'chapter25.html',
+    'chapter26.html',
+    'chapter27.html',
+    'chapter28.html',
+    'chapter29.html',
+    'chapter30.html',
+    'chapter31.html',
+    'chapter32.html',
+    'chapter33.html',
+    'chapter34.html',
+    'chapter35.html',
+    'chapter36.html',
+    'chapter37.html',
+    'chapter38.html',
+    'chapter39.html',
+    'chapter40.html',
+    'chapter41.html',
+    'chapter42.html',
+    'chapter43.html',
+    'chapter44.html',
+    'chapter45.html',
+    'chapter46.html',
+    'chapter47.html',
+    'chapter48.html',
+    'chapter49.html',
+    'chapter50.html',
+    'chapter51.html',
+    'chapter52.html',
+    'chapter53.html',
+    'chapter54.html',
+    'chapter55.html',
+    'chapter56.html',
+    'chapter57.html',
+    'chapter58.html',
+    'chapter59.html',
+    'chapter60.html',
+    'chapter61.html',
+    'chapter62.html',
+    'chapter63.html',
+    'chapter64.html',
+    'chapter65.html',
+    'chapter66.html',
+    'chapter67.html',
+    'chapter68.html',
+    'chapter69.html',
+    'chapter70.html',
+    'chapter71.html',
+    'chapter72.html',
+    'chapter73.html',
+    'chapter74.html',
+    'chapter75.html',
+    'chapter76.html',
+    'chapter77.html',
+    'chapter78.html',
+    'chapter79.html',
+    'chapter80.html',
+    'chapter81.html',
+    'chapter82.html',
+    'chapter83.html',
+    'chapter84.html',
+    'chapter85.html',
+    'chapter86.html',
+    'chapter87.html',
+    'chapter88.html',
+    'chapter89.html',
+    'chapter90.html',
+    'chapter91.html',
+    'chapter92.html',
+    'chapter93.html',
+    'chapter94.html',
+    'chapter95.html',
+    'chapter96.html',
+    'chapter97.html',
+    'chapter98.html',
+    'chapter99.html',
+    'chapter100.html',
+    'chapter101.html',
+    'chapter102.html',
+    'chapter103.html',
+    'chapter104.html',
+    'chapter105.html',
+    'chapter106.html',
+    'chapter107.html',
+    'chapter108.html',
+    'chapter109.html',
+    'chapter110.html',
+    'chapter111.html',
+    'chapter112.html',
+    'chapter113.html',
+    'chapter114.html',
+    'chapter115.html',
+    'chapter116.html',
+    'chapter117.html',
+    'chapter118.html',
+    'chapter119.html',
+    'chapter120.html',
+    'chapter121.html',
+    'chapter122.html',
+    'chapter123.html',
+    'chapter124.html',
+    'chapter125.html',
+    'chapter126.html',
+    'chapter127.html',
+    'chapter128.html',
+    'chapter129.html',
+    'chapter130.html',
+    'chapter131.html',
+    'chapter132.html',
+    'chapter133.html',
+    'chapter134.html',
+    'chapter135.html',
+    'chapter136.html',
+    'chapter137.html',
+    'chapter138.html',
+    'chapter139.html',
+    'chapter140.html',
+    'chapter141.html',
+    'chapter142.html',
+    'chapter143.html',
+    'chapter144.html',
+    'chapter145.html',
+    'chapter146.html',
+    'chapter147.html',
+    'chapter148.html',
+    'chapter149.html',
+    'chapter150.html',
+    'chapter151.html',
+    'chapter152.html',
+    'chapter153.html',
+    'chapter154.html',
+    'chapter155.html',
+    'chapter156.html',
+    'chapter157.html',
+    'chapter158.html',
+    'chapter159.html',
+    'chapter160.html',
+    'chapter161.html',
+    'chapter162.html',
+    'chapter163.html',
+    'chapter164.html',
+    'chapter165.html',
+    'chapter166.html',
+    'chapter167.html',
+    'chapter168.html',
+    'chapter169.html',
+    'chapter170.html',
+    'chapter171.html',
+    'chapter172.html',
+    'chapter173.html',
+    'chapter174.html',
+    'chapter175.html',
+    'chapter176.html',
+    'chapter177.html',
+    'chapter178.html',
+    'chapter179.html',
+    'chapter180.html'
+  ];
+  </script>
+
 </head>
 <body>
   <div class="reader-container">
-    <h1>الفصل الأول</h1><div class="settings">
-  <button onclick="setFontSize('16px')">خط صغير</button>
-  <button onclick="setFontSize('18px')">خط متوسط</button>
-  <button onclick="setFontSize('22px')">خط كبير</button>
-  <button onclick="setTheme('light')">وضع النهار</button>
-  <button onclick="setTheme('dark')">الوضع الليلي</button>
-</div>
+    <h1>الفصل الثاني: عنوان الفصل هنا</h1>
 
-<div class="chapter-content" id="content">
+    <div class="settings">
+      <button onclick="setFontSize('16px')">خط صغير</button>
+      <button onclick="setFontSize('18px')">خط متوسط</button>
+      <button onclick="setFontSize('22px')">خط كبير</button>
+      <button onclick="setTheme('light')">وضع النهار</button>
+      <button onclick="setTheme('dark')">الوضع الليلي</button>
+    </div>
 
-نص. </div>
+    <div class="chapter-content" id="content">
+      هنا نص الفصل  بالكامل...
+    </div>
 
-<!-- إضافة تفاعلات الإيموجي -->
-<div class="reactions" data-chapter-id="chapter-1">
-  <button class="react-btn" data-reaction="like">👍 <span class="count">0</span></button>
-  <button class="react-btn" data-reaction="love">❤️ <span class="count">0</span></button>
-  <button class="react-btn" data-reaction="haha">😆 <span class="count">0</span></button>
-  <button class="react-btn" data-reaction="sad">😢 <span class="count">0</span></button>
-  <button class="react-btn" data-reaction="angry">😡 <span class="count">0</span></button>
-</div>
+    <!-- إضافة تفاعلات الإيموجي (لم يُحذف شيء من هنا) -->
+    <div class="reactions" data-chapter-id="chapter-3">
+      <button class="react-btn" data-reaction="like">👍 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="love">❤️ <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="haha">😆 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="sad">😢 <span class="count">0</span></button>
+      <button class="react-btn" data-reaction="angry">😡 <span class="count">0</span></button>
+    </div>
 
-  </div>  <!-- ربط كود الحماية والتفاعلات -->  <script src="../js/plugin.js"></script>  <!-- كود تغيير الخط والليلي لديك -->  <script>
+    <!-- 2) هنا سيقوم plugin.js بإضافة شريط التنقل تلقائيًا -->
+  </div>
+
+  <!-- 3) تحميل سكربت المنع والتنقل (بلا أي تعديل عليه) -->
+  <script src="../js/plugin.js"></script>
+
+  <!-- 4) كود تغيير حجم الخط والوضع الليلي كما كان لديك -->
+  <script>
     function setFontSize(size) {
       document.documentElement.style.setProperty('--font-size', size);
     }
@@ -85,5 +301,6 @@
         document.documentElement.style.setProperty('--text-color', '#000000');
       }
     }
-  </script></body>
+  </script>
+</body>
   </html>
