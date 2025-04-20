@@ -5,27 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>مجتمع الروايات</title>
   <style>
+    /* إزالة الهوامش الافتراضية وملء الارتفاع الكامل */
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
     }
 
+    /* الحاوية الرئيسية */
     .hero {
       position: relative;
       width: 100%;
-      height: 100vh;
+      height: 100vh;       /* على الديسكتوب تعادل ارتفاع النافذة */
       overflow: hidden;
     }
 
+    /* الصور داخل .hero تملأ الحاوية بالكامل وتُقصّ */
     .hero picture,
     .hero img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover;   /* قص الصورة لملء الحاوية */
       display: block;
     }
 
+    /* زر الاستكشاف */
     .button-link {
       position: absolute;
       bottom: 26%;
@@ -35,7 +39,16 @@
       cursor: pointer;
     }
 
+    /* تعديلات للشاشات الصغيرة */
     @media (max-width: 768px) {
+      .hero {
+        height: auto;               /* ارتفاع الحاوية يصبح آلياً */
+      }
+      .hero picture,
+      .hero img {
+        height: auto;               /* يسمح بارتفاع الصورة الطبيعي */
+        object-fit: contain;        /* يظهر الصورة كاملة مع حواف letterbox إذا لزم */
+      }
       .button-link {
         width: 40%;
         height: 10%;
@@ -48,10 +61,12 @@
 <body>
   <div class="hero">
     <picture>
+      <!-- صورة الهاتف (اخفّ حجمًا وبنسبة 9:16 مثلاً 1080×1920) -->
       <source media="(max-width: 768px)" srcset="images/main-hero-mobile.jpg">
+      <!-- صورة الديسكتوب (نسبة 16:9 مثلاً 1920×1080) -->
       <img src="images/main-hero.jpg" alt="واجهة الروايات">
     </picture>
     <a class="button-link" href="novels.html" title="استكشف الروايات"></a>
   </div>
 </body>
-</html>
+  </html>
