@@ -1,0 +1,9 @@
+# ملفات الصور: خلي Git يعاملها كملفات غير قابلة للتعديل
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+
+# خلي Git يتعامل مع الملفات النصية بشكل تلقائي
+* text=auto
