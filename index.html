@@ -52,10 +52,17 @@
     object-fit: contain;        /* يظهر الصورة كاملة مع حواف letterbox إذا لزم */
   }
   .button-link {
-    bottom: 21%;  /* عدّل حسب مكان النص في صورة الموبايل */
-    right: 40%;
-    width: 30%;
-    height: 10%;
+  bottom: 21%;
+  right: 40%;
+  width: 30%;
+  height: 10%;
+  background-color: transparent;
+  border: none;
+  transition: transform 0.1s ease;
+}
+.button-link:active {
+  transform: scale(0.95);
+}
   }
 }
 
