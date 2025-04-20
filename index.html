@@ -35,14 +35,21 @@
   height: 7%;
   cursor: pointer;
   z-index: 10;
-  /* هذا يجعل الزر غير مرئي لكنه موجود */
   background-color: transparent;
   border: none;
-  /* يجعل الزر يتصرف كأنه جزء من الصورة عند الضغط */
-  transition: transform 0.1s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+/* عند تمرير الفأرة يظهر نبض خفيف */
+.button-link:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(255, 213, 0, 0.4); /* وهج ذهبي ناعم */
+}
+
+/* عند الضغط ينخفض */
 .button-link:active {
   transform: scale(0.95);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) inset;
     }
 
 /* تعديلات للشاشات الصغيرة */
