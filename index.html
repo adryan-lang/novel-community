@@ -29,17 +29,21 @@
 /* زر ابدأ القراءة */
 .button-link {
   position: absolute;
-  bottom: 26%;      /* عدّل حسب مكان النص في صورة الديسكتوب */
-  right: 17%;       /* عدّل حسب مكان النص في صورة الديسكتوب */
-  width: 13%;       /* عرض منطقة الضغط */
-  height: 7%;       /* ارتفاع منطقة الضغط */
+  bottom: 26%;
+  right: 17%;
+  width: 13%;
+  height: 7%;
   cursor: pointer;
-  transition: transform 0.1s ease;
   z-index: 10;
+  /* هذا يجعل الزر غير مرئي لكنه موجود */
+  background-color: transparent;
+  border: none;
+  /* يجعل الزر يتصرف كأنه جزء من الصورة عند الضغط */
+  transition: transform 0.1s ease;
 }
 .button-link:active {
   transform: scale(0.95);
-}
+    }
 
 /* تعديلات للشاشات الصغيرة */
 @media (max-width: 768px) {
