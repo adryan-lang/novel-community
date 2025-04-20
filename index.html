@@ -4,87 +4,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>مجتمع الروايات</title>
   <style>
+    /* إزالة الهوامش الافتراضية وملء الارتفاع الكامل */
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-    }.hero {
+    }/* الحاوية الرئيسية */
+.hero {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100vh;       /* على الديسكتوب تعادل ارتفاع النافذة */
   overflow: hidden;
 }
 
+/* الصور داخل .hero تملأ الحاوية بالكامل وتُقصّ */
 .hero picture,
-.hero img.bg-image {
+.hero img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;   /* قص الصورة لملء الحاوية */
   display: block;
 }
 
+/* زر ابدأ القراءة */
 .button-link {
   position: absolute;
-  bottom: 26%;
-  right: 17%;
-  width: 13%;
-  height: 7%;
+  bottom: 26%;      /* عدّل حسب مكان النص في صورة الديسكتوب */
+  right: 17%;       /* عدّل حسب مكان النص في صورة الديسكتوب */
+  width: 13%;       /* عرض منطقة الضغط */
+  height: 7%;       /* ارتفاع منطقة الضغط */
   cursor: pointer;
-  z-index: 2;
+  transition: transform 0.1s ease;
+  z-index: 10;
+}
+.button-link:active {
+  transform: scale(0.95);
 }
 
-.characters {
-  position: absolute;
-  bottom: 26%;
-  right: 17%;
-  width: 13%;
-  height: auto;
-  transform: translateY(0);
-  transition: transform 0.4s ease;
-  z-index: 1;
-}
-
-.characters.animated {
-  transform: translateY(-10px);
-}
-
+/* تعديلات للشاشات الصغيرة */
 @media (max-width: 768px) {
   .hero {
-    height: auto;
+    height: auto;               /* ارتفاع الحاوية يصبح آلياً */
   }
   .hero picture,
-  .hero img.bg-image {
-    height: auto;
-    object-fit: contain;
+  .hero img {
+    height: auto;               /* يسمح بارتفاع الصورة الطبيعي */
+    object-fit: contain;        /* يظهر الصورة كاملة مع حواف letterbox إذا لزم */
   }
-  .button-link, .characters {
-    width: 40%;
-    height: auto;
-    bottom: 10%;
+  .button-link {
+    bottom: 10%;  /* عدّل حسب مكان النص في صورة الموبايل */
     right: 10%;
+    width: 40%;
+    height: 10%;
   }
 }
 
   </style>
 </head>
-<body>
-  <div class="hero">
+<body>  <div class="hero">
     <picture>
+      <!-- صورة الهاتف -->
       <source media="(max-width: 768px)" srcset="images/main-hero-mobile.jpg">
-      <img class="bg-image" src="images/main-hero.jpg" alt="واجهة الروايات">
-    </picture><!-- صورة الشخصيات -->
-<img class="characters" id="characters" src="images/characters.png" alt="الكاتب والقارئة">
+      <!-- صورة الديسكتوب -->
+      <img src="images/main-hero.jpg" alt="واجهة الروايات">
+    </picture><!-- زر ابدأ القراءة فوق صورتين -->
+<a class="button-link" href="novels.html" title="ابدأ القراءة الآن!">
+  <span class="sr-only">ابدأ القراءة الآن!</span>
+</a>
 
-<!-- زر ابدأ القراءة -->
-<a class="button-link" id="startButton" href="novels.html" title="ابدأ القراءة الآن!"></a>
-
-  </div>  <script>
-    const button = document.getElementById('startButton');
-    const characters = document.getElementById('characters');
-
-    button.addEventListener('click', () => {
-      characters.classList.add('animated');
-      setTimeout(() => characters.classList.remove('animated'), 600);
-    });
-  </script></body>
+  </div></body>
 </html>
