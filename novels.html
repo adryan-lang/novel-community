@@ -249,7 +249,6 @@
     localStorage.setItem('theme', darkMode ? 'dark' : 'light');
   }
 
-  // عند التحميل نعيد تفعيل الوضع السابق
   window.onload = function () {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
@@ -257,7 +256,7 @@
       document.getElementById('theme-toggle').textContent = '☀️';
     }
 
-    // الفلترة عند الضغط على روابط القائمة
+    // فلترة التصنيفات
     const links = document.querySelectorAll('.sidebar a[data-filter]');
     const novels = document.querySelectorAll('.novel-card');
 
@@ -273,6 +272,16 @@
             novel.style.display = novel.classList.contains(filter) ? 'block' : 'none';
           }
         });
+      });
+    });
+
+    // البحث في الروايات
+    const searchInput = document.querySelector('.search-box input');
+    searchInput.addEventListener('input', function () {
+      const query = this.value.toLowerCase();
+      novels.forEach(novel => {
+        const title = novel.querySelector('h3').textContent.toLowerCase();
+        novel.style.display = title.includes(query) ? 'block' : 'none';
       });
     });
   };
