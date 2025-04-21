@@ -236,27 +236,46 @@
       </div>
 
   <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('active');
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+
+  function toggleTheme() {
+    const body = document.body;
+    const themeToggle = document.getElementById('theme-toggle');
+    body.classList.toggle('dark');
+    const darkMode = body.classList.contains('dark');
+    themeToggle.textContent = darkMode ? '☀️' : '🌙';
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+  }
+
+  // عند التحميل نعيد تفعيل الوضع السابق
+  window.onload = function () {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-toggle').textContent = '☀️';
     }
 
-    function toggleTheme() {
-      const body = document.body;
-      const themeToggle = document.getElementById('theme-toggle');
-      body.classList.toggle('dark');
-      const darkMode = body.classList.contains('dark');
-      themeToggle.textContent = darkMode ? '☀️' : '🌙';
-      localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-    }
+    // الفلترة عند الضغط على روابط القائمة
+    const links = document.querySelectorAll('.sidebar a[data-filter]');
+    const novels = document.querySelectorAll('.novel-card');
 
-    // عند التحميل نعيد تفعيل الوضع السابق
-    window.onload = function() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-        document.getElementById('theme-toggle').textContent = '☀️';
-      }
-    }
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const filter = link.getAttribute('data-filter');
+
+        novels.forEach(novel => {
+          if (filter === 'all') {
+            novel.style.display = 'block';
+          } else {
+            novel.style.display = novel.classList.contains(filter) ? 'block' : 'none';
+          }
+        });
+      });
+    });
+  };
   </script>
 
   <!-- أيقونات الخطوط (font awesome لو حبيت) -->
