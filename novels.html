@@ -1,30 +1,128 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>روايات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>مجتمع الروايات</title>
+  <link rel="icon" href="images/logo.png">
   <style>
+    :root {
+      --main-color: #3498db;
+      --dark-bg: #121212;
+      --light-bg: #f2f2f2;
+      --text-dark: #fff;
+      --text-light: #000;
+    }
+
     body {
-      font-family: 'Arial', sans-serif;
       margin: 0;
-      padding: 0;
-      background: #f2f2f2;
+      font-family: 'Arial', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
     }
-    header {
-      background: #2c3e50;
-      color: #fff;
+
+    body.dark {
+      background-color: var(--dark-bg);
+      color: var(--text-dark);
+    }
+
+    /* شريط علوي */
+    .navbar {
+      background: var(--main-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar img.logo {
+      height: 40px;
+    }
+
+    .navbar .search-box {
+      flex: 1;
+      margin: 0 20px;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 5px 10px;
+    }
+
+    .navbar .search-box input {
+      border: none;
+      background: transparent;
+      color: white;
+      width: 100%;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    .navbar .search-box input::placeholder {
+      color: #ddd;
+    }
+
+    .navbar .search-box i {
+      margin-left: 10px;
+    }
+
+    .navbar .icons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .navbar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* قائمة جانبية */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background: #34495e;
+      color: white;
       padding: 20px;
-      text-align: center;
-      font-size: 26px;
+      transition: right 0.3s;
+      z-index: 1001;
     }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 15px 0;
+      font-size: 18px;
+    }
+
+    /* بطاقات الروايات */
     .novels-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 20px;
       padding: 30px;
     }
+
     .novel-card {
       background: #fff;
       border-radius: 10px;
@@ -34,14 +132,22 @@
       text-decoration: none;
       color: #000;
     }
+
+    body.dark .novel-card {
+      background: #1e1e1e;
+      color: #fff;
+    }
+
     .novel-card:hover {
       transform: scale(1.02);
     }
+
     .novel-card img {
       width: 100%;
       height: 300px;
       object-fit: cover;
     }
+
     .novel-card h3 {
       margin: 15px;
       font-size: 20px;
@@ -50,15 +156,35 @@
 </head>
 <body>
 
-  <header>📚 مجتمع الروايات</header>
+  <!-- شريط علوي -->
+  <div class="navbar">
+    <img src="images/mogtamaa-logo.png" alt="شعار مجتمع الروايات" class="logo">
+    <div class="search-box">
+      <input type="text" placeholder="البحث...">
+      <i class="fa fa-search"></i>
+    </div>
+    <div class="icons">
+      <button onclick="toggleTheme()" id="theme-toggle">🌙</button>
+      <button onclick="toggleSidebar()">☰</button>
+    </div>
+  </div>
 
+  <!-- قائمة جانبية -->
+  <div class="sidebar" id="sidebar">
+    <h2>القائمة</h2>
+    <a href="#">الرئيسية</a>
+    <a href="#">أحدث الروايات</a>
+    <a href="#">روايات مشهورة</a>
+    <a href="#">عن الموقع</a>
+  </div>
+
+  <!-- بطاقات الروايات -->
   <div class="novels-container">
-    <!-- البطاقات الحالية -->
     <a class="novel-card" href="novel1.html">
       <img src="images/cover1.jpg" alt="رواية البطل الخارق">
       <h3>قاتل الشياطين: الرحلة الصامتة</h3>
     </a>
-    <a class="novel-card" href="novel2.html">
+ <a class="novel-card" href="novel2.html">
       <img src="images/cover2.jpg" alt="يوميات الشرير">
       <h3>كوروكو نو باسكت: المختار المُكرَّم</h3>
     </a>
@@ -96,7 +222,34 @@
   <img src="images/secret_garden.webp" alt="الحديقة السرية" loading="lazy">
   <h3>الحديقة السرية</h3>
 </a>
+    <!-- باقي الروايات -->
   </div>
 
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const themeToggle = document.getElementById('theme-toggle');
+      body.classList.toggle('dark');
+      const darkMode = body.classList.contains('dark');
+      themeToggle.textContent = darkMode ? '☀️' : '🌙';
+      localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+    }
+
+    // عند التحميل نعيد تفعيل الوضع السابق
+    window.onload = function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('theme-toggle').textContent = '☀️';
+      }
+    }
+  </script>
+
+  <!-- أيقونات الخطوط (font awesome لو حبيت) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </body>
-      </html>
+  </html>
