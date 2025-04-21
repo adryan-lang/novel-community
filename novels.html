@@ -87,20 +87,22 @@
 
     /* قائمة جانبية */
     .sidebar {
-      position: fixed;
-      top: 0;
-      right: -250px;
-      width: 250px;
-      height: 100%;
-      background: #34495e;
-      color: white;
-      padding: 20px;
-      transition: right 0.3s;
-      z-index: 1001;
-    }
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100%;
+  background: #34495e;
+  color: white;
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1001;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+  overflow-y: auto;
+}
 
-    .sidebar.active {
-      right: 0;
+.sidebar.active {
+  right: 0;
     }
 
     .sidebar h2 {
