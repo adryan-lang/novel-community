@@ -5,7 +5,7 @@
   <title>مجتمع الروايات</title>
   <link rel="icon" href="images/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --main-color: #3498db;
@@ -166,10 +166,10 @@ body.dark .novel-card {
 
 .novel-card img {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 250px;
+  object-fit: cover;
   border-radius: 8px 8px 0 0;
-}
+    }
 
 .novel-card h3 {
   margin: 10px;
@@ -178,7 +178,13 @@ body.dark .novel-card {
   font-family: 'Tajawal', sans-serif;
   text-align: right;
   line-height: 1.4;
-    }
+  max-height: 3.2em; /* حوالي سطرين */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  }
 
   </style>
   </head>
