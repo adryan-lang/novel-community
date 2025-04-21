@@ -4,328 +4,272 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>مجتمع الروايات</title>
   <link rel="icon" href="images/logo.png">
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Google Font Tajawal -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    /* === Variables === */
     :root {
       --main-color: #3498db;
       --dark-bg: #121212;
       --light-bg: #f2f2f2;
       --text-dark: #fff;
       --text-light: #000;
-    }body {
-  margin: 0;
-  font-family: 'Cairo', sans-serif;
-  background-color: var(--light-bg);
-  color: var(--text-light);
-  transition: background-color 0.3s, color 0.3s;
-}
-
-body.dark {
-  background-color: var(--dark-bg);
-  color: var(--text-dark);
-}
-
-.navbar {
-  background: var(--main-color);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.navbar img.logo {
-  height: 40px;
-}
-
-.navbar .search-box {
-  flex: 1;
-  margin: 0 20px;
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 5px 10px;
-}
-
-.navbar .search-box input {
-  border: none;
-  background: transparent;
-  color: white;
-  width: 100%;
-  padding: 5px;
-  font-size: 16px;
-}
-
-.navbar .search-box input::placeholder {
-  color: #ddd;
-}
-
-.navbar .search-box i {
-  margin-left: 10px;
-}
-
-.navbar .icons {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.navbar button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  width: 250px;
-  height: 100%;
-  background: #34495e;
-  color: white;
-  padding: 20px;
-  transition: left 0.3s ease;
-  z-index: 1001;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.3);
-  overflow-y: auto;
-}
-
-.sidebar.active {
-  left: 0;
-}
-
-.sidebar-close {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-.sidebar h2 {
-  margin-top: 40px;
-}
-
-.sidebar a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 15px;
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  border-radius: 8px;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.sidebar a:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.05);
-}
-
-.sidebar a i {
-  font-size: 18px;
-}
-
-.novels-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.novel-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  text-decoration: none;
-  color: #000;
-}
-
-body.dark .novel-card {
-  background: #1e1e1e;
-  color: #fff;
-}
-
-.novel-card:hover {
-  transform: scale(1.02);
-}
-
-.novel-card img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 8px 8px 0 0;
     }
-
-.novel-card h3 {
-  margin: 10px;
-  font-size: 16px;
-  font-weight: 500;
-  font-family: 'Tajawal', sans-serif;
-  text-align: right;
-  line-height: 1.4;
-  max-height: 3.2em; /* حوالي سطرين */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  }
-
+    /* === Global Styles === */
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark {
+      background-color: var(--dark-bg);
+      color: var(--text-dark);
+    }
+    a { text-decoration: none; }
+    /* === Navbar === */
+    .navbar {
+      background: var(--main-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .navbar img.logo { height: 40px; }
+    .navbar .search-box {
+      flex: 1;
+      margin: 0 20px;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 5px 10px;
+    }
+    .navbar .search-box input {
+      border: none;
+      background: transparent;
+      color: white;
+      width: 100%;
+      padding: 5px;
+      font-size: 16px;
+    }
+    .navbar .search-box input::placeholder { color: #ddd; }
+    .navbar .search-box i { margin-left: 10px; }
+    .navbar .icons { display: flex; align-items: center; gap: 15px; }
+    .navbar .icons button { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+    /* === Sidebar === */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px; /* Hidden off-screen */
+      width: 300px;
+      height: 100%;
+      background: #34495e;
+      color: white;
+      padding: 20px;
+      transition: left 0.3s ease;
+      z-index: 1001;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+      overflow-y: auto;
+    }
+    .sidebar.active { left: 0; }
+    .sidebar-close {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    .sidebar h2 {
+      margin-top: 60px;
+      font-weight: 700;
+      font-size: 24px;
+    }
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: white;
+      font-size: 18px;
+      border-radius: 6px;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .sidebar a:hover {
+      background: rgba(255,255,255,0.1);
+      transform: scale(1.03);
+    }
+    .sidebar a i { font-size: 20px; }
+    /* === Hidden Class === */
+    .hidden { display: none !important; }
+    /* === Novels Grid === */
+    .novels-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-auto-rows: 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+    /* === Novel Card === */
+    .novel-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      color: #000;
+    }
+    body.dark .novel-card {
+      background: #1e1e1e;
+      color: #fff;
+    }
+    .novel-card:hover { transform: scale(1.02); }
+    .novel-card .img-container {
+      flex: 0 0 250px;
+      overflow: hidden;
+    }
+    .novel-card .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .novel-card .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+    .novel-card .content h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    /* === Responsive Adjustments === */
+    @media(max-width: 600px) {
+      .navbar { flex-direction: column; align-items: flex-start; }
+      .navbar .search-box { margin: 10px 0; width: 100%; }
+    }
   </style>
-  </head>
-
-  <!-- شريط علوي -->
+</head>
+<body>
+  <!-- Navbar -->
   <div class="navbar">
     <img src="images/mogtamaa-logo.webp" alt="شعار مجتمع الروايات" class="logo">
     <div class="search-box">
-      <input type="text" placeholder="البحث...">
+      <input type="text" id="search-box" placeholder="ابحث عن رواية...">
       <i class="fa fa-search"></i>
     </div>
     <div class="icons">
       <button onclick="toggleTheme()" id="theme-toggle">🌙</button>
-      <button onclick="toggleSidebar()">☰</button>
+      <button onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
     </div>
   </div>
-
-  <!-- قائمة جانبية -->
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
-  <button class="sidebar-close" onclick="toggleSidebar()">×</button>
-  <h2>القائمة</h2>
-  <a href="#" data-filter="all"><i class="fas fa-home"></i> الرئيسية</a>
-  <a href="#" data-filter="fanfic"><i class="fas fa-book-open"></i> روايات خيال المعجبين</a>
-  <a href="#" data-filter="classic"><i class="fas fa-feather-alt"></i> روايات كلاسيكية</a>
-  <a href="#"><i class="fas fa-shield-alt"></i> سياسة الخصوصية</a>
+    <button class="sidebar-close" onclick="toggleSidebar()">×</button>
+    <h2>القائمة</h2>
+    <a href="#" data-filter="all"><i class="fas fa-home"></i> الرئيسية</a>
+    <a href="#" data-filter="fanfic"><i class="fas fa-book-open"></i> روايات خيال المعجبين</a>
+    <a href="#" data-filter="classic"><i class="fas fa-feather-alt"></i> روايات كلاسيكية</a>
+    <a href="#"><i class="fas fa-shield-alt"></i> سياسة الخصوصية</a>
   </div>
-
-  <!-- بطاقات الروايات -->
-<div class="novels-container">
-  <!-- روايات خيال المعجبين -->
-  <a class="novel-card fanfic" href="novel1.html">
-    <img src="images/cover1.jpg" alt="رواية البطل الخارق">
-    <h3>قاتل الشياطين: الرحلة الصامتة</h3>
-  </a>
-
-  <a class="novel-card fanfic" href="novel2.html">
-    <img src="images/cover2.jpg" alt="يوميات الشرير">
-    <h3>كوروكو نو باسكت: المختار المُكرَّم</h3>
-  </a>
-
-  <!-- روايات كلاسيكية -->
-  <a class="novel-card classic" href="alice_in_wonderland.html">
-    <img src="images/alice_in_wonderland.jpg" alt="أليس في بلاد العجائب">
-    <h3>أليس في بلاد العجائب</h3>
-  </a>
-
-  <!-- روايات خيال المعجبين -->
-  <a class="novel-card fanfic" href="cover3.html">
-    <img src="images/cover3.jpg" alt="أتيت ، رأيت ، خسرت!">
-    <h3>أتيت ، رأيت ، خسرت!</h3>
-  </a>
-
-  <!-- روايات كلاسيكية -->
-  <a class="novel-card classic" href="dracula.html">
-    <img src="images/dracula.webp" alt="دراكولا" loading="lazy">
-    <h3>دراكولا</h3>
-  </a>
-
-  <!-- روايات خيال المعجبين -->
-  <a class="novel-card fanfic" href="dylal10.html">
-    <img src="images/dylal10.webp" alt="إطلاق العنان للظلال العشرة" loading="lazy">
-    <h3>إطلاق العنان للظلال العشرة</h3>
-  </a>
-
-  <!-- روايات كلاسيكية -->
-  <a class="novel-card classic" href="gulifer.html">
-    <img src="images/gulifer.webp" alt="رحلات جلفر" loading="lazy">
-    <h3>رحلات جلفر</h3>
-  </a>
-
-  <a class="novel-card classic" href="pride_and_prejudice.html">
-    <img src="images/pride_and_prejudice.webp" alt="كبرياء وتحامل" loading="lazy">
-    <h3>كبرياء وتحامل</h3>
-  </a>
-
-  <!-- روايات خيال المعجبين -->
-  <a class="novel-card fanfic" href="secret_garden.html">
-    <img src="images/secret_garden.webp" alt="الحديقة السرية" loading="lazy">
-    <h3>الحديقة السرية</h3>
-  </a>
-      </div>
-
-<script>
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('active');
-  }
-
-  function toggleTheme() {
-    const body = document.body;
-    const themeToggle = document.getElementById('theme-toggle');
-    body.classList.toggle('dark');
-    const darkMode = body.classList.contains('dark');
-    themeToggle.textContent = darkMode ? '☀️' : '🌙';
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-  }
-
-  window.onload = function () {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      document.body.classList.add('dark');
-      document.getElementById('theme-toggle').textContent = '☀️';
+  <!-- Novels Grid -->
+  <div class="novels-container">
+    <!-- بطاقة مثال -->
+    <a class="novel-card fanfic" href="novel1.html">
+      <div class="img-container"><img src="images/cover1.jpg" alt="قاتل الشياطين"></div>
+      <div class="content"><h3>قاتل الشياطين: الرحلة الصامتة</h3></div>
+    </a>
+    <!-- كرر البطاقات حسب الترتيب المطلوب -->
+    <a class="novel-card fanfic" href="novel2.html">
+      <div class="img-container"><img src="images/cover2.jpg" alt="كوروكو نو باسكت"></div>
+      <div class="content"><h3>كوروكو نو باسكت: المختار المُكرَّم</h3></div>
+    </a>
+    <a class="novel-card classic" href="alice_in_wonderland.html">
+      <div class="img-container"><img src="images/alice_in_wonderland.jpg" alt="أليس في بلاد العجائب"></div>
+      <div class="content"><h3>أليس في بلاد العجائب</h3></div>
+    </a>
+    <a class="novel-card fanfic" href="cover3.html">
+      <div class="img-container"><img src="images/cover3.jpg" alt="أتيت ، رأيت ، خسرت!"></div>
+      <div class="content"><h3>أتيت ، رأيت ، خسرت!</h3></div>
+    </a>
+    <a class="novel-card classic" href="dracula.html">
+      <div class="img-container"><img src="images/dracula.webp" alt="دراكولا"></div>
+      <div class="content"><h3>دراكولا</h3></div>
+    </a>
+    <a class="novel-card fanfic" href="dylal10.html">
+      <div class="img-container"><img src="images/dylal10.webp" alt="إطلاق العنان للظلال العشرة"></div>
+      <div class="content"><h3>إطلاق العنان للظلال العشرة</h3></div>
+    </a>
+    <a class="novel-card classic" href="gulifer.html">
+      <div class="img-container"><img src="images/gulifer.webp" alt="رحلات جلفر"></div>
+      <div class="content"><h3>رحلات جلفر</h3></div>
+    </a>
+    <a class="novel-card classic" href="pride_and_prejudice.html">
+      <div class="img-container"><img src="images/pride_and_prejudice.webp" alt="كبرياء وتحامل"></div>
+      <div class="content"><h3>كبرياء وتحامل</h3></div>
+    </a>
+    <a class="novel-card fanfic" href="secret_garden.html">
+      <div class="img-container"><img src="images/secret_garden.webp" alt="الحديقة السرية"></div>
+      <div class="content"><h3>الحديقة السرية</h3></div>
+    </a>
+  </div>
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
     }
-
-    const links = document.querySelectorAll('.sidebar a[data-filter]');
-    const novels = document.querySelectorAll('.novel-card');
-    const container = document.querySelector('.novels-container');
-
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const filter = link.getAttribute('data-filter');
-
-        novels.forEach(novel => {
-          if (filter === 'all') {
-            novel.classList.remove('hidden');
-          } else {
-            if (novel.classList.contains(filter)) {
-              novel.classList.remove('hidden');
-            } else {
-              novel.classList.add('hidden');
-            }
-          }
+    function toggleTheme() {
+      const body = document.body;
+      const themeToggle = document.getElementById('theme-toggle');
+      body.classList.toggle('dark');
+      const darkMode = body.classList.contains('dark');
+      themeToggle.textContent = darkMode ? '☀️' : '🌙';
+      localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+    }
+    window.onload = function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('theme-toggle').textContent = '☀️';
+      }
+      const links = document.querySelectorAll('.sidebar a[data-filter]');
+      const novels = document.querySelectorAll('.novel-card');
+      const searchInput = document.getElementById('search-box');
+      links.forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const filter = link.dataset.filter;
+          novels.forEach(card => {
+            card.classList.toggle('hidden', filter !== 'all' && !card.classList.contains(filter));
+          });
         });
       });
-    });
-
-    const searchInput = document.querySelector('.search-box input');
-    searchInput.addEventListener('input', function () {
-      const query = this.value.toLowerCase();
-      novels.forEach(novel => {
-        const title = novel.querySelector('h3').textContent.toLowerCase();
-        if (title.includes(query)) {
-          novel.classList.remove('hidden');
-        } else {
-          novel.classList.add('hidden');
-        }
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        novels.forEach(card => {
+          const title = card.querySelector('h3').textContent.toLowerCase();
+          card.classList.toggle('hidden', !title.includes(query));
+        });
       });
-    });
-  };
-</script><style>
-  .hidden {
-    display: none !important;
-  }
-    </style>
+    };
+  </script>
+</body>
+    </html>
