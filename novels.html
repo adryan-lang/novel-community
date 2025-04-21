@@ -106,17 +106,40 @@
   right: 0;
     }
 
+     .sidebar-close {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
     .sidebar h2 {
-      margin-top: 0;
+      margin-top: 40px;
     }
 
     .sidebar a {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
       color: white;
       text-decoration: none;
-      margin: 15px 0;
       font-size: 18px;
+      border-radius: 6px;
+      transition: background 0.3s;
     }
+
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar a i {
+      font-size: 18px;
+      }
 
     /* بطاقات الروايات */
     .novels-container {
@@ -309,8 +332,5 @@ body.dark .novel-card {
     });
   };
   </script>
-
-  <!-- أيقونات الخطوط (font awesome لو حبيت) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </body>
   </html>
