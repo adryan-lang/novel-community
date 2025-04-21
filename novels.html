@@ -267,7 +267,7 @@ body.dark .novel-card {
   </a>
       </div>
 
-  <script>
+<script>
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('active');
   }
@@ -299,9 +299,9 @@ body.dark .novel-card {
 
         novels.forEach(novel => {
           if (filter === 'all') {
-            novel.style.display = 'block';
+            novel.style.display = ''; // <== مهم
           } else {
-            novel.style.display = novel.classList.contains(filter) ? 'block' : 'none';
+            novel.style.display = novel.classList.contains(filter) ? '' : 'none'; // <== مهم
           }
         });
       });
@@ -313,10 +313,10 @@ body.dark .novel-card {
       const query = this.value.toLowerCase();
       novels.forEach(novel => {
         const title = novel.querySelector('h3').textContent.toLowerCase();
-        novel.style.display = title.includes(query) ? 'block' : 'none';
+        novel.style.display = title.includes(query) ? '' : 'none'; // <== مهم
       });
     });
   };
-  </script>
+      </script>
 </body>
   </html>
