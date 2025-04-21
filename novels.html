@@ -288,9 +288,9 @@ body.dark .novel-card {
       document.getElementById('theme-toggle').textContent = '☀️';
     }
 
-    // فلترة التصنيفات
     const links = document.querySelectorAll('.sidebar a[data-filter]');
     const novels = document.querySelectorAll('.novel-card');
+    const container = document.querySelector('.novels-container');
 
     links.forEach(link => {
       link.addEventListener('click', (e) => {
@@ -299,24 +299,33 @@ body.dark .novel-card {
 
         novels.forEach(novel => {
           if (filter === 'all') {
-            novel.style.display = ''; // <== مهم
+            novel.classList.remove('hidden');
           } else {
-            novel.style.display = novel.classList.contains(filter) ? '' : 'none'; // <== مهم
+            if (novel.classList.contains(filter)) {
+              novel.classList.remove('hidden');
+            } else {
+              novel.classList.add('hidden');
+            }
           }
         });
       });
     });
 
-    // البحث في الروايات
     const searchInput = document.querySelector('.search-box input');
     searchInput.addEventListener('input', function () {
       const query = this.value.toLowerCase();
       novels.forEach(novel => {
         const title = novel.querySelector('h3').textContent.toLowerCase();
-        novel.style.display = title.includes(query) ? '' : 'none'; // <== مهم
+        if (title.includes(query)) {
+          novel.classList.remove('hidden');
+        } else {
+          novel.classList.add('hidden');
+        }
       });
     });
   };
-      </script>
-</body>
-  </html>
+</script><style>
+  .hidden {
+    display: none !important;
+  }
+    </style>
