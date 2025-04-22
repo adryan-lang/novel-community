@@ -171,14 +171,37 @@
       .navbar .menu-toggle { display: block; }
       .sidebar { display: none; }
     }
-    /* ---------- Character Caption ---------- */
-.character-caption {
-  font-size: 0.9rem;             /* حجم أصغر */
-  color: var(--color-secondary); /* لون ثانوي خافت */
-  text-align: center;            /* توسيط */
-  margin-top: 1.5rem;            /* مسافة فوقه */
-  font-style: italic;            /* خط مائل لإحساس توضيحي */
-  line-height: 1.4;              /* تباعد سطري مريح */
+    /* ---------- Character Caption Box ---------- */
+.character-caption-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.5rem auto;
+  padding: 1rem 1.2rem;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.85);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--color-secondary);
+  line-height: 1.4;
+  font-style: italic;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  /* للـ dark mode: */
+  transition: background var(--transition), color var(--transition);
+}
+body.dark-mode .character-caption-box {
+  background: rgba(30, 30, 30, 0.85);
+  color: var(--text-light);
+}
+.character-caption-box svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: var(--color-primary);
+  flex-shrink: 0;
     }
   </style>
 </head>
