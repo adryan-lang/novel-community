@@ -128,19 +128,78 @@
     }
     .chapter-card:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     .chapter-card.hidden { display: none; }
-    /* ---------- Characters Section ---------- */
-    .characters { max-width: 1200px; margin: 4rem auto; padding: 0 1rem; }
-    .characters h2 { font-size: 2rem; margin-bottom: 1rem; text-align: center; }
-    .character-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
-    .character-card {
-      background: var(--bg-light); padding: 1rem;
-      border-radius: var(--radius);
-      text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-      transition: transform var(--transition);
-    }
-    .character-card:hover { transform: translateY(-8px); }
-    .character-card img { border-radius: 50%; width: 120px; height: 120px; object-fit: cover; }
-    .character-card h3 { margin: 0.8rem 0 0.4rem; font-size: 1.2rem; }
+      /* ---------- Characters Section (محدث) ---------- */
+  .characters {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+  }
+  .characters h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--color-primary);
+    letter-spacing: 0.05em;
+  }
+  .character-grid {
+    /* عرض 4 بطاقات متراصة أفقياً */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .character-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .character-card::before {
+    content: "";
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle at center, rgba(211,47,47,0.3), transparent 70%);
+    transform: rotate(45deg);
+  }
+  .character-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+  .character-card img {
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    background: var(--bg-light);
+    padding: 0.3rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: box-shadow var(--transition);
+  }
+  .character-card img:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .character-card h3 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.3rem;
+    color: var(--color-secondary);
+  }
+  .character-card p {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+  /* استجابة للشاشات الصغيرة */
+  @media (max-width: 1024px) {
+    .character-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .character-grid { grid-template-columns: repeat(1, 1fr); }
+    .character-card img { width: 120px; height: 120px; }
+      }
     /* ---------- Sidebar Trivia ---------- */
     .sidebar {
       position: fixed; top: 50%; left: 1rem;
