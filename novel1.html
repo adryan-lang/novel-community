@@ -263,12 +263,15 @@
       document.getElementById('navbar').classList.toggle('dark-mode');
       toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
     });
-    /* Menu Toggle for Mobile */
-    const menuBtn = document.getElementById('menu-btn');
-    const navLinks = document.getElementById('nav-links');
+     /* Menu Toggle for Mobile */
+  const menuBtn = document.getElementById('menu-btn');
+  const navLinks = document.getElementById('nav-links');
+  // ← قمنا بإضافة هذا الفحص حتى لو لم يوجد زر menu-btn لا يحدث خطأ:
+  if (menuBtn && navLinks) {
     menuBtn.addEventListener('click', () => {
       navLinks.classList.toggle('show');
     });
+    }
     /* Chapter Filtering Logic */
     const filterButtons = document.querySelectorAll('.filter-bar button');
     const chapters = document.querySelectorAll('.chapter-card');
