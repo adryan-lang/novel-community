@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ار" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,15 +28,15 @@
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='5' fill='rgba(100,100,255,0.7)'/%3E%3C/svg%3E") 8 8, auto;
     }
 
+    /* نجعل fade-in ظاهراً دائماً */
+    .fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
     /* عنوان مزخرف */
-    .decorative-title::before {
-      content: '☾';
-      margin-left: 0.5rem;
-    }
-    .decorative-title::after {
-      content: '☽';
-      margin-right: 0.5rem;
-    }
+    .decorative-title::before { content: '☾'; margin-left: .5rem; }
+    .decorative-title::after  { content: '☽'; margin-right: .5rem; }
 
     /* تدرّج نصي متحرّك */
     @keyframes textGradient {
@@ -51,28 +51,21 @@
       animation: textGradient 8s ease infinite;
     }
 
-    /* فاصل زخرفي حول المحتوى */
+    /* فاصل زخرفي خفيف */
     .pattern-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: absolute; top:0; left:0; right:0; bottom:0;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='2' fill='%23111827'/%3E%3C/svg%3E");
       pointer-events: none;
-    }
-
-    /* تأثيرات الظهور */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: none;
     }
 
     /* زر العودة للأعلى */
     #toTop {
       @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
+    }
+
+    /* شريط التقدم */
+    #progress {
+      position: fixed; top:0; left:0; height:4px; background:linear-gradient(to right,#6366f1,#ec4899); width:0; z-index:50;
     }
 
     /* وضع التركيز */
@@ -82,36 +75,24 @@
       display: none !important;
     }
     .focus-mode .chapter-content {
-      max-width: 600px;
-      margin: auto;
-      padding: 4rem 1rem;
-      background: rgba(255,255,255,0.9);
-      border-radius: 1rem;
-    }
-
-    /* شريط التقدم */
-    #progress {
-      position: fixed; top: 0; left: 0;
-      height: 4px;
-      background: linear-gradient(to right, #6366f1, #ec4899);
-      width: 0;
-      z-index: 50;
+      max-width: 600px; margin:auto; padding:4rem 1rem;
+      background:rgba(255,255,255,0.9); border-radius:1rem;
     }
   </style>
 </head>
+
 <body class="relative overflow-x-hidden">
 
   <!-- شريط التقدم -->
   <div id="progress"></div>
-
   <!-- نقش خفيف -->
   <div class="pattern-overlay"></div>
 
   <div class="max-w-3xl mx-auto px-4 py-12 relative z-10">
-    <!-- عنوان الفصل -->
-    <h1 class="decorative-title text-center text-4xl font-bold mb-8 animate-gradient fade-in">الفصل الثاني: عنوان الفصل هنا</h1>
+    <h1 class="decorative-title text-center text-4xl font-bold mb-8 animate-gradient fade-in">
+      الفصل الثاني: عنوان الفصل هنا
+    </h1>
 
-    <!-- أدوات التحكم -->
     <div class="settings flex flex-wrap justify-center gap-4 mb-8 fade-in">
       <button onclick="setFontSize('16px')" class="flex items-center gap-2 px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition">
         <i data-lucide="type" class="w-5 h-5"></i> صغير
@@ -133,12 +114,10 @@
       </button>
     </div>
 
-    <!-- محتوى الفصل -->
     <div id="content" class="chapter-content no-select leading-relaxed whitespace-pre-wrap fade-in">
       هنا نص الفصل بالكامل...
     </div>
 
-    <!-- تفاعلات الإيموجي -->
     <div class="flex justify-center gap-6 mt-8 fade-in" data-chapter-id="chapter-3">
       <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">👍 <span class="count">0</span></button>
       <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">❤️ <span class="count">0</span></button>
@@ -151,73 +130,55 @@
   <!-- زر العودة للأعلى -->
   <button id="toTop">⬆️</button>
 
-  <!-- سكربت منع النسخ والقائمة السياقية -->
+  <!-- منع النسخ والقائمة السياقية -->
   <script>
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
-      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key === 'F12') {
-        e.preventDefault();
-      }
+      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12') e.preventDefault();
     });
   </script>
 
-  <!-- سكربت الإنيميشن والوظائف -->
+  <!-- وظائف وحفظ إعدادات -->
   <script>
-    // أيقونات Lucide
     lucide.createIcons();
 
-    // حفظ واسترجاع الإعدادات
     function setFontSize(size) {
       document.documentElement.style.setProperty('--font-size', size);
       localStorage.setItem('fontSize', size);
     }
     function setTheme(theme) {
-      if (theme === 'dark') {
-        document.documentElement.style.setProperty('--bg-color', '#1e1e1e');
-        document.documentElement.style.setProperty('--text-color', '#f3f4f6');
+      if (theme==='dark') {
+        document.documentElement.style.setProperty('--bg-color','#1e1e1e');
+        document.documentElement.style.setProperty('--text-color','#f3f4f6');
       } else {
-        document.documentElement.style.setProperty('--bg-color', '#ffffff');
-        document.documentElement.style.setProperty('--text-color', '#111827');
+        document.documentElement.style.setProperty('--bg-color','#ffffff');
+        document.documentElement.style.setProperty('--text-color','#111827');
       }
       localStorage.setItem('theme', theme);
     }
-    window.addEventListener('DOMContentLoaded', () => {
-      const fs = localStorage.getItem('fontSize'), th = localStorage.getItem('theme');
-      if (fs) setFontSize(fs);
-      if (th) setTheme(th);
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const fs=localStorage.getItem('fontSize'), th=localStorage.getItem('theme');
+      if(fs) setFontSize(fs);
+      if(th) setTheme(th);
 
-      // Fade-in on scroll
-      const obs = new IntersectionObserver((ents) => {
-        ents.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            obs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-
-      // Back-to-top button
-      const toTop = document.getElementById('toTop');
-      window.addEventListener('scroll', () => {
-        // progress bar
-        const h = document.documentElement;
-        const pct = (window.scrollY / (h.scrollHeight - h.clientHeight)) * 100;
-        document.getElementById('progress').style.width = pct + '%';
-        // toTop toggle
-        toTop.classList.toggle('hidden', window.scrollY < 300);
+      // شريط التقدم وزر العودة للأعلى
+      const prog=document.getElementById('progress'), toTop=document.getElementById('toTop');
+      window.addEventListener('scroll', ()=>{
+        const h=document.documentElement;
+        prog.style.width = (window.scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';
+        toTop.classList.toggle('hidden', window.scrollY<300);
       });
-      toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      toTop.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-      // Focus mode toggle
-      document.getElementById('focusToggle').addEventListener('click', () => {
+      // تبديل وضع التركيز
+      document.getElementById('focusToggle').addEventListener('click', ()=>{
         document.body.classList.toggle('focus-mode');
       });
     });
   </script>
 
-  <!-- تحميل plugin.js دون تعديل -->
+  <!-- تحميل plugin.js -->
   <script src="../js/plugin.js"></script>
 </body>
-      </html>
+        </html>
