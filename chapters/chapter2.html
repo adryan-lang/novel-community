@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ار" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,11 +7,8 @@
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- خطوط عربية فخمة -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@0.234.0/dist/lucide.min.js"></script>
+  <!-- خط عربي فخم من Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -19,106 +16,51 @@
       --text-color: #111827;
       --font-size: 18px;
     }
-    body {
-      font-family: 'Cairo', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-size: var(--font-size);
-      transition: background 0.3s, color 0.3s, font-size 0.3s;
-      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='5' fill='rgba(100,100,255,0.7)'/%3E%3C/svg%3E") 8 8, auto;
-    }
-
-    /* نجعل fade-in ظاهراً دائماً */
-    .fade-in {
-      opacity: 1 !important;
-      transform: none !important;
-    }
-
-    /* عنوان مزخرف */
-    .decorative-title::before { content: '☾'; margin-left: .5rem; }
-    .decorative-title::after  { content: '☽'; margin-right: .5rem; }
-
-    /* تدرّج نصي متحرّك */
+    /* انيمشن لنص العنوان المتدرّج */
     @keyframes textGradient {
       0% { background-position: 0% 50% }
       100% { background-position: 100% 50% }
     }
-    .animate-gradient {
-      background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: textGradient 8s ease infinite;
+    /* تخصيص Tailwind لإضافة الأنيميشن */
+    @layer utilities {
+      .animate-gradient {
+        background-size: 200% 200%;
+        animation: textGradient 8s ease infinite;
+      }
     }
-
-    /* فاصل زخرفي خفيف */
-    .pattern-overlay {
-      position: absolute; top:0; left:0; right:0; bottom:0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='2' fill='%23111827'/%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-
-    /* زر العودة للأعلى */
-    #toTop {
-      @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
-    }
-
-    /* شريط التقدم */
-    #progress {
-      position: fixed; top:0; left:0; height:4px; background:linear-gradient(to right,#6366f1,#ec4899); width:0; z-index:50;
-    }
-
-    /* وضع التركيز */
-    .focus-mode .settings,
-    .focus-mode .react-btn,
-    .focus-mode #toTop {
-      display: none !important;
-    }
-    .focus-mode .chapter-content {
-      max-width: 600px; margin:auto; padding:4rem 1rem;
-      background:rgba(255,255,255,0.9); border-radius:1rem;
+    /* منع تحديد ونسخ النص في المحتوى */
+    .no-select {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
   </style>
 </head>
+<body class="bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300 font-sans" style="font-size: var(--font-size);">
 
-<body class="relative overflow-x-hidden">
-
-  <!-- شريط التقدم -->
-  <div id="progress"></div>
-  <!-- نقش خفيف -->
-  <div class="pattern-overlay"></div>
-
-  <div class="max-w-3xl mx-auto px-4 py-12 relative z-10">
-    <h1 class="decorative-title text-center text-4xl font-bold mb-8 animate-gradient fade-in">
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <!-- عنوان الفصل -->
+    <h1 class="text-center text-4xl font-bold mb-8 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text animate-gradient" style="font-family: 'Cairo', sans-serif;">
       الفصل الثاني: عنوان الفصل هنا
     </h1>
 
-    <div class="settings flex flex-wrap justify-center gap-4 mb-8 fade-in">
-      <button onclick="setFontSize('16px')" class="flex items-center gap-2 px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition">
-        <i data-lucide="type" class="w-5 h-5"></i> صغير
-      </button>
-      <button onclick="setFontSize('18px')" class="flex items-center gap-2 px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition">
-        <i data-lucide="type" class="w-5 h-5"></i> متوسط
-      </button>
-      <button onclick="setFontSize('22px')" class="flex items-center gap-2 px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition">
-        <i data-lucide="type" class="w-5 h-5"></i> كبير
-      </button>
-      <button onclick="setTheme('light')" class="flex items-center gap-2 px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition">
-        <i data-lucide="sun" class="w-5 h-5"></i> نهار
-      </button>
-      <button onclick="setTheme('dark')" class="flex items-center gap-2 px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition">
-        <i data-lucide="moon" class="w-5 h-5"></i> ليلي
-      </button>
-      <button id="focusToggle" class="flex items-center gap-2 px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition">
-        <i data-lucide="eye-off" class="w-5 h-5"></i> تركيز
-      </button>
+    <!-- أدوات التحكم -->
+    <div class="flex flex-wrap justify-center gap-4 mb-8">
+      <button onclick="setFontSize('16px')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-gradient-to-r from-indigo-500 to-purple-500 text-white">خط صغير</button>
+      <button onclick="setFontSize('18px')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-gradient-to-r from-indigo-500 to-purple-500 text-white">خط متوسط</button>
+      <button onclick="setFontSize('22px')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-gradient-to-r from-indigo-500 to-purple-500 text-white">خط كبير</button>
+      <button onclick="setTheme('light')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-yellow-400 to-yellow-600 text-white">وضع النهار</button>
+      <button onclick="setTheme('dark')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-gray-800 to-black text-white">الوضع الليلي</button>
     </div>
 
-    <div id="content" class="chapter-content no-select leading-relaxed whitespace-pre-wrap fade-in">
+    <!-- محتوى الفصل -->
+    <div id="content" class="chapter-content no-select leading-relaxed whitespace-pre-wrap" style="font-family: 'Cairo', sans-serif;">
       هنا نص الفصل بالكامل...
     </div>
 
-    <div class="flex justify-center gap-6 mt-8 fade-in" data-chapter-id="chapter-3">
+    <!-- تفاعلات الإيموجي -->
+    <div class="flex justify-center gap-6 mt-8" data-chapter-id="chapter-3">
       <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">👍 <span class="count">0</span></button>
       <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">❤️ <span class="count">0</span></button>
       <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">😆 <span class="count">0</span></button>
@@ -127,58 +69,44 @@
     </div>
   </div>
 
-  <!-- زر العودة للأعلى -->
-  <button id="toTop">⬆️</button>
-
-  <!-- منع النسخ والقائمة السياقية -->
+  <!-- سكربت منع النسخ والقائمة السياقية -->
   <script>
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
-      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12') e.preventDefault();
+      // منع Ctrl+C, Ctrl+U, Ctrl+S
+      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key === 'F12') {
+        e.preventDefault();
+      }
     });
   </script>
 
-  <!-- وظائف وحفظ إعدادات -->
+  <!-- سكربت حفظ واسترجاع الإعدادات -->
   <script>
-    lucide.createIcons();
-
     function setFontSize(size) {
       document.documentElement.style.setProperty('--font-size', size);
       localStorage.setItem('fontSize', size);
     }
     function setTheme(theme) {
-      if (theme==='dark') {
-        document.documentElement.style.setProperty('--bg-color','#1e1e1e');
-        document.documentElement.style.setProperty('--text-color','#f3f4f6');
+      if (theme === 'dark') {
+        document.documentElement.style.setProperty('--bg-color', '#1e1e1e');
+        document.documentElement.style.setProperty('--text-color', '#f3f4f6');
       } else {
-        document.documentElement.style.setProperty('--bg-color','#ffffff');
-        document.documentElement.style.setProperty('--text-color','#111827');
+        document.documentElement.style.setProperty('--bg-color', '#ffffff');
+        document.documentElement.style.setProperty('--text-color', '#111827');
       }
       localStorage.setItem('theme', theme);
     }
-    window.addEventListener('DOMContentLoaded', ()=>{
-      const fs=localStorage.getItem('fontSize'), th=localStorage.getItem('theme');
-      if(fs) setFontSize(fs);
-      if(th) setTheme(th);
-
-      // شريط التقدم وزر العودة للأعلى
-      const prog=document.getElementById('progress'), toTop=document.getElementById('toTop');
-      window.addEventListener('scroll', ()=>{
-        const h=document.documentElement;
-        prog.style.width = (window.scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';
-        toTop.classList.toggle('hidden', window.scrollY<300);
-      });
-      toTop.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-      // تبديل وضع التركيز
-      document.getElementById('focusToggle').addEventListener('click', ()=>{
-        document.body.classList.toggle('focus-mode');
-      });
+    // استرجاع الإعدادات عند التحميل
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedSize = localStorage.getItem('fontSize');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedSize) setFontSize(savedSize);
+      if (savedTheme) setTheme(savedTheme);
     });
   </script>
 
-  <!-- تحميل plugin.js -->
+  <!-- تحميل plugin.js دون تعديل -->
   <script src="../js/plugin.js"></script>
 </body>
-        </html>
+  </html>
