@@ -1,9 +1,0 @@
-/*
-  # 1. Content Security Policy: فقط يُسمح بتشغيل سكربت من موقعك ومن cdn واحد
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; object-src 'none';
-
-  # 2. منع التضمين داخل iframe (Clickjacking)
-  X-Frame-Options: DENY
-
-  # 3. تعطيل عرض فهارس المجلدات (Directory Listing)
-  directory_listing: false
