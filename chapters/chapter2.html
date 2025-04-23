@@ -1,122 +1,112 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>قراءة الفصل - الفصل الثاني</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قراءة الفصل – الفصل الثاني</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- خط عربي فخم من Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-color, #ffffff);
-      color: var(--text-color, #000000);
-      transition: background 0.3s, color 0.3s;
-      line-height: 1.8;
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #111827;
+      --font-size: 18px;
     }
-    .reader-container {
-      max-width: 800px;
-      margin: auto;
-      padding: 30px 20px;
+    /* انيمشن لنص العنوان المتدرّج */
+    @keyframes textGradient {
+      0% { background-position: 0% 50% }
+      100% { background-position: 100% 50% }
     }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 20px;
-      text-align: center;
+    /* تخصيص Tailwind لإضافة الأنيميشن */
+    @layer utilities {
+      .animate-gradient {
+        background-size: 200% 200%;
+        animation: textGradient 8s ease infinite;
+      }
     }
-    .settings {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-    .settings button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      background-color: #3498db;
-      color: white;
-      transition: background 0.3s;
-    }
-    .settings button:hover {
-      background-color: #2980b9;
-    }
-    .chapter-content {
-      font-size: var(--font-size, 18px);
-      white-space: pre-wrap;
-    }
-
-    /* تنسيق أزرار التنقل (أضفناه هنا) */
-    .chapter-nav {
-      display: flex;
-      justify-content: space-between;
-      margin: 30px 0;
-    }
-    .chapter-nav a {
-      padding: 10px 20px;
-      background-color: #3498db;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: background .3s;
-    }
-    .chapter-nav a:hover {
-      background-color: #2980b9;
+    /* منع تحديد ونسخ النص في المحتوى */
+    .no-select {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
   </style>
-
-    
-<script src="../js/plugin.js"></script>
 </head>
-<body>
-  <div class="reader-container">
-    <h1>الفصل الثاني: عنوان الفصل هنا</h1>
+<body class="bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300 font-sans" style="font-size: var(--font-size);">
 
-    <div class="settings">
-      <button onclick="setFontSize('16px')">خط صغير</button>
-      <button onclick="setFontSize('18px')">خط متوسط</button>
-      <button onclick="setFontSize('22px')">خط كبير</button>
-      <button onclick="setTheme('light')">وضع النهار</button>
-      <button onclick="setTheme('dark')">الوضع الليلي</button>
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <!-- عنوان الفصل -->
+    <h1 class="text-center text-4xl font-bold mb-8 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text animate-gradient" style="font-family: 'Cairo', sans-serif;">
+      الفصل الثاني: عنوان الفصل هنا
+    </h1>
+
+    <!-- أدوات التحكم -->
+    <div class="flex flex-wrap justify-center gap-4 mb-8">
+      <button onclick="setFontSize('16px')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-gradient-to-r from-indigo-500 to-purple-500 text-white">خط صغير</button>
+      <button onclick="setFontSize('18px')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-gradient-to-r from-indigo-500 to-purple-500 text-white">خط متوسط</button>
+      <button onclick="setFontSize('22px')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-gradient-to-r from-indigo-500 to-purple-500 text-white">خط كبير</button>
+      <button onclick="setTheme('light')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-yellow-400 to-yellow-600 text-white">وضع النهار</button>
+      <button onclick="setTheme('dark')" class="px-4 py-2 rounded-2xl shadow-lg transform hover:scale-105 transition bg-gray-800 to-black text-white">الوضع الليلي</button>
     </div>
 
-    <div class="chapter-content" id="content">
-      هنا نص الفصل  بالكامل...
+    <!-- محتوى الفصل -->
+    <div id="content" class="chapter-content no-select leading-relaxed whitespace-pre-wrap" style="font-family: 'Cairo', sans-serif;">
+      هنا نص الفصل بالكامل...
     </div>
 
-    <!-- إضافة تفاعلات الإيموجي (لم يُحذف شيء من هنا) -->
-    <div class="reactions" data-chapter-id="chapter-3">
-      <button class="react-btn" data-reaction="like">👍 <span class="count">0</span></button>
-      <button class="react-btn" data-reaction="love">❤️ <span class="count">0</span></button>
-      <button class="react-btn" data-reaction="haha">😆 <span class="count">0</span></button>
-      <button class="react-btn" data-reaction="sad">😢 <span class="count">0</span></button>
-      <button class="react-btn" data-reaction="angry">😡 <span class="count">0</span></button>
+    <!-- تفاعلات الإيموجي -->
+    <div class="flex justify-center gap-6 mt-8" data-chapter-id="chapter-3">
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">👍 <span class="count">0</span></button>
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">❤️ <span class="count">0</span></button>
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">😆 <span class="count">0</span></button>
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="sad">😢 <span class="count">0</span></button>
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">😡 <span class="count">0</span></button>
     </div>
-
-    <!-- 2) هنا سيقوم plugin.js بإضافة شريط التنقل تلقائيًا -->
   </div>
 
-  <!-- 3) تحميل سكربت المنع والتنقل (بلا أي تعديل عليه) -->
-  <script src="../js/plugin.js"></script>
+  <!-- سكربت منع النسخ والقائمة السياقية -->
+  <script>
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      // منع Ctrl+C, Ctrl+U, Ctrl+S
+      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key === 'F12') {
+        e.preventDefault();
+      }
+    });
+  </script>
 
-  <!-- 4) كود تغيير حجم الخط والوضع الليلي كما كان لديك -->
+  <!-- سكربت حفظ واسترجاع الإعدادات -->
   <script>
     function setFontSize(size) {
       document.documentElement.style.setProperty('--font-size', size);
+      localStorage.setItem('fontSize', size);
     }
     function setTheme(theme) {
       if (theme === 'dark') {
         document.documentElement.style.setProperty('--bg-color', '#1e1e1e');
-        document.documentElement.style.setProperty('--text-color', '#ffffff');
+        document.documentElement.style.setProperty('--text-color', '#f3f4f6');
       } else {
         document.documentElement.style.setProperty('--bg-color', '#ffffff');
-        document.documentElement.style.setProperty('--text-color', '#000000');
+        document.documentElement.style.setProperty('--text-color', '#111827');
       }
+      localStorage.setItem('theme', theme);
     }
+    // استرجاع الإعدادات عند التحميل
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedSize = localStorage.getItem('fontSize');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedSize) setFontSize(savedSize);
+      if (savedTheme) setTheme(savedTheme);
+    });
   </script>
+
+  <!-- تحميل plugin.js دون تعديل -->
+  <script src="../js/plugin.js"></script>
 </body>
-  </html>
+      </html>
