@@ -10,45 +10,61 @@
   <!-- خط عربي فخم -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
 
-  <style>
-    :root {
-      --bg-color: #f9fafb;
-      --text-color: #1f2937;
-      --font-size: 18px;
-    }
-    body {
-      font-family: 'Cairo', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-size: var(--font-size);
-      transition: background 0.3s, color 0.3s, font-size 0.3s;
-    }
+<style>
+  :root {
+    --bg-color: #f9fafb;
+    --text-color: #1f2937;
+    --font-size: 18px;
+  }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--font-size);
+    transition: background 0.3s, color 0.3s, font-size 0.3s;
+  }
 
-    /* إطار زخرفي مميز */
-    .frame {
-      position: relative;
-      padding: 2rem;
-      border-radius: 1.5rem;
-      background-color: #ffffff;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-      background-image: radial-gradient(circle at top left, #ede9fe 0%, transparent 60%), 
-                        radial-gradient(circle at bottom right, #fee2e2 0%, transparent 60%);
-      overflow: hidden;
-      z-index: 1;
-    }
-    .frame::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
-      opacity: 0.03;
-      z-index: 0;
-    }
-    .frame > * {
-      position: relative;
-      z-index: 1;
-    }
+  /* إطار بسيط وأنيق */
+  .frame {
+    padding: 2rem;
+    border-radius: 1.25rem;
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+  }
+
+  .divider {
+    height: 1px;
+    background-image: linear-gradient(to right, transparent, #d1d5db, transparent);
+    margin: 2rem 0;
+  }
+
+  @keyframes textGradient {
+    0% { background-position: 0% 50% }
+    100% { background-position: 100% 50% }
+  }
+  .animate-gradient {
+    background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textGradient 6s ease infinite;
+  }
+
+  #toTop {
+    @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
+  }
+
+  #progress {
+    position: fixed; top:0; left:0; height:4px;
+    background: linear-gradient(to right, #6366f1, #ec4899);
+    width:0; z-index:50;
+  }
+
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+  }
 
     /* فواصل إسلامية */
     .divider {
@@ -136,9 +152,6 @@
       <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">😡 <span class="count">0</span></button>
     </div>
   </div>
-
-  <!-- زر العودة للأعلى -->
-  <button id="toTop">⬆️</button>
 
   <!-- سكربت المنع -->
   <script>
