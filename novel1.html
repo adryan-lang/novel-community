@@ -273,6 +273,35 @@ body.dark-mode .character-caption-box {
 .description p {
   margin: 1em 0;
       }
+    /* ↓↓↓ إضافة ترويسة تقييم المستخدم ↓↓↓ */
+.feedback {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.feedback label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+.feedback label:hover,
+.feedback input:checked + div,
+.feedback input:focus + div {
+  opacity: 1;
+}
+.feedback input {
+  display: none;
+}
+.feedback svg {
+  width: 2rem;
+  height: 2rem;
+}
+/* يمكنك تعديل الحجم والهوامش كما تشاء */
   </style>
 </head>
 <body>
