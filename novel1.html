@@ -333,47 +333,55 @@ body.dark-mode .character-caption-box {
 هل كان الكثير سيموتون لو كان لدى الهاشيرا عمود إضافي في المعركة النهائية؟
 
 أم هل ستنتهي القصة بنهاية أكثر سعادة؟
-  </section><!-- بداية ويدجت تقييم الإيموجي -->
-<div class="rating-widget" id="rating">
-  <!-- 1 = غضب خفيف → غضب حاد + بخار -->
-  <input type="radio" name="rating" id="r1" value="1">
-  <label for="r1"
-         data-emoji="😠"
-         data-emoji-active="😡"
-         data-animation="steam"></label>
-
-  <!-- 2 = حزن خفيف → بكاء + دموع -->
-  <input type="radio" name="rating" id="r2" value="2">
-  <label for="r2"
-         data-emoji="😔"
-         data-emoji-active="😢"
-         data-animation="tear"></label>
-
-  <!-- 3 = محايد -->
-  <input type="radio" name="rating" id="r3" value="3" checked>
-  <label for="r3"
-         data-emoji="😐"
-         data-emoji-active="😐"
-         data-animation="none"></label>
-
-  <!-- 4 = ابتسامة خفيفة + لمعة -->
-  <input type="radio" name="rating" id="r4" value="4">
-  <label for="r4"
-         data-emoji="🙂"
-         data-emoji-active="🙂"
-         data-animation="sparkle"></label>
-
-  <!-- 5 = ضحك بدموع + دموع -->
-  <input type="radio" name="rating" id="r5" value="5">
-  <label for="r5"
-         data-emoji="😄"
-         data-emoji-active="😂"
-         data-animation="tear"></label>
-
-  <div class="slider-bg"><div class="slider-fill"></div></div>
-  <div class="rating-value"><span class="current">3</span>/5</div>
-</div>
-<!-- نهاية ويدجت تقييم الإيموجي -->
+  </section>
+  <!-- بداية واجهة التقييم -->
+  <div class="feedback">
+    <label class="happy">
+      <input type="radio" name="feedback" value="5" checked/>
+      <div>
+        <svg class="eye left"><use xlink:href="#eye"/></svg>
+        <svg class="eye right"><use xlink:href="#eye"/></svg>
+      </div>
+      <span>ممتاز</span>
+    </label>
+    <label class="good">
+      <input type="radio" name="feedback" value="4"/>
+      <div>
+        <svg class="eye left"><use xlink:href="#eye"/></svg>
+        <svg class="eye right"><use xlink:href="#eye"/></svg>
+        <svg class="mouth"><use xlink:href="#mouth"/></svg>
+      </div>
+      <span>جيد جداً</span>
+    </label>
+    <label class="ok">
+      <input type="radio" name="feedback" value="3"/>
+      <div>
+        <svg class="eye left"><use xlink:href="#eye"/></svg>
+        <svg class="eye right"><use xlink:href="#eye"/></svg>
+      </div>
+      <span>متوسط</span>
+    </label>
+    <label class="sad">
+      <input type="radio" name="feedback" value="2"/>
+      <div>
+        <svg class="eye left"><use xlink:href="#eye"/></svg>
+        <svg class="eye right"><use xlink:href="#eye"/></svg>
+        <svg class="mouth"><use xlink:href="#mouth"/></svg>
+      </div>
+      <span>محبط</span>
+    </label>
+    <label class="angry">
+      <input type="radio" name="feedback" value="1"/>
+      <div>
+        <svg class="eye left"><use xlink:href="#eye"/></svg>
+        <svg class="eye right"><use xlink:href="#eye"/></svg>
+        <svg class="mouth"><use xlink:href="#mouth"/></svg>
+      </div>
+      <span>غاضب</span>
+    </label>
+  </div>
+  <!-- نهاية واجهة التقييم -->
+                                                         </section>
   <!-- Filter Bar -->
   <div class="filter-bar" id="filter-bar" data-aos="fade-up">
     <button class="active" data-filter="all">الكل</button>
