@@ -169,19 +169,21 @@
     transform: translateY(-10px) scale(1.03);
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   }
-  .character-card img {
+.character-card img {
     border-radius: 50%;
     width: 140px;
     height: 140px;
-    object-fit: contain;
+    object-fit: cover;        /* بدل contain بـ cover ليملأ الإطار الدائري */
+    object-position: center;  /* يضمن وجود مركز الصورة في منتصف الدائرة */
     background: var(--bg-light);
     padding: 0.3rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     transition: box-shadow var(--transition);
-  }
-  .character-card img:hover {
+}
+
+.character-card img:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  }
+    }
   .character-card h3 {
     margin: 1rem 0 0.5rem;
     font-size: 1.3rem;
