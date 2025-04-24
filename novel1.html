@@ -314,53 +314,59 @@ body.dark-mode .character-caption-box {
 
 أم هل ستنتهي القصة بنهاية أكثر سعادة؟
   </section>
-  <!-- بداية واجهة التقييم -->
-  <div class="feedback">
-    <label class="happy">
-      <input type="radio" name="feedback" value="5" checked/>
-      <div>
-        <svg class="eye left"><use xlink:href="#eye"/></svg>
-        <svg class="eye right"><use xlink:href="#eye"/></svg>
-      </div>
-      <span>ممتاز</span>
-    </label>
-    <label class="good">
-      <input type="radio" name="feedback" value="4"/>
-      <div>
-        <svg class="eye left"><use xlink:href="#eye"/></svg>
-        <svg class="eye right"><use xlink:href="#eye"/></svg>
-        <svg class="mouth"><use xlink:href="#mouth"/></svg>
-      </div>
-      <span>جيد جداً</span>
-    </label>
-    <label class="ok">
-      <input type="radio" name="feedback" value="3"/>
-      <div>
-        <svg class="eye left"><use xlink:href="#eye"/></svg>
-        <svg class="eye right"><use xlink:href="#eye"/></svg>
-      </div>
-      <span>متوسط</span>
-    </label>
-    <label class="sad">
-      <input type="radio" name="feedback" value="2"/>
-      <div>
-        <svg class="eye left"><use xlink:href="#eye"/></svg>
-        <svg class="eye right"><use xlink:href="#eye"/></svg>
-        <svg class="mouth"><use xlink:href="#mouth"/></svg>
-      </div>
-      <span>محبط</span>
-    </label>
-    <label class="angry">
-      <input type="radio" name="feedback" value="1"/>
-      <div>
-        <svg class="eye left"><use xlink:href="#eye"/></svg>
-        <svg class="eye right"><use xlink:href="#eye"/></svg>
-        <svg class="mouth"><use xlink:href="#mouth"/></svg>
-      </div>
-      <span>غاضب</span>
-    </label>
-  </div>
-  <!-- نهاية واجهة التقييم -->
+  <!-- بداية واجهة الإيموجي التفاعلي (5 إيموجي) -->
+<div id="emoji-feedback"
+     style="display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:1.5rem;
+            margin-top:1.5rem;">
+  <lottie-player
+    id="laugh"
+    src="animations/laugh.json"
+    background="transparent"
+    speed="1"
+    style="width:100px; height:100px; cursor:pointer;"
+    loop>
+  </lottie-player>
+
+  <lottie-player
+    id="happy"
+    src="animations/happy.json"
+    background="transparent"
+    speed="1"
+    style="width:100px; height:100px; cursor:pointer;"
+    loop>
+  </lottie-player>
+
+  <lottie-player
+    id="neutral"
+    src="animations/neutral.json"
+    background="transparent"
+    speed="1"
+    style="width:100px; height:100px; cursor:pointer;"
+    loop>
+  </lottie-player>
+
+  <lottie-player
+    id="cry"
+    src="animations/cry.json"
+    background="transparent"
+    speed="1"
+    style="width:100px; height:100px; cursor:pointer;"
+    loop>
+  </lottie-player>
+
+  <lottie-player
+    id="angry"
+    src="animations/angry.json"
+    background="transparent"
+    speed="1"
+    style="width:100px; height:100px; cursor:pointer;"
+    loop>
+  </lottie-player>
+</div>
+<!-- نهاية واجهة الإيموجي التفاعلي -->
                                                          </section>
   <!-- Filter Bar -->
   <div class="filter-bar" id="filter-bar" data-aos="fade-up">
@@ -556,14 +562,27 @@ body.dark-mode .character-caption-box {
       });
     })();
     </script>
-<!-- رموز SVG لإعادة الاستخدام في الإيموجي -->
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="eye" viewBox="0 0 7 4">
-    <path d="M1,1 C1.83333333,2.16666667 2.66666667,2.75 3.5,2.75 C4.33333333,2.75 5.16666667,2.16666667 6,1"></path>
-  </symbol>
-  <symbol id="mouth" viewBox="0 0 18 7">
-    <path d="M1,5.5 C3.66666667,2.5 6.33333333,1 9,1 C11.6666667,1 14.3333333,2.5 17,5.5"></path>
-  </symbol>
-</svg>
+
+  <!-- سكربت تشغيل/إيقاف الإيموجي عند النقر -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const players = {
+        laugh:   document.getElementById('laugh'),
+        happy:   document.getElementById('happy'),
+        neutral: document.getElementById('neutral'),
+        cry:     document.getElementById('cry'),
+        angry:   document.getElementById('angry'),
+      };
+      function playOnly(key) {
+        Object.entries(players).forEach(([k,pl]) =>
+          k === key ? pl.play() : pl.stop()
+        );
+      }
+      Object.keys(players).forEach(key =>
+        players[key].addEventListener('click', () => playOnly(key))
+      );
+    });
+  </script>
+
 </body>
 </html>
