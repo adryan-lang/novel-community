@@ -22,7 +22,9 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
   <!-- AOS Library للرسوم المتحركة أثناء التمرير -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha384-pXx3JM5A6SziE+SVkoJhZ62ZP3a9X+uF2W0xfbodvAZ38lJyP+6O3UJ+8X0VxO94" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha384-pXx3JM5A6SziE+SVkoJhZ62ZP3a9X+uF2W0xfbodvAZ38lJyP+6O3UJ+8X0VxO94" crossorigin="anonymous" />
+<!-- Lottie WebComponent -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <!-- Styles -->
   <style>
     /* ---------- Reset ---------- */
@@ -273,35 +275,13 @@ body.dark-mode .character-caption-box {
 .description p {
   margin: 1em 0;
       }
-    /* ↓↓↓ إضافة ترويسة تقييم المستخدم ↓↓↓ */
-.feedback {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
+    #emoji-feedback lottie-player {
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  transition: transform 0.2s;
 }
-.feedback label {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.75rem;
-  opacity: 0.6;
-  transition: opacity 0.3s;
-}
-.feedback label:hover,
-.feedback input:checked + div,
-.feedback input:focus + div {
-  opacity: 1;
-}
-.feedback input {
-  display: none;
-}
-.feedback svg {
-  width: 2rem;
-  height: 2rem;
-}
-/* يمكنك تعديل الحجم والهوامش كما تشاء */
+#emoji-feedback lottie-player:hover {
+  transform: translateY(-4px);
+    }
   </style>
 </head>
 <body>
