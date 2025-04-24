@@ -502,28 +502,41 @@ body.dark-mode .character-caption-box {
         content.style.display = content.style.display === 'block' ? 'none' : 'block';
       });
     });
+  <script>
+    // Emoji Rating Widget Logic
+    (function(){
+      const widget = document.getElementById('rating');
+      if (!widget) return;
+      const fill    = widget.querySelector('.slider-fill');
+      const current = widget.querySelector('.current');
+      const inputs  = widget.querySelectorAll('input');
+      const labels  = widget.querySelectorAll('label');
+
+      function updateRating(val) {
+        const pct = (val - 1) / (inputs.length - 1);
+        widget.style.setProperty('--percent', pct);
+        current.textContent = val;
+      }
+
+      inputs.forEach(radio => {
+        radio.addEventListener('change', e => {
+          labels.forEach(l => l.classList.remove('active'));
+          const lab = widget.querySelector(`label[for="${e.target.id}"]`);
+          lab.classList.add('active');
+          updateRating(+e.target.value);
+          setTimeout(() => lab.classList.remove('active'), 1000);
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const init = widget.querySelector('input:checked');
+        if (init) {
+          const lab = widget.querySelector(`label[for="${init.id}"]`);
+          lab.classList.add('active');
+          updateRating(+init.value);
+          setTimeout(() => lab.classList.remove('active'), 1000);
+        }
+      });
+    })();
   </script>
 </body>
-  <!-- jQuery (مطلوب من EmojiOneArea) -->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-    integrity="sha512-894YeXLhP/hu8d+6G+6a4Q4/FDp2qQP8ualJmMfQxvRhCJnTNU6bm6Hc5K+N4p18HfK4P/s0iMtU4BqijZ4v2w=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
-  <!-- EmojiOneArea plugin -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.1/dist/emojionearea.min.js"
-  ></script>
-  <script>
-    $(function() {
-      $("#emoji_input").emojioneArea({
-        pickerPosition: "bottom",
-        tonesStyle: "bullet",
-        hidePickerOnBlur: false,
-        buttonTitle: "إيموجي"
-      });
-    });
-  </script>
-
-</html>
