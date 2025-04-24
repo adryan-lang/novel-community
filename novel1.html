@@ -23,18 +23,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
   <!-- AOS Library للرسوم المتحركة أثناء التمرير -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha384-pXx3JM5A6SziE+SVkoJhZ62ZP3a9X+uF2W0xfbodvAZ38lJyP+6O3UJ+8X0VxO94" crossorigin="anonymous" />
-<!-- Emoji picker styles -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    integrity="sha512-SfCrhYkXfFt+8sjZxW2nrMfdxYcWZZnJgIw4uRljp30efy03xZWa1i5x5GcsDkQUO7rFuHCaBk3D5NjAvRk+DQ=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.1/dist/emojionearea.min.css"
-  />
   <!-- Styles -->
   <style>
     /* ---------- Reset ---------- */
@@ -316,15 +304,47 @@ body.dark-mode .character-caption-box {
 هل كان الكثير سيموتون لو كان لدى الهاشيرا عمود إضافي في المعركة النهائية؟
 
 أم هل ستنتهي القصة بنهاية أكثر سعادة؟
-  </section>
-  <!-- بداية إضافة محرّك الإيموجي -->
-  <div class="emoji-wrapper" style="max-width:800px; margin:1rem auto;">
-    <textarea id="emoji_input" rows="1"
-      placeholder="أضف إيموجي..."
-      style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:0.5rem;">
-    </textarea>
-  </div>
-  <!-- نهاية إضافة محرّك الإيموجي -->
+  </section><!-- بداية ويدجت تقييم الإيموجي -->
+<div class="rating-widget" id="rating">
+  <!-- 1 = غضب خفيف → غضب حاد + بخار -->
+  <input type="radio" name="rating" id="r1" value="1">
+  <label for="r1"
+         data-emoji="😠"
+         data-emoji-active="😡"
+         data-animation="steam"></label>
+
+  <!-- 2 = حزن خفيف → بكاء + دموع -->
+  <input type="radio" name="rating" id="r2" value="2">
+  <label for="r2"
+         data-emoji="😔"
+         data-emoji-active="😢"
+         data-animation="tear"></label>
+
+  <!-- 3 = محايد -->
+  <input type="radio" name="rating" id="r3" value="3" checked>
+  <label for="r3"
+         data-emoji="😐"
+         data-emoji-active="😐"
+         data-animation="none"></label>
+
+  <!-- 4 = ابتسامة خفيفة + لمعة -->
+  <input type="radio" name="rating" id="r4" value="4">
+  <label for="r4"
+         data-emoji="🙂"
+         data-emoji-active="🙂"
+         data-animation="sparkle"></label>
+
+  <!-- 5 = ضحك بدموع + دموع -->
+  <input type="radio" name="rating" id="r5" value="5">
+  <label for="r5"
+         data-emoji="😄"
+         data-emoji-active="😂"
+         data-animation="tear"></label>
+
+  <div class="slider-bg"><div class="slider-fill"></div></div>
+  <div class="rating-value"><span class="current">3</span>/5</div>
+</div>
+<!-- نهاية ويدجت تقييم الإيموجي -->
   <!-- Filter Bar -->
   <div class="filter-bar" id="filter-bar" data-aos="fade-up">
     <button class="active" data-filter="all">الكل</button>
