@@ -315,21 +315,16 @@ body.dark-mode .character-caption-box {
 أم هل ستنتهي القصة بنهاية أكثر سعادة؟
   </section>
   <!-- بداية واجهة الإيموجي التفاعلي (5 إيموجي) -->
-<div id="emoji-feedback"
-     style="display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:1.5rem;
-            margin-top:1.5rem;">
+<div id="emoji-feedback" style="…">
   <lottie-player
     id="enjoy"
     src="animations/enjoy.json"
     background="transparent"
     speed="1"
     style="width:100px; height:100px; cursor:pointer;"
-    loop>
+    loop
+    autoplay>
   </lottie-player>
-
 </div>
 <!-- نهاية واجهة الإيموجي التفاعلي -->
   <!-- Filter Bar -->
@@ -551,20 +546,21 @@ filterButtons.forEach(btn => {
   </script>
   <!-- سكربت تشغيل/إيقاف الإيموجي عند النقر -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const players = {
-        enjoy:   document.getElementById('enjoy'),
-        
-      };
-      function playOnly(key) {
-        Object.entries(players).forEach(([k,pl]) =>
-          k === key ? pl.play() : pl.stop()
-        );
-      }
-      Object.keys(players).forEach(key =>
-        players[key].addEventListener('click', () => playOnly(key))
+  document.addEventListener('DOMContentLoaded', () => {
+    const enjoy = document.getElementById('enjoy');
+    // يشغّل الصورة التلقائية دون نقرة
+    enjoy.play();
+
+    const players = { enjoy };
+    function playOnly(key) {
+      Object.entries(players).forEach(([k,pl]) =>
+        k === key ? pl.play() : pl.stop()
       );
-    });
+    }
+    Object.keys(players).forEach(key =>
+      players[key].addEventListener('click', () => playOnly(key))
+    );
+  });
   </script>
 
 </body>
