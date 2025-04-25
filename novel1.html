@@ -477,47 +477,40 @@ body.dark-mode .character-caption-box {
       navLinks.classList.toggle('show');
     });
     }
-    /* Chapter Filtering Logic */
-const filterButtons = document.querySelectorAll('.filter-bar button');
-const chapters      = Array.from(document.querySelectorAll('.chapter-card'));
-const placeholder   = document.getElementById('placeholder');
+    </script>
+  
+    <script>
+  /* Chapter Filtering Logic */
+  (function(){
+    const filterButtons = document.querySelectorAll('.filter-bar button');
+    const chapters      = Array.from(document.querySelectorAll('.chapter-card'));
+    const placeholder   = document.getElementById('placeholder');
 
-// دالة لتحديث العرض بناءً على القوس المختار
-function updateVisibility(filter) {
-  chapters.forEach(card => {
-    if (card.classList.contains(filter)) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
+    function updateVisibility(filter) {
+      chapters.forEach(card => {
+        if (card.classList.contains(filter)) card.classList.remove('hidden');
+        else                                 card.classList.add('hidden');
+      });
+      const anyVisible = chapters.some(c => !c.classList.contains('hidden'));
+      placeholder.style.display = anyVisible ? 'none' : 'block';
     }
-  });
-  // إظهار placeholder إن لم يبقَ أي فصل ظاهر
-  const anyVisible = chapters.some(c => !c.classList.contains('hidden'));
-  placeholder.style.display = anyVisible ? 'none' : 'block';
-}
 
-// ربط الأزرار بالدالة
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    updateVisibility(btn.dataset.filter);
-  });
-});
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateVisibility(btn.dataset.filter);
+      });
+    });
 
-// عند التحميل: شغّل فلترة القوس الأول تلقائياً
-document.addEventListener('DOMContentLoaded', () => {
-  // افترضنا أن أول زر هو القوس الأول
-  const firstFilter = filterButtons[0].dataset.filter;
-  filterButtons[0].classList.add('active');
-  updateVisibility(firstFilter);
-});
-
-    // إذا لم تظهر أي بطاقة، أظهر placeholder وإلّا أخفِه
-    const anyVisible = Array.from(chapters).some(c => !c.classList.contains('hidden'));
-    placeholder.style.display = anyVisible ? 'none' : 'block';
-  });
-});
+    document.addEventListener('DOMContentLoaded', () => {
+      const first = filterButtons[0];
+      first.classList.add('active');
+      updateVisibility(first.dataset.filter);
+    });
+  })();
+</script>
+      <script>
     /* Trivia Toggle */
     const triviaItems = document.querySelectorAll('.trivia-item');
     triviaItems.forEach(item => {
