@@ -315,23 +315,29 @@ body.dark-mode .character-caption-box {
 أم هل ستنتهي القصة بنهاية أكثر سعادة؟
   </section>
   <!-- بداية واجهة الإيموجي التفاعلي (5 إيموجي) -->
-<div id="emoji-feedback" style="…">
-<lottie-player
-  id="enjoy"
-  src="animations/enjoy.json"
-  background="transparent"
-  speed="1"
-  style="
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    position: relative;
-    left: -15px;
-    top: 10px;
-  "
-  loop
-  autoplay>
-</lottie-player>
+<div id="emoji-feedback"
+     style="
+       position: relative;    /* ✔️ يصبح هذا الإطار المرجعي للطفل */
+       width: 100%;           
+       height: 200px;         /* علِّل ارتفاع كافٍ لترى العنصر داخله */
+       margin-top: 1.5rem;
+     ">
+  <lottie-player
+    id="enjoy"
+    src="animations/enjoy.json"
+    background="transparent"
+    speed="1"
+    loop
+    autoplay
+    style="
+      position: absolute;   /* ✔️ يخرج من سياق Flex */
+      top:  20px;           /* المسافة من أعلى الحاوية */
+      left: 30px;           /* المسافة من يسار الحاوية */
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+    ">
+  </lottie-player>
 </div>
 <!-- نهاية واجهة الإيموجي التفاعلي -->
   <!-- Filter Bar -->
