@@ -322,49 +322,14 @@ body.dark-mode .character-caption-box {
             gap:1.5rem;
             margin-top:1.5rem;">
   <lottie-player
-    id="laugh"
-    src="animations/laugh.json"
+    id="enjoy"
+    src="animations/enjoy.json"
     background="transparent"
     speed="1"
     style="width:100px; height:100px; cursor:pointer;"
     loop>
   </lottie-player>
 
-  <lottie-player
-    id="happy"
-    src="animations/happy.json"
-    background="transparent"
-    speed="1"
-    style="width:100px; height:100px; cursor:pointer;"
-    loop>
-  </lottie-player>
-
-  <lottie-player
-    id="neutral"
-    src="animations/neutral.json"
-    background="transparent"
-    speed="1"
-    style="width:100px; height:100px; cursor:pointer;"
-    loop>
-  </lottie-player>
-
-  <lottie-player
-    id="cry"
-    src="animations/cry.json"
-    background="transparent"
-    speed="1"
-    style="width:100px; height:100px; cursor:pointer;"
-    loop>
-  </lottie-player>
-
-  <lottie-player
-    id="angry"
-    src="animations/angry.json"
-    background="transparent"
-    speed="1"
-    style="width:100px; height:100px; cursor:pointer;"
-    loop>
-  </lottie-player>
 </div>
 <!-- نهاية واجهة الإيموجي التفاعلي -->
                                                          </section>
@@ -562,16 +527,12 @@ body.dark-mode .character-caption-box {
       });
     })();
   </script>
-
   <!-- سكربت تشغيل/إيقاف الإيموجي عند النقر -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const players = {
-        laugh:   document.getElementById('laugh'),
-        happy:   document.getElementById('happy'),
-        neutral: document.getElementById('neutral'),
-        cry:     document.getElementById('cry'),
-        angry:   document.getElementById('angry'),
+        enjoy:   document.getElementById('enjoy'),
+        
       };
       function playOnly(key) {
         Object.entries(players).forEach(([k,pl]) =>
