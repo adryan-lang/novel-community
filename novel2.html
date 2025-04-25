@@ -1,122 +1,656 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>كوروكو نو باسكت: المختار المُكرَّم</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المختار المُكرَّم</title>
+  <meta name="description" content="  ">
+  <!-- Structured Data لتحسين SEO  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "المختار المُكرَّم",
+    "author": {"@type": "Person", "name": "اسم المؤلف"},
+    "image": "https://example.com/images/cover1.jpg",
+    "description": "مراهق أصم يجد نفسه في عالم قاتل الشياطين...",
+    "inLanguage": "ar",
+    "datePublished": "2025-04-10",
+    "publisher": {"@type": "Organization", "name": "دار النشر"}
+  }
+  </script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- AOS Library للرسوم المتحركة أثناء التمرير -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha384-pXx3JM5A6SziE+SVkoJhZ62ZP3a9X+uF2W0xfbodvAZ38lJyP+6O3UJ+8X0VxO94" crossorigin="anonymous" />
+<!-- Lottie WebComponent -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <!-- Styles -->
   <style>
-    body { font-family: 'Arial', sans-serif; margin: 0; background: #fff; }
-    .container { padding: 30px; max-width: 800px; margin: auto; }
-    h1 { font-size: 28px; margin-bottom: 10px; }
-    img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; }
-    p.description { font-size: 18px; margin-top: 20px; color: #333; white-space: pre-wrap; }
-    .chapters { margin-top: 30px; }
-    .chapters h2 { font-size: 22px; margin-bottom: 10px; }
-    .chapters ul { list-style: none; padding: 0; }
-    .chapters li { margin-bottom: 10px; }
-    .chapters a { text-decoration: none; color: #e74c3c; font-size: 18px; }
+    /* ---------- Reset ---------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ---------- Root Variables ---------- */
+    :root {
+      --color-bg: #f5f5f5;
+      --color-text: #333;
+      --color-primary: #d32f2f;
+      --color-secondary: #555;
+      --bg-light: #ffffff;
+      --bg-dark: #121212;
+      --text-light: #ffffff;
+      --transition: 0.3s ease;
+      --radius: 0.6rem;
+      --font-body: 'Cairo', sans-serif;
+    }
+    /* ---------- Base Styles ---------- */
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+    }
+    a { text-decoration: none; color: var(--color-primary); }
+    img { display: block; max-width: 100%; height: auto; }
+    /* ---------- Dark Mode Classes ---------- */
+    body.dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+    }
+    /* ---------- Navigation Bar ---------- */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; background-color: var(--bg-light);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky; top: 0; z-index: 100;
+      transition: background var(--transition);
+    }
+    .navbar.dark-mode { background-color: #1e1e1e; }
+    .navbar .logo { font-size: 1.8rem; font-weight: 700; }
+    .navbar ul { display: flex; gap: 1.5rem; list-style: none; }
+    .navbar li { }
+    .navbar a { font-size: 1rem; }
+    .toggle-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.2rem; }
+    /* ---------- Hero Section with Video Background ---------- */
+    .hero {
+      position: relative; overflow: hidden;
+      height: 70vh; display: flex; align-items: center;
+      justify-content: center; text-align: center;
+      color: var(--text-light);
+    }
+    .hero video {
+  display: none; /* يخفي الفيديو القديم */
+}
+
+.hero .hero-cover {
+  position: absolute;
+  inset: 0;                /* يغني عن top/left/right/bottom */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;     /* يضمن ظهور الصورة كاملة */
+  object-position: center; /* يركّزها وسط الحاوية */
+  z-index: -1;
+       }
+    .hero .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+    .hero h1 { font-size: 3rem; z-index: 1; margin: 0 1rem; }
+    /* ---------- Description Box ---------- */
+    .description {
+      background: var(--bg-light); padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: -3rem auto 2rem;
+      max-width: 800px; position: relative; z-index: 2;
+      font-size: 1.1rem;
+    }
+    .dark-mode .description { background: #1e1e1e; }
+    /* ---------- Chapters Grid & Filtering ---------- */
+    .filter-bar {
+      display: flex; justify-content: center; align-items: center;
+      gap: 0.5rem; margin: 2rem auto;
+    }
+    .filter-bar button {
+      padding: 0.5rem 1rem; border: none;
+      border-radius: var(--radius);
+      cursor: pointer; transition: background var(--transition);
+      background: var(--bg-light);
+    }
+    .filter-bar button.active, .filter-bar button:hover { background: var(--color-primary); color: #fff; }
+    .chapters {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;
+      max-width: 1200px; margin: auto;
+    }
+    .chapter-card {
+      background: var(--bg-light); padding: 1.2rem;
+      border-radius: var(--radius);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+    .chapter-card:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .chapter-card.hidden { display: none; }
+      /* ---------- Characters Section (محدث) ---------- */
+  .characters {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+  }
+  .characters h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--color-primary);
+    letter-spacing: 0.05em;
+  }
+  .character-grid {
+    /* عرض 4 بطاقات متراصة أفقياً */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .character-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .character-card::before {
+    content: "";
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle at center, rgba(211,47,47,0.3), transparent 70%);
+    transform: rotate(45deg);
+  }
+  .character-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+.character-card img {
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    object-fit: cover;        /* بدل contain بـ cover ليملأ الإطار الدائري */
+    object-position: center;  /* يضمن وجود مركز الصورة في منتصف الدائرة */
+    background: var(--bg-light);
+    padding: 0.3rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: box-shadow var(--transition);
+}
+
+.character-card img:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+  .character-card h3 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.3rem;
+    color: var(--color-secondary);
+  }
+  .character-card p {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+  /* استجابة للشاشات الصغيرة */
+  @media (max-width: 1024px) {
+    .character-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .character-grid { grid-template-columns: repeat(1, 1fr); }
+    .character-card img { width: 120px; height: 120px; }
+      }
+    /* ---------- Sidebar Trivia ---------- */
+    .sidebar {
+      position: fixed; top: 50%; left: 1rem;
+      transform: translateY(-50%); background: var(--bg-light);
+      padding: 1rem; border-radius: var(--radius);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 250px;
+    }
+    .trivia-item {
+      margin-bottom: 1rem; cursor: pointer;
+    }
+    .trivia-content { display: none; margin-top: 0.5rem; font-size: 0.9rem; color: var(--color-secondary); }
+    /* ---------- Parallax Hover Effect ---------- */
+    .parallax {
+      perspective: 1000px;
+    }
+    .parallax .parallax-inner {
+      transition: transform var(--transition);
+      transform-style: preserve-3d;
+    }
+    .parallax:hover .parallax-inner {
+      transform: rotateY(10deg) rotateX(10deg);
+    }
+    /* ---------- Responsive ---------- */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .navbar ul { display: none; }
+      .navbar .menu-toggle { display: block; }
+      .sidebar { display: none; }
+    }
+    /* ---------- Character Caption Box ---------- */
+.character-caption-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.5rem auto;
+  padding: 1rem 1.2rem;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.85);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--color-secondary);
+  line-height: 1.4;
+  font-style: italic;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  /* للـ dark mode: */
+  transition: background var(--transition), color var(--transition);
+}
+body.dark-mode .character-caption-box {
+  background: rgba(30, 30, 30, 0.85);
+  color: var(--text-light);
+}
+.character-caption-box svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: var(--color-primary);
+  flex-shrink: 0;
+    }
+    /* يحافظ على كسور الأسطر المكتوبة داخل الفقرة */
+.description {
+  white-space: pre-line;
+}
+
+/* يعيد مسافة فوق وتحت كل فقرة داخل الوصف */
+.description p {
+  margin: 1em 0;
+      }
+    #emoji-feedback lottie-player {
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  transition: transform 0.2s;
+}
+#emoji-feedback lottie-player:hover {
+  transform: translateY(-4px);
+    }
   </style>
-
-
-
-  <!-- 2) تحميل السكربت العام (منع النسخ + تنقل بين الفصول) -->
-  <script src="js/plugin.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>كوروكو نو باسكت: المختار المُكرَّم</h1>
-    <img src="images/cover2.jpg" alt="غلاف الرواية" />
-    <p class="description">
-      يجد تيندو كاجيوشي نفسه في عالم كوروكو نو باسكت.
-      
-      بدلًا من أن يتعب نفسه في لعب كرة السلة، قرر أن طريق الاستثمار وامتلاك فريق
-      سيكون أسهل بكثير، فرفض النظام الذي فُرض عليه بلا تردد.
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="navbar">
+    <div class="logo"> المختار المُكرَّم </div>
+    <ul id="nav-links">
+    </ul>
+    <button class="toggle-btn" id="dark-toggle">
+  <!-- Lottie icon: moon shown by default -->
+  <lottie-player
+    id="moon-icon"
+    src="animations/moon.json"
+    background="transparent"
+    speed="1"
+    style="width:50px; height:50px; display: block;"
+    loop
+    autoplay>
+  </lottie-player>
+  <!-- Lottie icon: sun hidden by default -->
+  <lottie-player
+    id="sun-icon"
+    src="animations/sun.json"
+    background="transparent"
+    speed="1"
+    style="width:55px; height:55px; display: none;"
+    loop
+    autoplay>
+  </lottie-player>
+    </button>
+  </nav>
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+  <img src="images/cover1.webp" alt="غلاف الرواية" class="hero-cover">
+  <div class="overlay"></div>
+  <h1 data-aos="fade-up"></h1>
+  </section>
+  <!-- Description -->
+  <section class="description" id="description" data-aos="fade-right">
+ يجد تيندو كاجيوشي نفسه في عالم كوروكو نو باسكت.
 
-      لكن الحياة لا تسير دائمًا كما نشاء—فكل شيء قابل للنقاش إذا كانت المكافآت
-      مغرية بما فيه الكفاية.
+بدلًا من أن يتعب نفسه في لعب كرة السلة، قرر أن طريق الاستثمار وامتلاك فريق سيكون أسهل بكثير، فرفض النظام الذي فُرض عليه بلا تردد.
 
-      ومن هنا، بدأ تيندو رحلته ليصبح النجم المفضل لدى الجماهير، ومعه نظامه...
-      وإن كان مجبرًا على مرافقته.
+لكن الحياة لا تسير دائمًا كما نشاء—فكل شيء قابل للنقاش إذا كانت المكافآت مغرية بما فيه الكفاية.
 
-      تيندو كاجيوشي: "لنباشر بهدف صغير أولًا—تحويل كوروكو نو باسكت إلى
-      تيندو نو باسكت!"
-    </p>
+ومن هنا، بدأ تيندو رحلته ليصبح النجم المفضل لدى الجماهير، ومعه نظامه...وإن كان مجبرًا على مرافقته.
 
-    <div class="chapters">
-  <h2>الفصول:</h2>
-  <ul>
-    <li><a href="novel2_chapters/chapter1.html">الفصل 1: اللعنة على لعب كرة السلة!</a></li>
-    <li><a href="novel2_chapters/chapter2.html">الفصل 2: ماذا أعطيتني؟</a></li>
-    <li><a href="novel2_chapters/chapter3.html">الفصل 3: شبابي ثمين كالبراءة</a></li>
-    <li><a href="novel2_chapters/chapter4.html">الفصل 4: اليوم الأول في المدرسة</a></li>
-    <li><a href="novel2_chapters/chapter5.html">الفصل 5: أنا الأقوى</a></li>
-    <li><a href="novel2_chapters/chapter6.html">الفصل 6: اختبار القبول</a></li>
-    <li><a href="novel2_chapters/chapter7.html">الفصل 7: اتضح أنه مقلّد</a></li>
-    <li><a href="novel2_chapters/chapter8.html">الفصل 8: هل قرأت عنوان هذا الأنمي خطأً؟</a></li>
-    <li><a href="novel2_chapters/chapter9.html">الفصل 9: ممل؛ أغلِقه الآن</a></li>
-    <li><a href="novel2_chapters/chapter10.html">الفصل 10: لا تلتفت إلى نسبة التسديد؛ فهي مذهلة</a></li>
-    <li><a href="novel2_chapters/chapter11.html">الفصل 11: انطلاق بث الحلقة الأولى</a></li>
-    <li><a href="novel2_chapters/chapter12.html">الفصل 12: عرض الحلقة الأولى</a></li>
-    <li><a href="novel2_chapters/chapter13.html">الفصل 13: ما زالت الحلقة الأولى تُعرض</a></li>
-    <li><a href="novel2_chapters/chapter14.html">الفصل 14: فتاة هابطة من السماء!</a></li>
-    <li><a href="novel2_chapters/chapter15.html">الفصل 15: الحياة بحد ذاتها أفضل سيناريو</a></li>
-    <li><a href="novel2_chapters/chapter16.html">الفصل 16: الحياة اليومية لتيكو</a></li>
-    <li><a href="novel2_chapters/chapter17.html">الفصل 17: تبًا لذكائك العاطفي!</a></li>
-    <li><a href="novel2_chapters/chapter18.html">الفصل 18: المبادر</a></li>
-    <li><a href="novel2_chapters/chapter19.html">الفصل 19: مباراة تدريبية</a></li>
-    <li><a href="novel2_chapters/chapter20.html">الفصل 20: كرة السلة من المستقبل</a></li>
-    <li><a href="novel2_chapters/chapter21.html">الفصل 21: العباقرة يتجاوزون المنطق</a></li>
-    <li><a href="novel2_chapters/chapter22.html">الفصل 22: كان بإمكانه أن يصبح عارضَ أزياء لو لم يلعب كرة السلة</a></li>
-    <li><a href="novel2_chapters/chapter23.html">الفصل 23: أنتم معجبون بي كثيرًا</a></li>
-    <li><a href="novel2_chapters/chapter24.html">الفصل 24: إرشاد كوركو</a></li>
-    <li><a href="novel2_chapters/chapter25.html">الفصل 25: بث الحلقة الثانية</a></li>
-    <li><a href="novel2_chapters/chapter26.html">الفصل 26: جسدٌ فولاذي</a></li>
-    <li><a href="novel2_chapters/chapter27.html">الفصل 27: قرعة الأدوار العليا</a></li>
-    <li><a href="novel2_chapters/chapter28.html">الفصل 28: بداية مرحلة المجموعات</a></li>
-    <li><a href="novel2_chapters/chapter29.html">الفصل 29: المعركة الأولى</a></li>
-    <li><a href="novel2_chapters/chapter30.html">الفصل 30: هل تعرف عقلية المامبا؟</a></li>
-    <li><a href="novel2_chapters/chapter31.html">الفصل 31: انطلاق تيندو</a></li>
-    <li><a href="novel2_chapters/chapter32.html">الفصل 32: لا تستحق الأناقة إلا للأقوياء</a></li>
-    <li><a href="novel2_chapters/chapter33.html">الفصل 33: لماذا ينظر إليه الجميع؟</a></li>
-    <li><a href="novel2_chapters/chapter34.html">الفصل 34: ممنوع الصراخ</a></li>
-    <li><a href="novel2_chapters/chapter35.html">الفصل 35: دعوة هاراساوا كاتسونوري</a></li>
-    <li><a href="novel2_chapters/chapter36.html">الفصل 36: المنافسة بين العباقرة</a></li>
-    <li><a href="novel2_chapters/chapter37.html">الفصل 37: ظهور الفتى الوسيم للمرة الأولى</a></li>
-    <li><a href="novel2_chapters/chapter38.html">الفصل 38: رفع درجة الحرارة</a></li>
-    <li><a href="novel2_chapters/chapter39.html">الفصل 39: النكهة الثقيلة</a></li>
-    <li><a href="novel2_chapters/chapter40.html">الفصل 40: الاستخدام الدقيق للفعل «cleave»</a></li>
-    <li><a href="novel2_chapters/chapter41.html">الفصل 41: كم هو أنيق بحق!</a></li>
-    <li><a href="novel2_chapters/chapter42.html">الفصل 42: تبًا، انكشف سر المحتكر للكرة!</a></li>
-    <li><a href="novel2_chapters/chapter43.html">الفصل 43: تضخيم الإحصائيات لتحقيق رباعية مزدوجة</a></li>
-    <li><a href="novel2_chapters/chapter44.html">الفصل 44: ليس واحدًا ولا اثنين</a></li>
-    <li><a href="novel2_chapters/chapter45.html">الفصل 45: كيف تكسر سقف الإحصائيات</a></li>
-    <li><a href="novel2_chapters/chapter46.html">الفصل 46: وصول هايزاكي</a></li>
-    <li><a href="novel2_chapters/chapter47.html">الفصل 47: إذًا هو محتكر الكرة</a></li>
-    <li><a href="novel2_chapters/chapter48.html">الفصل 48: لماذا أنا؟</a></li>
-    <li><a href="novel2_chapters/chapter49.html">الفصل 49: أولًا، سأطيح بك يا بلاكي</a></li>
-    <li><a href="novel2_chapters/chapter50.html">الفصل 50: إن لم تستطع سرقته، فلن تستطيعه</a></li>
-    <li><a href="novel2_chapters/chapter51.html">الفصل 51: تم فتح قدرة جديدة</a></li>
-    <li><a href="novel2_chapters/chapter52.html">الفصل 52: الوحش</a></li>
-    <li><a href="novel2_chapters/chapter53.html">الفصل 53: أُطلقت المحاولة الأولى</a></li>
-    <li><a href="novel2_chapters/chapter54.html">الفصل 54: هجموا وهم يهتفون: «الملوك!»</a></li>
-    <li><a href="novel2_chapters/chapter55.html">الفصل 55: تحرك الوحش</a></li>
-    <li><a href="novel2_chapters/chapter56.html">الفصل 56: العقل الأقوى</a></li>
-    <li><a href="novel2_chapters/chapter57.html">الفصل 57: قسم التعليقات لدينا هو الأفضل</a></li>
-    <li><a href="novel2_chapters/chapter58.html">الفصل 58: دون أن يدري، هل أصبح بهذه القوة؟</a></li>
-    <li><a href="novel2_chapters/chapter59.html">الفصل 59: انصرف عند نهاية الشوط الأول</a></li>
-    <li><a href="novel2_chapters/chapter60.html">الفصل 60: ما هذا بحق الجحيم؟ هل أطلق العنان مرة أخرى؟</a></li>
-    <li><a href="novel2_chapters/chapter61.html">الفصل 61: أقصى الجميع!</a></li>
-    <li><a href="novel2_chapters/chapter62.html">الفصل 62: تحليل الشخصية</a></li>
-    <li><a href="novel2_chapters/chapter63.html">الفصل 63: كيف ارتكبت مثل هذا الخطأ المبتدئ؟</a></li>
-    <li><a href="novel2_chapters/chapter64.html">الفصل 64: تقرير كشافة راكوزان</a></li>
-    <li><a href="novel2_chapters/chapter65.html">الفصل 65: الحياة اليومية لجيل المعجزات</a></li>
-    <li><a href="novel2_chapters/chapter66.html">الفصل 66: بدء البطولة الوطنية</a></li>
-    <li><a href="novel2_chapters/chapter67.html">الفصل 67: ألم يقرأ أيٌّ من هؤلاء الأوغاد التقرير؟</a></li>
-    <li><a href="novel2_chapters/chapter68.html">الفصل 68: القوة النارية الكاملة</a></li>
-    <li><a href="novel2_chapters/chapter69.html">الفصل 69: ماذا ستفعل إذا استطاع جوردان التمرير؟</a></li>
-    <li><a href="novel2_chapters/chapter70.html">الفصل 70: يا لها من أناقة</a></li>
-  </ul>
+تيندو كاجيوشي:"لنباشر بهدف صغير أولًا تحويل كوروكو نو باسكت إلى تيندو نو باسكت!"
+  </section>
+  <!-- بداية واجهة الإيموجي التفاعلي (5 إيموجي) -->
+<div id="emoji-feedback"
+     style="display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:1.5rem;
+            margin-top:1.5rem;">
+  <lottie-player
+    id="enjoy"
+    src="animations/enjoy.json"
+    background="transparent"
+    speed="1"
+    style="width:100px; height:100px; cursor:pointer;"
+    loop
+    autoplay>
+  </lottie-player>
+</div>
+<!-- نهاية واجهة الإيموجي التفاعلي -->
+  <!-- Filter Bar -->
+  <div class="filter-bar" id="filter-bar" data-aos="fade-up">
+  <!-- حذفنا زرّ الكل -->
+  <button class="active" data-filter="arc1">القوس الأول</button>
+  <button data-filter="arc2">القوس الثاني</button>
+  <button data-filter="arc3">القوس الثالث</button>
+  <button data-filter="arc4">القوس الرابع</button>
+  </div>
+  <!-- Chapters Grid -->
+<section class="chapters" id="chapters" data-aos="fade-up">
+  <!-- بداية القوس الأول arc1: الفصول 1-70 -->
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter1.html">الفصل 1: اللعنة على لعب كرة السلة!</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter2.html">الفصل 2: ماذا أعطيتني؟</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter3.html">الفصل 3: شبابي ثمين كالبراءة</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter4.html">الفصل 4: اليوم الأول في المدرسة</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter5.html">الفصل 5: أنا الأقوى</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter6.html">الفصل 6: اختبار القبول</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter7.html">الفصل 7: اتضح أنه مقلّد</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter8.html">الفصل 8: هل قرأت عنوان هذا الأنمي خطأً؟</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter9.html">الفصل 9: ممل؛ أغلِقه الآن</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter10.html">الفصل 10: لا تلتفت إلى نسبة التسديد؛ فهي مذهلة</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter11.html">الفصل 11: انطلاق بث الحلقة الأولى</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter12.html">الفصل 12: عرض الحلقة الأولى</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter13.html">الفصل 13: ما زالت الحلقة الأولى تُعرض</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter14.html">الفصل 14: فتاة هابطة من السماء!</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter15.html">الفصل 15: الحياة بحد ذاتها أفضل سيناريو</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter16.html">الفصل 16: الحياة اليومية لتيكو</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter17.html">الفصل 17: تبًا لذكائك العاطفي!</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter18.html">الفصل 18: المبادر</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter19.html">الفصل 19: مباراة تدريبية</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter20.html">الفصل 20: كرة السلة من المستقبل</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter21.html">الفصل 21: العباقرة يتجاوزون المنطق</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter22.html">الفصل 22: كان بإمكانه أن يصبح عارضَ أزياء لو لم يلعب كرة السلة</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter23.html">الفصل 23: أنتم معجبون بي كثيرًا</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter24.html">الفصل 24: إرشاد كوركو</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter25.html">الفصل 25: بث الحلقة الثانية</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter26.html">الفصل 26: جسدٌ فولاذي</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter27.html">الفصل 27: قرعة الأدوار العليا</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter28.html">الفصل 28: بداية مرحلة المجموعات</a></div>
+  </div>
+  <div class="chapter-card parallax arc1" data-aos="zoom-in">
+    <div class="parallax-inner"><a href="novel2_chapters/chapter29.html">الفصل 29: المعركة الأولى</a></div>
+  </div>
+
+
+</section>
+ 
+    </section>
+  <!-- placeholder لعرض Lottie عندما لا توجد فصول -->
+<div id="placeholder" style="display:none; text-align:center; margin:2rem 0;">
+  <lottie-player
+    id="cat-sleep"
+    src="animations/cat-sleep.json"
+    background="transparent"
+    speed="1"
+    style="width:200px; height:200px; margin:0 auto;"
+    loop autoplay>
+  </lottie-player>
+  <p>لا توجد فصول لهذا القوس بعد</p>
+</div>
+  <!-- Characters Section -->
+<section class="characters" id="characters" data-aos="fade-up">
+  <h2>الشخصيات الرئيسية</h2>
+
+  <!-- لوحة توضيحية أنيقة -->
+  <div class="character-caption-box" data-aos="fade-up">
+    <svg viewBox="0 0 16 16" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm.93-11.412-2.29.287A.533.533 0 0 0 6.03 5.17l.287 2.29c.03.24.25.412.5.412h.5v.5a.5.5 0 0 0 1 0v-1.5c0-.276-.224-.5-.5-.5h-1.5a.5.5 0 0 0 0 1h.5l-.287 2.29a.533.533 0 0 0 .287.588.533.533 0 0 0 .588-.287l.287-2.29 2.29-.287a.533.533 0 0 0 .412-.588.533.533 0 0 0-.412-.412l-2.29-.287.287-2.29a.533.533 0 0 0-.412-.588.533.533 0 0 0-.588.412L8.93 4.588Z"/>
+    </svg>
+    <span>
+      هذا الرسم التخيلي للشخصيات من إعداد موقع مجتمع الروايات، باستخدام أدوات فنية آلية تعتمد على الذكاء الاصطناعي.
+      لم يتم استخدام أي صور أصلية من الأنمي أو المانغا، ولم تُستنسخ أي أعمال محفوظة الحقوق. 
+      نحن لا نمتلك حقوق العمل الأصلي ولا ندّعي ملكيته.<br>
+    </span>
+  </div>
+  
+      <div class="character-grid">
+  <!-- بطاقات الشخصيات -->
+  <div class="character-card parallax" data-aos="flip-left">
+    <div class="parallax-inner">
+      <img src="images/char1.jpg" alt="الشخصية 1">
+      <h3>ساتورو</h3>
+      <p></p>
+    </div>
+  </div>
+
+  <div class="character-card parallax" data-aos="flip-left">
+    <div class="parallax-inner">
+      <img src="images/koroko.webp" alt="تيتسويا كوروكو">
+      <h3>تيتسويا كوروكو</h3>
+      <p></p>
+    </div>
+  </div>
+
+  <!-- كيوجورو رينغوكو -->
+  <div class="character-card parallax" data-aos="flip-left">
+    <div class="parallax-inner">
+      <img src="images/taygawebp" alt="تايغا كاغامي">
+      <h3>تايغا كاغامي</h3>
+      <p></p>
+    </div>
+  </div>
+        
+  <!-- تينغين أوزوي -->
+  <div class="character-card parallax" data-aos="flip-left">
+    <div class="parallax-inner">
+      <img src="images/sugoro.webp" alt="سيجورو أكاشي">
+      <h3>سيجورو أكاشي</h3>
+      <p></p>
+    </div>
   </div>
   </div>
+      <!-- إضافة المزيد من بطاقات الشخصيات -->
+    </div>
+  </section>
+  
+  </aside>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha384-k9..." crossorigin="anonymous"></script>
+  <script>
+    /* تفعيل AOS */
+    AOS.init({ duration: 800, once: true });
+    /* Dark Mode Toggle */
+    const toggleBtn = document.getElementById('dark-toggle');
+const moonIcon  = document.getElementById('moon-icon');
+const sunIcon   = document.getElementById('sun-icon');
+
+toggleBtn.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark-mode');
+  document.getElementById('navbar').classList.toggle('dark-mode');
+
+  // بدل تغيير نص الإيموجي، نبدل عرض الأيقونات
+  if (isDark) {
+    moonIcon.style.display = 'none';
+    sunIcon.style.display  = 'block';
+  } else {
+    moonIcon.style.display = 'block';
+    sunIcon.style.display  = 'none';
+  }
+});
+     /* Menu Toggle for Mobile */
+  const menuBtn = document.getElementById('menu-btn');
+  const navLinks = document.getElementById('nav-links');
+  // ← قمنا بإضافة هذا الفحص حتى لو لم يوجد زر menu-btn لا يحدث خطأ:
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+    }
+    </script>
+  
+    <script>
+  /* Chapter Filtering Logic */
+  (function(){
+    const filterButtons = document.querySelectorAll('.filter-bar button');
+    const chapters      = Array.from(document.querySelectorAll('.chapter-card'));
+    const placeholder   = document.getElementById('placeholder');
+
+    function updateVisibility(filter) {
+      chapters.forEach(card => {
+        if (card.classList.contains(filter)) card.classList.remove('hidden');
+        else                                 card.classList.add('hidden');
+      });
+      const anyVisible = chapters.some(c => !c.classList.contains('hidden'));
+      placeholder.style.display = anyVisible ? 'none' : 'block';
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateVisibility(btn.dataset.filter);
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const first = filterButtons[0];
+      first.classList.add('active');
+      updateVisibility(first.dataset.filter);
+    });
+  })();
+</script>
+      <script>
+    /* Trivia Toggle */
+    const triviaItems = document.querySelectorAll('.trivia-item');
+    triviaItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const content = item.querySelector('.trivia-content');
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+   </script>
+    <script>
+    // Emoji Rating Widget Logic
+    (function(){
+      const widget = document.getElementById('rating');
+      if (!widget) return;
+      const fill    = widget.querySelector('.slider-fill');
+      const current = widget.querySelector('.current');
+      const inputs  = widget.querySelectorAll('input');
+      const labels  = widget.querySelectorAll('label');
+
+      function updateRating(val) {
+        const pct = (val - 1) / (inputs.length - 1);
+        widget.style.setProperty('--percent', pct);
+        current.textContent = val;
+      }
+
+      inputs.forEach(radio => {
+        radio.addEventListener('change', e => {
+          labels.forEach(l => l.classList.remove('active'));
+          const lab = widget.querySelector(`label[for="${e.target.id}"]`);
+          lab.classList.add('active');
+          updateRating(+e.target.value);
+          setTimeout(() => lab.classList.remove('active'), 1000);
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const init = widget.querySelector('input:checked');
+        if (init) {
+          const lab = widget.querySelector(`label[for="${init.id}"]`);
+          lab.classList.add('active');
+          updateRating(+init.value);
+          setTimeout(() => lab.classList.remove('active'), 1000);
+        }
+      });
+    })();
+  </script>
+  <!-- سكربت تشغيل/إيقاف الإيموجي عند النقر -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const enjoy = document.getElementById('enjoy');
+    // يشغّل الصورة التلقائية دون نقرة
+    enjoy.play();
+
+    const players = { enjoy };
+    function playOnly(key) {
+      Object.entries(players).forEach(([k,pl]) =>
+        k === key ? pl.play() : pl.stop()
+      );
+    }
+    Object.keys(players).forEach(key =>
+      players[key].addEventListener('click', () => playOnly(key))
+    );
+  });
+  </script>
+
 </body>
-</html>
+    </html>
