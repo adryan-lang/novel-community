@@ -290,7 +290,28 @@ body.dark-mode .character-caption-box {
     <div class="logo"> الرحلة الصامتة </div>
     <ul id="nav-links">
     </ul>
-    <button class="toggle-btn" id="dark-toggle">🌙</button>
+    <button class="toggle-btn" id="dark-toggle">
+  <!-- Lottie icon: moon shown by default -->
+  <lottie-player
+    id="moon-icon"
+    src="animations/moon.json"
+    background="transparent"
+    speed="1"
+    style="width:24px; height:24px; display: block;"
+    loop
+    autoplay>
+  </lottie-player>
+  <!-- Lottie icon: sun hidden by default -->
+  <lottie-player
+    id="sun-icon"
+    src="animations/sun.json"
+    background="transparent"
+    speed="1"
+    style="width:24px; height:24px; display: none;"
+    loop
+    autoplay>
+  </lottie-player>
+    </button>
   </nav>
   <!-- Hero Section -->
   <section class="hero" id="hero">
@@ -463,11 +484,22 @@ body.dark-mode .character-caption-box {
     AOS.init({ duration: 800, once: true });
     /* Dark Mode Toggle */
     const toggleBtn = document.getElementById('dark-toggle');
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      document.getElementById('navbar').classList.toggle('dark-mode');
-      toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    });
+const moonIcon  = document.getElementById('moon-icon');
+const sunIcon   = document.getElementById('sun-icon');
+
+toggleBtn.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark-mode');
+  document.getElementById('navbar').classList.toggle('dark-mode');
+
+  // بدل تغيير نص الإيموجي، نبدل عرض الأيقونات
+  if (isDark) {
+    moonIcon.style.display = 'none';
+    sunIcon.style.display  = 'block';
+  } else {
+    moonIcon.style.display = 'block';
+    sunIcon.style.display  = 'none';
+  }
+});
      /* Menu Toggle for Mobile */
   const menuBtn = document.getElementById('menu-btn');
   const navLinks = document.getElementById('nav-links');
