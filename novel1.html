@@ -316,15 +316,27 @@ body.dark-mode .character-caption-box {
   </section>
   <!-- بداية واجهة الإيموجي التفاعلي (5 إيموجي) -->
 <div id="emoji-feedback" style="…">
-  <lottie-player
-    id="enjoy"
-    src="animations/enjoy.json"
-    background="transparent"
-    speed="1"
-    style="width:100px; height:100px; cursor:pointer;"
-    loop
-    autoplay>
-  </lottie-player>
+<lottie-player
+  id="enjoy"
+  src="animations/enjoy.json"
+  background="transparent"
+  speed="1"
+  style="
+    width:100px;
+    height:100px;
+    cursor:pointer;
+
+    /* تحريك أفقي */
+    margin-left: -30px;  /* قيمة سالبة → تحرك 30px يساراً
+                            قيمة موجبة → تحرك يميناً */
+
+    /* تحريك عمودي */
+    margin-top: 20px;    /* قيمة موجبة → تحرك 20px إلى الأسفل
+                            قيمة سالبة → تحرك إلى الأعلى */
+  "
+  loop
+  autoplay>
+</lottie-player>
 </div>
 <!-- نهاية واجهة الإيموجي التفاعلي -->
   <!-- Filter Bar -->
