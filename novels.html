@@ -182,19 +182,25 @@
       <i class="fa fa-search"></i>
     </div>
     <div class="icons">
-      <button class="toggle-btn" id="theme-toggle">
-        <lottie-player id="moon-icon" src="animations/moon.json"
-                       background="transparent" speed="1"
-                       style="width:32px; height:32px; display:block;"
-                       loop autoplay>
-        </lottie-player>
-        <lottie-player id="sun-icon" src="animations/sun.json"
-                       background="transparent" speed="1"
-                       style="width:32px; height:32px; display:none;"
-                       loop autoplay>
-        </lottie-player>
-      </button>
-      <button onclick="toggleSidebar()">☰</button>
+      <button class="toggle-btn" id="theme-toggle" onclick="toggleTheme()">
+  <lottie-player
+    id="moon-icon"
+    src="animations/moon.json"
+    background="transparent"
+    speed="1"
+    style="width:32px; height:32px; display:block;"
+    loop autoplay>
+  </lottie-player>
+  <lottie-player
+    id="sun-icon"
+    src="animations/sun.json"
+    background="transparent"
+    speed="1"
+    style="width:32px; height:32px; display:none;"
+    loop autoplay>
+  </lottie-player>
+</button>
+<button onclick="toggleSidebar()">☰</button>
     </div>
   </div>
 
