@@ -479,24 +479,39 @@ body.dark-mode .character-caption-box {
     }
     /* Chapter Filtering Logic */
 const filterButtons = document.querySelectorAll('.filter-bar button');
-const chapters      = document.querySelectorAll('.chapter-card');
+const chapters      = Array.from(document.querySelectorAll('.chapter-card'));
 const placeholder   = document.getElementById('placeholder');
 
+// دالة لتحديث العرض بناءً على القوس المختار
+function updateVisibility(filter) {
+  chapters.forEach(card => {
+    if (card.classList.contains(filter)) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  // إظهار placeholder إن لم يبقَ أي فصل ظاهر
+  const anyVisible = chapters.some(c => !c.classList.contains('hidden'));
+  placeholder.style.display = anyVisible ? 'none' : 'block';
+}
+
+// ربط الأزرار بالدالة
 filterButtons.forEach(btn => {
   btn.addEventListener('click', () => {
-    // تنشيط الزر المحدد
     filterButtons.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    updateVisibility(btn.dataset.filter);
+  });
+});
 
-    const filter = btn.dataset.filter;
-    // فلترة البطاقات
-    chapters.forEach(card => {
-      if (filter === 'all' || card.classList.contains(filter)) {
-        card.classList.remove('hidden');
-      } else {
-        card.classList.add('hidden');
-      }
-    });
+// عند التحميل: شغّل فلترة القوس الأول تلقائياً
+document.addEventListener('DOMContentLoaded', () => {
+  // افترضنا أن أول زر هو القوس الأول
+  const firstFilter = filterButtons[0].dataset.filter;
+  filterButtons[0].classList.add('active');
+  updateVisibility(firstFilter);
+});
 
     // إذا لم تظهر أي بطاقة، أظهر placeholder وإلّا أخفِه
     const anyVisible = Array.from(chapters).some(c => !c.classList.contains('hidden'));
