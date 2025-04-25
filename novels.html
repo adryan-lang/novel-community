@@ -127,16 +127,26 @@
       padding: 20px;
     }
     .novel-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      text-decoration: none;
-      color: #000;
-      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  background: #fff;
+  border-radius: 10px;
+  /* ... بقية خصائص البطاقة ... */
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  position: relative;    /* ← أضِف هذا */
+}
+
+/* ← أضِف كامل هذا الكود تحت تعاريف .novel-card */
+.sale-ribbon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 10;
+}
+.sale-ribbon lottie-player {
+  width: 100%;
+  height: 100%;
     }
     body.dark .novel-card {
       background: #1e1e1e;
