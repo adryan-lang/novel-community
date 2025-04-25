@@ -169,9 +169,29 @@
       <i class="fa fa-search"></i>
     </div>
     <div class="icons">
-      <button onclick="toggleTheme()" id="theme-toggle">🌙</button>
-      <button onclick="toggleSidebar()">☰</button>
-    </div>
+  <!-- زر التبديل الليلي/نهاري باستخدام Lottie -->
+  <button class="toggle-btn" id="theme-toggle">
+    <!-- أيقونة القمر (تظهر أولاً في النهار) -->
+    <lottie-player
+      id="moon-icon"
+      src="animations/moon.json"
+      background="transparent"
+      speed="1"
+      style="width:32px; height:32px; display: block;"
+      loop autoplay>
+    </lottie-player>
+    <!-- أيقونة الشمس (مخفية أولاً) -->
+    <lottie-player
+      id="sun-icon"
+      src="animations/sun.json"
+      background="transparent"
+      speed="1"
+      style="width:32px; height:32px; display: none;"
+      loop autoplay>
+    </lottie-player>
+  </button>
+  <button onclick="toggleSidebar()">☰</button>
+      </div>
   </div>
 
   <!-- قائمة جانبية -->
@@ -240,25 +260,43 @@
       </div>
 
 <script>
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('active');
+  function toggleTheme() {
+  const body = document.body;
+  const isDark = body.classList.toggle('dark');
+  // بدل صنف body.dark استخدم صنف dark-mode إذا كنت تريد التوافق مع الكود الآخر
+  // هنا نستخدم 'dark' كما في كودك الأصلي
+  const moonIcon = document.getElementById('moon-icon');
+  const sunIcon  = document.getElementById('sun-icon');
+
+  if (isDark) {
+    moonIcon.style.display = 'none';
+    sunIcon.style.display  = 'block';
+  } else {
+    moonIcon.style.display = 'block';
+    sunIcon.style.display  = 'none';
   }
 
-  function toggleTheme() {
-    const body = document.body;
-    const themeToggle = document.getElementById('theme-toggle');
-    body.classList.toggle('dark');
-    const darkMode = body.classList.contains('dark');
-    themeToggle.textContent = darkMode ? '☀️' : '🌙';
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }
 
   window.onload = function () {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      document.body.classList.add('dark');
-      document.getElementById('theme-toggle').textContent = '☀️';
-    }
+  const savedTheme = localStorage.getItem('theme');
+  const body = document.body;
+  const moonIcon = document.getElementById('moon-icon');
+  const sunIcon  = document.getElementById('sun-icon');
+
+  if (savedTheme === 'dark') {
+    body.classList.add('dark');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display  = 'block';
+  } else {
+    body.classList.remove('dark');
+    moonIcon.style.display = 'block';
+    sunIcon.style.display  = 'none';
+  }
+
+  // الباقي: تهيئة الفلترة والبحث والقائمة الجانبية...
+};
 
     const links = document.querySelectorAll('.sidebar a[data-filter]');
     const novels = document.querySelectorAll('.novel-card');
