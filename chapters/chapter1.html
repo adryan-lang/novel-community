@@ -12,17 +12,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
   <style>
     :root {
-      --bg-color: #f9fafb;
-      --text-color: #1f2937;
-      --font-size: 18px;
-    }
-    body {
-      font-family: 'Cairo', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-size: var(--font-size);
-      transition: background 0.3s, color 0.3s, font-size 0.3s;
-    }
+  --bg-color:   #f9fafb;
+  --text-color: #1f2937;
+  --font-size:  18px;
+  --font-family: 'Cairo', sans-serif; /* القيمة الافتراضية */
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color:            var(--text-color);
+  font-size:        var(--font-size);
+  transition: background 0.3s, color 0.3s, font-size 0.3s, font-family 0.3s;
+  }
     /* بعد: تنسيقات Lottie */
     .lottie-icon {
       width: 32px;
