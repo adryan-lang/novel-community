@@ -2,145 +2,171 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>قراءة الفصل – الفصل الأول</title>  <!-- Tailwind CSS -->  <script src="https://cdn.tailwindcss.com"></script>  <!-- خط عربي جميل -->  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>  <style>
+  <title>قراءة الفصل – الفصل الأول</title>  <!-- Tailwind CSS -->  <script src="https://cdn.tailwindcss.com"></script>  <!-- Font Awesome للآيقونات -->  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- خط عربي -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet" />  <style>
     :root {
-      --bg-color: #f9fafb;
+      --bg-color: #ffffff;
       --text-color: #1f2937;
       --font-size: 18px;
       --line-height: 1.6;
+      --font-family: 'Cairo', sans-serif;
     }
     body {
-      font-family: 'Cairo', sans-serif;
+      font-family: var(--font-family);
       background-color: var(--bg-color);
       color: var(--text-color);
       font-size: var(--font-size);
       line-height: var(--line-height);
-      transition: background 0.3s, color 0.3s, font-size 0.3s, line-height 0.3s;
+      transition: background 0.3s, color 0.3s, font-size 0.3s, line-height 0.3s, font-family 0.3s;
     }
-    .no-select { user-select: none; -webkit-user-select: none; }
-    #progress { position: fixed; top:0; left:0; height:4px; background: linear-gradient(to right,#6366f1,#ec4899); width:0; z-index:50; }
-    #toTop { @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white hidden hover:scale-110 transition; }
-    /* إعدادات القارئ */
-    #reader-settings { @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden; z-index:50; }
-    #reader-settings .modal { @apply bg-white rounded-lg w-11/12 max-w-md; }
-    #reader-settings .header { @apply flex justify-between items-center p-4 border-b; }
-    #reader-settings .body { @apply p-4; }
-    #reader-settings .body .section + .section { @apply mt-4; }
-    #reader-settings .footer { @apply text-right p-4 border-t; }
-    .pill { @apply inline-block px-4 py-1 rounded-full cursor-pointer border; }
-    .pill.selected { @apply bg-indigo-500 text-white border-indigo-500; }
-    select { @apply w-full border rounded p-2; }
-    button.apply { @apply bg-blue-500 text-white px-4 py-2 rounded; }
+    /* منع النسخ والـ F12 */
+    body.no-select {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    /* شريط التقدم */
+    #progress { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(to right, #6366f1, #ec4899); width: 0; z-index: 50; }
+    /* زر العودة للأعلى */
+    #toTop { @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white hidden; }
+    /* زر الإعدادات */
+    #open-settings { @apply fixed top-4 left-4 p-3 bg-gray-100 rounded-full shadow-lg text-gray-600; }
+    /* المودال */
+    #reader-settings { @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50; }
+    #reader-settings .modal { @apply bg-white rounded-xl shadow-xl w-11/12 max-w-lg p-6 space-y-4; }
+    #reader-settings .modal header { @apply flex justify-between items-center; }
+    #reader-settings .modal header h2 { @apply text-xl font-semibold; }
+    #reader-settings .pill { @apply inline-block px-3 py-1 border border-gray-300 rounded-full cursor-pointer text-sm; }
+    #reader-settings .pill.selected { @apply bg-indigo-500 text-white border-indigo-500; }
+    #reader-settings label { @apply block mb-1 text-sm font-medium; }
+    #reader-settings select { @apply w-full border rounded-md p-2 mb-4; }
+    #reader-settings .controls { @apply flex gap-2 justify-center; }
+    #reader-settings .controls button { @apply px-3 py-1 border rounded-md text-sm; }
+    /* محتوى الفصل */
+    .chapter-content { @apply whitespace-pre-wrap break-words max-w-3xl mx-auto px-4 py-12; }
   </style></head>
-<body class="no-select relative overflow-x-hidden">  <!-- شريط التقدم والعودة -->  <div id="progress"></div>
-  <button id="toTop"><i class="fas fa-arrow-up"></i></button>  <!-- زر الإعدادات --><button id="open-settings" class="fixed top-4 left-4 p-2 bg-gray-200 rounded-full shadow"><i class="fas fa-cog"></i></button>
+<body class="no-select">  <!-- شريط التقدم وزر العودة للأعلى -->  <div id="progress"></div>
+  <button id="toTop"><i class="fas fa-arrow-up"></i></button>  <!-- زر فتح الإعدادات --><button id="open-settings"><i class="fas fa-cog"></i></button>
 
   <!-- مودال الإعدادات -->  <div id="reader-settings">
     <div class="modal">
-      <div class="header">
-        <h2 class="text-lg font-bold">إعدادات القارئ</h2>
+      <header>
+        <h2>إعدادات القارئ</h2>
         <button id="close-settings"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="body">
-        <!-- ثيم الألوان -->
-        <div class="section">
-          <div class="flex flex-wrap gap-2">
-            <span data-theme="default" class="pill selected">عادي</span>
-            <span data-theme="black" class="pill">أسود</span>
-            <span data-theme="brown" class="pill">بني</span>
-            <span data-theme="blue" class="pill">أزرق</span>
-            <span data-theme="green" class="pill">أخضر</span>
-            <span data-theme="pink" class="pill">زهري</span>
-            <span data-theme="purple" class="pill">أرجواني</span>
-          </div>
-        </div>
-        <!-- نوع الخط -->
-        <div class="section">
-          <label class="block mb-1">نوع الخط</label>
-          <select id="font-family-select">
-            <option value="Cairo">خط كايرو</option>
-            <option value="Tajawal">خط تاجوال</option>
-          </select>
-        </div>
-        <!-- حجم الخط -->
-        <div class="section">
-          <label class="block mb-1">حجم الخط</label>
-          <select id="font-size-select">
-            <option value="16px">صغير</option>
-            <option value="18px" selected>متوسط</option>
-            <option value="22px">كبير</option>
-          </select>
-        </div>
-        <!-- ارتفاع السطور -->
-        <div class="section">
-          <label class="block mb-1">ارتفاع السطور</label>
-          <select id="line-height-select">
-            <option value="1.4">عادي</option>
-            <option value="1.6" selected>مرتفع</option>
-            <option value="1.8">مرتفع جدًا</option>
-          </select>
-        </div>
-        <!-- لون الخط -->
-        <div class="section">
-          <label class="block mb-1">درجة لون الخط</label>
-          <select id="font-color-select">
-            <option value="normal">عادي</option>
-            <option value="bright">مرتفعة</option>
-          </select>
-        </div>
-        <!-- تنسيق النص -->
-        <div class="section flex gap-2 justify-center">
-          <button id="bold-btn" class="px-2 py-1 border">B</button>
-          <button data-align="left" class="px-2 py-1 border"><i class="fas fa-align-left"></i></button>
-          <button data-align="center" class="px-2 py-1 border"><i class="fas fa-align-center"></i></button>
-          <button data-align="right" class="px-2 py-1 border"><i class="fas fa-align-right"></i></button>
+      </header>
+      <!-- ثيم الألوان -->
+      <div>
+        <div class="flex flex-wrap gap-2">
+          <span data-theme="#ffffff" class="pill selected">عادي</span>
+          <span data-theme="#000000" class="pill">أسود</span>
+          <span data-theme="#f5f3f1" class="pill">بني</span>
+          <span data-theme="#e0f2fe" class="pill">أزرق</span>
+          <span data-theme="#ecfdf5" class="pill">أخضر</span>
+          <span data-theme="#fce7f3" class="pill">زهري</span>
+          <span data-theme="#f3e8ff" class="pill">أرجواني</span>
         </div>
       </div>
-      <div class="footer">
-        <button id="apply-settings" class="apply">تطبيق</button>
+      <!-- نوع الخط -->
+      <div>
+        <label for="font-select">نوع الخط</label>
+        <select id="font-select">
+          <option value="Cairo">كايرو</option>
+          <option value="Tajawal">تاجوال</option>
+        </select>
+      </div>
+      <!-- حجم الخط -->
+      <div>
+        <label for="font-size-select">حجم الخط</label>
+        <select id="font-size-select">
+          <option value="16px">صغير</option>
+          <option value="18px" selected>متوسط</option>
+          <option value="22px">كبير</option>
+        </select>
+      </div>
+      <!-- ارتفاع السطور -->
+      <div>
+        <label for="line-height-select">ارتفاع السطور</label>
+        <select id="line-height-select">
+          <option value="1.4">عادي</option>
+          <option value="1.6" selected>مرتفع</option>
+          <option value="1.8">مرتفع جدًا</option>
+        </select>
+      </div>
+      <!-- لون الخط -->
+      <div>
+        <label for="text-color-select">درجة لون الخط</label>
+        <select id="text-color-select">
+          <option value="#1f2937" selected>عادي</option>
+          <option value="#000000">مرتفعة</option>
+        </select>
+      </div>
+      <!-- تنسيق النص والمحاذاة -->
+      <div class="controls">
+        <button id="bold-btn">B</button>
+        <button data-align="left"><i class="fas fa-align-left"></i></button>
+        <button data-align="center"><i class="fas fa-align-center"></i></button>
+        <button data-align="right"><i class="fas fa-align-right"></i></button>
       </div>
     </div>
-  </div>  <!-- المحتوى -->  <div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-center text-4xl font-extrabold mb-6">الفصل الأول</h1>
-    <div id="content" class="whitespace-pre-wrap break-words">
-      <!-- نص الفصل هنا -->
+  </div>  <!-- محتوى الفصل -->  <div class="chapter-content" id="content">
+    <h1 class="text-center text-4xl font-extrabold mb-6">الفصل الأول: عنوان الفصل هنا</h1>
+    <p>نص الفصل يبدأ من هنا...</p>
+    <!-- تفاعلات الإيموجي -->
+    <div class="flex justify-center gap-4 mt-6">
+      <button class="react-btn select-none">👍</button>
+      <button class="react-btn select-none">❤️</button>
+      <button class="react-btn select-none">😆</button>
+      <button class="react-btn select-none">😢</button>
+      <button class="react-btn select-none">😡</button>
     </div>
   </div>  <!-- سكربت الإعدادات والتطبيق -->  <script>
+    // المودال
     const modal = document.getElementById('reader-settings');
     document.getElementById('open-settings').onclick = () => modal.classList.remove('hidden');
     document.getElementById('close-settings').onclick = () => modal.classList.add('hidden');
-    // اختيار ثيم
+
+    // ثيم
     document.querySelectorAll('.pill').forEach(p => p.onclick = () => {
-      document.querySelectorAll('.pill').forEach(x=>x.classList.remove('selected'));
+      document.querySelectorAll('.pill').forEach(x => x.classList.remove('selected'));
       p.classList.add('selected');
-      document.documentElement.style.setProperty('--bg-color', p.dataset.theme==='default'? '#f9fafb': p.dataset.theme);
+      document.documentElement.style.setProperty('--bg-color', p.dataset.theme);
     });
-    // تطبيق الإعدادات الأخرى
-    document.getElementById('apply-settings').onclick = () => {
-      document.documentElement.style.setProperty('--font-family',
-        document.getElementById('font-family-select').value);
-      document.documentElement.style.setProperty('--font-size',
-        document.getElementById('font-size-select').value);
-      document.documentElement.style.setProperty('--line-height',
-        document.getElementById('line-height-select').value);
-      // لون الخط
-      const fc = document.getElementById('font-color-select').value;
-      document.documentElement.style.setProperty('--text-color', fc==='bright'? '#000': '#1f2937');
-      // تنسيق النص الأساسي
+
+    // نوع الخط
+    document.getElementById('font-select').onchange = e =>
+      document.documentElement.style.setProperty('--font-family', e.target.value);
+    // حجم الخط
+    document.getElementById('font-size-select').onchange = e =>
+      document.documentElement.style.setProperty('--font-size', e.target.value);
+    // ارتفاع السطور
+    document.getElementById('line-height-select').onchange = e =>
+      document.documentElement.style.setProperty('--line-height', e.target.value);
+    // لون الخط
+    document.getElementById('text-color-select').onchange = e =>
+      document.documentElement.style.setProperty('--text-color', e.target.value);
+    // تنسيق النص والمحاذاة
+    document.getElementById('bold-btn').onclick = () => {
       const content = document.getElementById('content');
-      content.style.fontWeight = document.getElementById('bold-btn').classList.toggle('font-bold')? 'bold':'normal';
-      content.style.textAlign = document.querySelector('[data-align].font-bold, [data-align]')?.dataset.align || 'right';
-      modal.classList.add('hidden');
+      content.classList.toggle('font-bold');
     };
+    document.querySelectorAll('[data-align]').forEach(btn => btn.onclick = () => {
+      document.getElementById('content').style.textAlign = btn.dataset.align;
+    });
+
+    // شريط التقدم وزر العودة للأعلى
+    window.addEventListener('scroll', () => {
+      const prog = document.getElementById('progress');
+      const h = document.documentElement;
+      prog.style.width = (window.scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
+      document.getElementById('toTop').classList.toggle('hidden', window.scrollY < 300);
+    });
+    document.getElementById('toTop').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
     // منع النسخ وF12
-    document.addEventListener('copy',e=>e.preventDefault());
-    document.addEventListener('contextmenu',e=>e.preventDefault());
-    document.addEventListener('keydown',e=>{ if((e.ctrlKey&&['c','u','s'].includes(e.key))||e.key==='F12')e.preventDefault();});
-    // شريط التقدم والعودة للأعلى
-    window.addEventListener('scroll',()=>{
-      const h=document.documentElement, prog=document.getElementById('progress');
-      prog.style.width = (window.scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';
-      document.getElementById('toTop').classList.toggle('hidden',window.scrollY<300);
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey && ['c', 'u', 's'].includes(e.key.toLowerCase())) || e.key === 'F12') e.preventDefault();
     });
   </script></body>
-              </html>
+                                    </html>
