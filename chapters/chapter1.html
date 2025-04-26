@@ -1,86 +1,37 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>قراءة الفصل – الفصل الأول</title>
+  <title>قراءة الفصل – الفصل الأول</title>  <!-- Tailwind CSS -->  <script src="https://cdn.tailwindcss.com"></script>  <!-- خط عربي فخم -->  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>  <style>
+    :root {
+      --bg-color: #f9fafb;
+      --text-color: #1f2937;
+      --font-size: 18px;
+    }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-size: var(--font-size);
+      transition: background 0.3s, color 0.3s, font-size 0.3s;
+    }
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- خط عربي فخم -->
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
-<style>
-  :root {
-    --bg-color: #f9fafb;
-    --text-color: #1f2937;
-    --font-size: 18px;
-  }
-  body {
-    font-family: 'Cairo', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: var(--font-size);
-    transition: background 0.3s, color 0.3s, font-size 0.3s;
-  }
+    /* إطار بسيط وأنيق */
+    .frame {
+      padding: 2rem;
+      border-radius: 1.25rem;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+    }
 
-  /* إطار بسيط وأنيق */
-- .frame {
--   padding: 2rem;
--   border-radius: 1.25rem;
--   background-color: #ffffff !important;
--   color: #1f2937 !important;
--   box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-- }
-+ .frame {
-+   padding: 2rem;
-+   border-radius: 1.25rem;
-+   background-color: var(--bg-color);
-+   color: var(--text-color);
-+   box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-+ }
-
-  .divider {
-    height: 1px;
-    background-image: linear-gradient(to right, transparent, #d1d5db, transparent);
-    margin: 2rem 0;
-  }
-
-  @keyframes textGradient {
-    0% { background-position: 0% 50% }
-    100% { background-position: 100% 50% }
-  }
-  .animate-gradient {
-    background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: textGradient 6s ease infinite;
-  }
-
-  #toTop {
-    @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
-  }
-
-  #progress {
-    position: fixed; top:0; left:0; height:4px;
-    background: linear-gradient(to right, #6366f1, #ec4899);
-    width:0; z-index:50;
-  }
-
-  .no-select {
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-    /* فواصل إسلامية */
     .divider {
       height: 1px;
       background-image: linear-gradient(to right, transparent, #d1d5db, transparent);
       margin: 2rem 0;
     }
 
-    /* تدرّج نصي متحرّك للعنوان */
     @keyframes textGradient {
       0% { background-position: 0% 50% }
       100% { background-position: 100% 50% }
@@ -93,80 +44,70 @@
       animation: textGradient 6s ease infinite;
     }
 
-    /* زر العودة للأعلى */
     #toTop {
       @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
     }
 
-    /* شريط التقدم */
     #progress {
       position: fixed; top:0; left:0; height:4px;
       background: linear-gradient(to right, #6366f1, #ec4899);
       width:0; z-index:50;
     }
 
-    /* منع النسخ */
     .no-select {
       user-select: none;
       -webkit-user-select: none;
     }
+
+    /* بعد: تنسيقات Lottie */
+    .lottie-icon {
+      width: 32px;
+      height: 32px;
+    }
+  </style></head>
+<body class="relative overflow-x-hidden">  <!-- شريط التقدم -->  <div id="progress"></div>  <!-- الصندوق الرئيسي معدل ليملأ الشاشة ويتيح تمرير داخلي -->  <div class="max-w-full max-h-screen mx-auto px-4 py-12 overflow-y-auto"><!-- العنوان -->
+<h1 class="text-center text-4xl font-extrabold mb-6 animate-gradient" style="font-family: 'Cairo', sans-serif;">
+  الفصل الأول: عنوان الفصل هنا
+</h1>
+<div class="divider"></div>
+
+<!-- أدوات التحكم -->
+<div class="flex flex-wrap justify-center gap-3 mb-8">
+  <button onclick="setFontSize('16px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+    صغير
+  </button>
+  <button onclick="setFontSize('18px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+    متوسط
+  </button>
+  <button onclick="setFontSize('22px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+    كبير
+  </button>
+  <button onclick="setTheme('light')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+    نهار
+  </button>
+  <button onclick="setTheme('dark')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+    ليلي
+  </button>
+</div>
+
+<!-- إطار المحتوى -->
+<div id="content" class="frame chapter-content no-select whitespace-pre-wrap break-words">
+  الفصل الأول
+
+  [من وجهة نظر البطل]
+
+  أنا في ورطة.
   
-/* بعد: تنسيقات Lottie */
-.lottie-icon {
-  width: 32px;
-  height: 32px;
-  }
-  </style>
-</head>
-<body class="relative overflow-x-hidden">
+  أنا في ورطة حقيقية.
 
-  <!-- شريط التقدم -->
-  <div id="progress"></div>
+  "أنا في ورطة حقيقية."
 
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <!-- العنوان -->
-    <h1 class="text-center text-4xl font-extrabold mb-6 animate-gradient" style="font-family: 'Cairo', sans-serif;">
-      الفصل الأول: عنوان الفصل هنا
-    </h1>
-    <div class="divider"></div>
+</div>
 
-    <!-- أدوات التحكم -->
-    <div class="flex flex-wrap justify-center gap-3 mb-8">
-      <button onclick="setFontSize('16px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        صغير
-      </button>
-      <button onclick="setFontSize('18px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        متوسط
-      </button>
-      <button onclick="setFontSize('22px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        كبير
-      </button>
-      <button onclick="setTheme('light')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        نهار
-      </button>
-      <button onclick="setTheme('dark')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        ليلي
-      </button>
-    </div>
+<div class="divider"></div>
 
-    <!-- إطار المحتوى -->
-    <div id="content" class="frame chapter-content no-select whitespace-pre-wrap break-words">
-الفصل الأول
-
-[من وجهة نظر البطل]
-
-أنا في ورطة.
-
-أنا في ورطة حقيقية.
-
-"أنا في ورطة حقيقية."
-
- </p>
-    </div>
-
-    <div class="divider"></div>
-    <!-- تفاعلات الإيموجي -->
- <div class="flex justify-center gap-4 mt-6">
+<!-- تفاعلات الإيموجي: أضفنا flex-wrap لالتفاف ذكي بدل التمرير الأفقي -->
+<div class="flex flex-wrap justify-center gap-4 mt-6">
   <!-- زر Like -->
   <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">
     <div id="like-lottie" class="lottie-icon"></div>
@@ -196,20 +137,16 @@
     <div id="angry-lottie" class="lottie-icon"></div>
     <span class="count">0</span>
   </button>
-    </div>
+</div>
 
-  <!-- سكربت المنع -->
-  <script>
+  </div> <!-- نهاية الصندوق الرئيسي -->  <!-- سكربت المنع -->  <script>
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
       if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12')
         e.preventDefault();
     });
-  </script>
-
-  <!-- سكربت الوظائف -->
-  <script>
+  </script>  <!-- سكربت الوظائف -->  <script>
     function setFontSize(size) {
       document.documentElement.style.setProperty('--font-size', size);
       localStorage.setItem('fontSize', size);
@@ -237,36 +174,29 @@
       });
       btn.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
     });
-  </script>
-<script>
-window.addEventListener('DOMContentLoaded', () => {
-  const reactions = ['like', 'love', 'haha', 'sad', 'angry'];
+  </script>  <!-- تهيئة Lottie -->  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const reactions = ['like', 'love', 'haha', 'sad', 'angry'];
 
-  reactions.forEach(type => {
-    const container = document.getElementById(`${type}-lottie`);
-    const anim = lottie.loadAnimation({
-      container,
-      renderer: 'svg',
-      loop: false,
-      autoplay: false,
-      // ← هذا هو التعديل الحصري: استخدم مجلد "chapters"
-      path: `/animations/${type}.json`
+      reactions.forEach(type => {
+        const container = document.getElementById(`${type}-lottie`);
+        const anim = lottie.loadAnimation({
+          container,
+          renderer: 'svg',
+          loop: false,
+          autoplay: false,
+          path: `/animations/${type}.json`
+        });
+
+        container.addEventListener('mouseenter', () => anim.play());
+        container.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
+
+        container.parentElement.addEventListener('click', () => {
+          anim.play();
+          const span = container.parentElement.querySelector('.count');
+          span.textContent = parseInt(span.textContent) + 1;
+        });
+      });
     });
-
-    // تشغيل عند المرور بالماوس
-    container.addEventListener('mouseenter', () => anim.play());
-    container.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
-
-    // تحديث العداد وتشغيل الأنيميشن عند النقر
-    container.parentElement.addEventListener('click', () => {
-      anim.play();
-      const span = container.parentElement.querySelector('.count');
-      span.textContent = parseInt(span.textContent) + 1;
-    });
-  });
-});
-</script>
-  <!-- plugin.js الأصلي -->
-  <script src="../js/plugin.js"></script>
-</body>
+  </script>  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
   </html>
