@@ -1,324 +1,134 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>قراءة الفصل – الفصل الأول</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- خط عربي فخم -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-
-<style>
-  :root {
-    --bg-color: #f9fafb;
-    --text-color: #1f2937;
-    --font-size: 18px;
-  }
-  body {
-    font-family: 'Cairo', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: var(--font-size);
-    transition: background 0.3s, color 0.3s, font-size 0.3s;
-  }
-
-  /* إطار بسيط وأنيق */
-- .frame {
--   padding: 2rem;
--   border-radius: 1.25rem;
--   background-color: #ffffff !important;
--   color: #1f2937 !important;
--   box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-- }
-+ .frame {
-+   padding: 2rem;
-+   border-radius: 1.25rem;
-+   background-color: var(--bg-color);
-+   color: var(--text-color);
-+   box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-+ }
-
-  .divider {
-    height: 1px;
-    background-image: linear-gradient(to right, transparent, #d1d5db, transparent);
-    margin: 2rem 0;
-  }
-
-  @keyframes textGradient {
-    0% { background-position: 0% 50% }
-    100% { background-position: 100% 50% }
-  }
-  .animate-gradient {
-    background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: textGradient 6s ease infinite;
-  }
-
-  #toTop {
-    @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
-  }
-
-  #progress {
-    position: fixed; top:0; left:0; height:4px;
-    background: linear-gradient(to right, #6366f1, #ec4899);
-    width:0; z-index:50;
-  }
-
-  .no-select {
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-    /* فواصل إسلامية */
-    .divider {
-      height: 1px;
-      background-image: linear-gradient(to right, transparent, #d1d5db, transparent);
-      margin: 2rem 0;
+  <title>قراءة الفصل – الفصل الأول</title>  <!-- Tailwind CSS -->  <script src="https://cdn.tailwindcss.com"></script>  <!-- خط عربي فخم -->  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>  <style>
+    :root {
+      --bg-color: #f9fafb;
+      --text-color: #1f2937;
+      --font-size: 18px;
+      --line-height: 1.6;
+      --font-weight: normal;
     }
-
-    /* تدرّج نصي متحرّك للعنوان */
-    @keyframes textGradient {
-      0% { background-position: 0% 50% }
-      100% { background-position: 100% 50% }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-size: var(--font-size);
+      line-height: var(--line-height);
+      font-weight: var(--font-weight);
+      transition: background 0.3s, color 0.3s, font-size 0.3s, line-height 0.3s;
     }
-    .animate-gradient {
-      background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: textGradient 6s ease infinite;
-    }
-
-    /* زر العودة للأعلى */
-    #toTop {
-      @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
-    }
-
-    /* شريط التقدم */
-    #progress {
-      position: fixed; top:0; left:0; height:4px;
-      background: linear-gradient(to right, #6366f1, #ec4899);
-      width:0; z-index:50;
-    }
-
-    /* منع النسخ */
+    /* منع النسخ والتفادي */
     .no-select {
       user-select: none;
       -webkit-user-select: none;
     }
-  </style>
-</head>
-<body class="relative overflow-x-hidden">
-
-  <!-- شريط التقدم -->
-  <div id="progress"></div>
-
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <!-- العنوان -->
-    <h1 class="text-center text-4xl font-extrabold mb-6 animate-gradient" style="font-family: 'Cairo', sans-serif;">
-      الفصل الأول: عنوان الفصل هنا
-    </h1>
-    <div class="divider"></div>
-
-    <!-- أدوات التحكم -->
-    <div class="flex flex-wrap justify-center gap-3 mb-8">
-      <button onclick="setFontSize('16px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        صغير
-      </button>
-      <button onclick="setFontSize('18px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        متوسط
-      </button>
-      <button onclick="setFontSize('22px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        كبير
-      </button>
-      <button onclick="setTheme('light')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        نهار
-      </button>
-      <button onclick="setTheme('dark')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
-        ليلي
-      </button>
+    /* شريط التقدم */
+    #progress { position: fixed; top:0; left:0; height:4px; background: linear-gradient(to right,#6366f1,#ec4899); width:0; z-index:50; }
+    /* زر العودة للأعلى */
+    #toTop { @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white hidden transform hover:scale-110 transition; }
+    /* إعدادات القارئ - مودال */
+    #reader-settings-modal { @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50; }
+    #reader-settings-content { @apply bg-white rounded-lg w-11/12 max-w-md p-6; }
+  </style></head>
+<body class="relative overflow-x-hidden no-select">  <!-- شريط التقدم -->  <div id="progress"></div>
+  <!-- زر العودة للأعلى -->
+  <button id="toTop"><i class="fas fa-arrow-up"></i></button>  <!-- زر إعدادات القارئ -->  <button id="reader-settings-btn" class="fixed top-4 left-4 z-40 p-2 bg-gray-200 rounded-full shadow">
+    <i class="fas fa-cog"></i>
+  </button>  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal">
+    <div id="reader-settings-content">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">إعدادات القارئ</h2>
+        <button id="close-settings" class="text-gray-500"><i class="fas fa-times"></i></button>
+      </div>
+      <!-- ثيم الألوان -->
+      <div class="flex gap-2 mb-4">
+        <button data-theme="light" class="w-8 h-8 bg-white border rounded"></button>
+        <button data-theme="dark" class="w-8 h-8 bg-black rounded"></button>
+        <button data-theme="#fce4ec" class="w-8 h-8 bg-pink-100 rounded"></button>
+        <button data-theme="#eef2ff" class="w-8 h-8 bg-indigo-50 rounded"></button>
+        <button data-theme="#e6ffed" class="w-8 h-8 bg-green-50 rounded"></button>
+      </div>
+      <!-- نوع الخط -->
+      <div class="mb-4">
+        <label class="block mb-1">نوع الخط</label>
+        <select id="font-select" class="w-full border rounded p-2">
+          <option value="Cairo">خط كايرو</option>
+          <option value="Tajawal">خط تاجوال</option>
+        </select>
+      </div>
+      <!-- حجم الخط -->
+      <div class="mb-4">
+        <label class="block mb-1">حجم الخط</label>
+        <select id="font-size-select" class="w-full border rounded p-2">
+          <option value="16px">صغير</option>
+          <option value="18px" selected>متوسط</option>
+          <option value="22px">كبير</option>
+        </select>
+      </div>
+      <!-- ارتفاع الخط -->
+      <div class="mb-4">
+        <label class="block mb-1">ارتفاع السطور</label>
+        <select id="line-height-select" class="w-full border rounded p-2">
+          <option value="1.4">عادي</option>
+          <option value="1.6" selected>مرتفع</option>
+          <option value="1.8">مرتفع جدًا</option>
+        </select>
+      </div>
+      <div class="text-right">
+        <button id="apply-settings" class="px-4 py-2 bg-blue-500 text-white rounded">تطبيق</button>
+      </div>
     </div>
+  </div>  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-center text-4xl font-extrabold mb-6 animate-gradient" style="font-family:'Cairo',sans-serif;">الفصل الأول: عنوان الفصل هنا</h1>
+    <div class="divider"></div><!-- محتوى الفصل -->
+<div id="content" class="chapter-content whitespace-pre-wrap break-words">
+  الفصل الأول
+  [من وجهة نظر البطل]
+  ...
+</div>
 
-    <!-- إطار المحتوى -->
-    <div id="content" class="frame chapter-content no-select whitespace-pre-wrap break-words">
-الفصل الأول
+<div class="divider"></div>
+<!-- تفاعلات الإيموجي -->
+<div class="flex justify-center gap-4 mt-6">
+  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="like">👍 <span class="count">0</span></button>
+  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="love">❤️ <span class="count">0</span></button>
+  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="haha">😆 <span class="count">0</span></button>
+  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="sad">😢 <span class="count">0</span></button>
+  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="angry">😡 <span class="count">0</span></button>
+</div>
 
-[من وجهة نظر البطل]
-
-أنا في ورطة.
-
-أنا في ورطة حقيقية.
-
-"أنا في ورطة حقيقية."
-
-"كم مرة عليّ أن أقول لك، سيجي، لا تستخدم الألفاظ البذيئة؟" جاءني صوت من جانبي بينما كنت لا أزال أحدق في السقف وأنا مستلقٍ على ظهري مثل جثة مسجّاة بعناية، أتأمل مدى الورطة التي وقعت فيها.
-
-تدحرج رأسي بلا حياة نحو مصدر الصوت لأنظر إلى الشخص الذي وبّخني للتو. كان جالسًا على الأرض بإحدى ركبتيه مرفوعة نحو صدره. أمامه طاولة صغيرة وُضعت عليها أطباق يابانية متنوعة، وكان يأكل من وعاء أرز باستخدام العيدان.
-
-كان يرتدي لباسًا يابانيًا تقليديًا أسود اللون، وكانت على وجهه العديد من الندوب التي توحي بالعنف الذي شهده. لكن تحت تلك الندوب كان وجهٌ شاب لا يتجاوز العشرين عامًا على الأرجح.
-
-"تعال وكُل قبل أن يبرد الطعام." قال لي وهو يلتهم كتل الأرز دون أن ينظر إليّ، فقد كانت عيناه مغمضتين بينما كان يستمتع بوجبته.
-
-بالطبع كان سيستمتع بوجبته بكل هدوء، لأنه، على عكسي، لم يكن في ورطة مطلقة. انتظر، هذا ليس دقيقًا تمامًا. هو في ورطة تمامًا مثلي، لكن على عكسي، كان يجهل تمامًا ما يخبئه له المستقبل.
-
-ربما تتساءلون لماذا أنا في مثل هذه الورطة العميقة، ولماذا أفكر حتى في الانتحار الآن. الجواب بسيط.
-
-نحن الآن في عام 1910، وبطريقة ما، أعيش في قرية ريفية في اليابان.
-
-وإذا لم يكن ذلك واضحًا بالفعل، فقد عدت بالزمن إلى الوراء قبل 110 سنوات بالضبط.
-
-كيف حدث ذلك؟ لا أعلم. آخر شيء أتذكره هو أنني أرسلت خطاب إجازة إلى المدير، مدّعياً المرض لكي أتمكن من التغيب عن المدرسة ذلك اليوم.
-
-لم أمت، ولم تصدمني شاحنة، ولم أسقط في جحر أرنب مثل أليس.
-
-كنت هناك في لحظة، وفي اللحظة التالية وجدت نفسي هنا. لم يكن هناك أي تلميح، ولا تحذير، وبالتأكيد لم يكن هناك أي منطق.
-
-في الواقع، وجدت نفسي في هذا الوضع بالأمس، لكنني كنت آمل أن يكون مجرد حلم، فنمت. لكن في اليوم التالي، كنت لا أزال في نفس الوضع، محاصرًا داخل جسد طفل في حقبة تُعد من أسوأ الحقب.
-
-ولمن لا يجيدون التاريخ، دعوني أخبركم ببعض الأحداث القادمة التي تنتظرني – كشخص يعيش في اليابان خلال أوائل القرن العشرين: الحرب العالمية الأولى، زلزال كانتو الكبير الذي قتل حوالي 150,000 شخص، الحرب العالمية الثانية التي تُعد الحرب الأكثر دموية في تاريخ البشرية بحصيلة بلغت 85 مليون ضحية، وقنبلتين نوويتين على هيروشيما وناغازاكي.
-
-نعم، يا له من مستقبل مشرق ينتظرني. هل ذكرت أيضًا أن هتلر سيتولى السلطة قريبًا؟
-
-رائع.
-
-"أنا في ورطة حقيقية."
-
-"هل ستبقى مستلقيًا هناك طوال اليوم مثل سمكة ميتة؟ إن لم تأتِ، سأأكل حصتك." قال الشاب بعد برهة.
-
-واصلت الاستلقاء على الأرض لبضع ثوانٍ أخرى قبل أن أدفع جسدي للنهوض. نظرت إلى الرجل الذي تذكرت أنه كينشي، الأخ الأكبر في العائلة وأخي الكبير.
-
-منذ أن عدت إلى هذه الحقبة البارحة، بدأت أسترجع ذكريات جسد الطفل ذي الأربعة أعوام الذي ورثته. كان هناك سبعة أفراد في عائلتنا، لكن جميعهم خرجوا للعمل في ذلك اليوم باستثناءي أنا وأخي.
-
-ظنوا أنني مريض لأنني رفضت التصرف بطبيعية بالأمس ونمت طوال اليوم، لذا جعلوا أخي يبقى في المنزل ليراقبني.
-
-وبما أنني الأصغر في العائلة، فقد كنت مدللًا نوعًا ما.
-
-"لست جائعًا، يمكنك أن تأكلها." قلت، فاكتفى أخي بهز كتفيه، "كما تشاء إذن."
-
-نهضت وغادرت الغرفة أتمشى بلا هدف، محاولًا ترتيب أفكاري واستيعاب الوضع بأكمله. كل شيء لا يزال يبدو غير واقعي بالنسبة لي.
-
-خرجت إلى الفناء واستقبلني نسيم عليل خفف من مزاجي السيئ قليلًا. أوراق الأشجار كانت ترفرف بصوت خفيف، والهواء، الذي لم يكن ملوثًا بعد، ملأ رئتيّ.
-
-كانت الشمس معلقة عاليًا في السماء ودفؤها الناعم يداعب بشرتي. بدا أن الخضرة تعكس هذا الدفء وهي تلمع كالزُمرّد. كان يومًا صيفيًا جميلاً، وزقزقة العصافير وطنين الحشرات هو ما جعل هذا كله يبدو كالحلم بالنسبة لي.
-
-كنتُ قد وُلدتُ أصمًّا في حياتي السابقة. لذا، كانت هذه أول مرة أسمع فيها الأصوات. ولولا الذكريات التي بدأت أستعيدها تدريجيًا، لكنت واجهت صعوبة أكبر في التكيّف.
-
-لذا، أنصتُّ جيدًا لمختلف أصوات العالم والموسيقى العذبة للطبيعة الساكنة. وقلت لنفسي، ربما لم يكن كل شيء سيئًا.
-
-لم يكن لدي عائلة في حياتي السابقة، فقد هربت أمي مع رجل عندما كنت في العاشرة، وتوفي والدي بسبب الكحول في العام التالي. لم يكن لدي إخوة حقيقيون لأنني كنت "غلطة" لم يرغب والداي بتكرارها، وكنت أُمرّر بين الأقارب كما يُمرّر العبء.
-
-كانت حياتي الاجتماعية سيئة بسبب صممي. ولم أكن أستطيع شراء سماعات، فبقيت أصمًا بالكامل طيلة 13 سنة عشتها. كنت مضطرًا لتعلم قراءة حركة الشفاه فقط من أجل الحد الأدنى من التواصل.
-
-كنت أتعرض للتنمر في المدرسة أيضًا، لأنني كنت أدرس في مدرسة حكومية يرتادها الفقراء والمنبوذون، وكانوا أكثر من سعداء بالتنمر على الطفل الأضعف منهم.
-
-في الحقيقة، ركلت أحدهم في ساقه منذ فترة قريبة، وكنت أحاول التغيب عن المدرسة خوفًا من انتقامهم، قبل أن يحدث كل شيء وأعود إلى الماضي.
-
-لذا، لم يكن هناك الكثير لأفتقده من حياتي السابقة. لذا ربما، حتى وإن وُلدت في حقبة سيئة، فقد تكون هذه فرصة رائعة لبداية جديدة.
-
-لدي الآن عائلة حقيقية، وبناءً على الذكريات التي بدأت أسترجعها، فهم أشخاص طيبون. ومع معرفتي المستقبلية، قد أتمكن من تجنّب كل الكوارث القادمة، بل وربما أزدهر في هذا العالم.
-
-ربما لم يكن ما حدث سيئًا على الإطلاق.
-
-بل، لقد كان ما حدث رائعًا. كانت هذه بداية جديدة لي، وتمكنت أخيرًا من تحقيق حلمي بسماع الأصوات.
-
-هذا كل شيء.
-
-ربما لست في ورطة.
-
-بل أنا محظوظ.
-
-...
-
-...
-
-///////////
-
-"لقد عدنا." كانت أمي أول من أعلن عودته، فنهض جسدي الصغير مسرعًا لاستقبال عائلتي الجديدة.
-
-تبعها أخي كينشي بابتسامة صغيرة. كان شابًا رائعًا، وقد شارك في الحرب الروسية اليابانية ونجا منها ليحكي قصتها. قضيت اليوم بأكمله معه، ومن خلال ذلك، تمكنت من استعادة كل ذكرياتي.
-
-نعم، ذكرياتي.
-
-أدركت بعد استرجاع كل شيء أنني لم أستحوذ على جسد طفل صغير، بل وُلدت هكذا، ولم أستعد ذكرياتي إلا الآن.
-
-"مرحبًا بعودتكم." قلت بابتسامة على وجهي، أشعر بالابتهاج ليس فقط لرؤية والدتي، بل لسماع صوتي أيضًا.
-
-كنت أحب الحديث، حتى في حياتي السابقة حين كنت أصمًّا. كان الأمر دائمًا يبدو لي سحرًا كيف يستطيع الناس مشاركة أفكارهم ومشاعرهم ونواياهم بمجرد تحريك شفاههم.
-
-"أوه~ هل كان صغيري يشعر بتحسّن اليوم؟" غردت والدتي وهي تلتقط جسدي الصغير وتفرك خدّيها بخدّي. كانت رائحتها كرائحة الأعشاب والتربة، مما كان منطقيًا، فأسرتي تعمل في الزراعة.
-
-"ن-نعم." أجبت باحمرار وابتسامة على وجهي. كان الأمر محرجًا نوعًا ما كطفل بعقل يبلغ 13 عامًا أن يُعامل كرضيع، لكن في نفس الوقت، كان الشعور بحب والدتك رائعًا. تلك الحقيرة الأخرى لن تعرف أبدًا كيف يكون ذلك.
-
-"أين والدي والبقية؟" سألت، فردّت أمي بابتسامة، "عدتُ مبكرًا لتحضير الطعام، لأن أخاك لا يمكن الوثوق به في ذلك. سيعودون قريبًا."
-
-كان على وجه أخي ابتسامة محرجة وهو يحكّ مؤخرة رأسه تحت نظرات والدتي التي تحاول التظاهر بخيبة الأمل.
-
-"هل تريد مساعدة ماما في تحضير العشاء، يا سيجي؟" التفتت إليّ والدتي بابتسامة مشرقة.
-
-كانت جميلة. رغم ملابسها الباهتة المتسخة، وشعرها المربوط على شكل كعكة فوضوية، لم تكن ترتدي شيئًا أنيقًا، لكنها بدت لي كأجمل ما في الطبيعة.
-
-"هممم." أومأت بابتسامة صغيرة.
-
-وهكذا بدأت حياتي الجديدة. كانت البداية سهلة لمن لم يكن يملك شيئًا من الأساس. </p>
-    </div>
-
-    <div class="divider"></div>
-    <!-- تفاعلات الإيموجي -->
-    <div class="flex justify-center gap-4 mt-6">
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">👍 <span class="count">0</span></button>
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">❤️ <span class="count">0</span></button>
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">😆 <span class="count">0</span></button>
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="sad">😢 <span class="count">0</span></button>
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">😡 <span class="count">0</span></button>
-    </div>
-  </div>
-
-  <!-- سكربت المنع -->
-  <script>
+  </div>  <!-- منع النسخ وF12 وغيرها -->  <script>
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
       if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12')
         e.preventDefault();
     });
-  </script>
-
-  <!-- سكربت الوظائف -->
-  <script>
-    function setFontSize(size) {
-      document.documentElement.style.setProperty('--font-size', size);
-      localStorage.setItem('fontSize', size);
-    }
-    function setTheme(theme) {
-      if (theme==='dark') {
-        document.documentElement.style.setProperty('--bg-color','#1e1e1e');
-        document.documentElement.style.setProperty('--text-color','#f3f4f6');
-      } else {
-        document.documentElement.style.setProperty('--bg-color','#f9fafb');
-        document.documentElement.style.setProperty('--text-color','#1f2937');
-      }
-      localStorage.setItem('theme', theme);
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-      const fs = localStorage.getItem('fontSize'), th = localStorage.getItem('theme');
-      if (fs) setFontSize(fs);
-      if (th) setTheme(th);
-
-      const prog=document.getElementById('progress'), btn=document.getElementById('toTop');
-      window.addEventListener('scroll', ()=>{
-        const h=document.documentElement;
-        prog.style.width = (window.scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';
-        btn.classList.toggle('hidden', window.scrollY<300);
-      });
-      btn.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+  </script>  <!-- وظائف الإعدادات والعودة والتقدم -->  <script>
+    // فتح/إغلاق المودال
+    const modal = document.getElementById('reader-settings-modal');
+    document.getElementById('reader-settings-btn').onclick = () => modal.classList.remove('hidden');
+    document.getElementById('close-settings').onclick = () => modal.classList.add('hidden');
+    // تطبيق الإعدادات
+    document.getElementById('apply-settings').onclick = () => {
+      // الثيم
+      document.body.style.background = document.querySelector('[data-theme].bg-white, [data-theme]').dataset.theme;
+      // نوع الخط
+      document.documentElement.style.setProperty('--font-family', document.getElementById('font-select').value);
+      // حجم الخط وارتفاع
+      document.documentElement.style.setProperty('--font-size', document.getElementById('font-size-select').value);
+      document.documentElement.style.setProperty('--line-height', document.getElementById('line-height-select').value);
+      modal.classList.add('hidden');
+    };
+    // التقدم والعودة للأعلى
+    window.addEventListener('scroll', ()=>{
+      const prog = document.getElementById('progress');
+      const h = document.documentElement;
+      prog.style.width = (window.scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';
+      document.getElementById('toTop').classList.toggle('hidden', window.scrollY<300);
     });
-  </script>
-
-  <!-- plugin.js الأصلي -->
-  <script src="../js/plugin.js"></script>
-</body>
-  </html>
+    document.getElementById('toTop').onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
+  </script>  <!-- ملف plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
+                                                            </html>
