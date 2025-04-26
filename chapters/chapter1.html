@@ -2,13 +2,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>قراءة الفصل – الفصل الأول</title>  <!-- Tailwind CSS -->  <script src="https://cdn.tailwindcss.com"></script>  <!-- خط عربي فخم -->  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>  <style>
+  <title>قراءة الفصل – الفصل الأول</title>  <!-- Tailwind CSS -->  <script src="https://cdn.tailwindcss.com"></script>  <!-- خط عربي جميل -->  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>  <style>
     :root {
       --bg-color: #f9fafb;
       --text-color: #1f2937;
       --font-size: 18px;
       --line-height: 1.6;
-      --font-weight: normal;
     }
     body {
       font-family: 'Cairo', sans-serif;
@@ -16,119 +15,132 @@
       color: var(--text-color);
       font-size: var(--font-size);
       line-height: var(--line-height);
-      font-weight: var(--font-weight);
       transition: background 0.3s, color 0.3s, font-size 0.3s, line-height 0.3s;
     }
-    /* منع النسخ والتفادي */
-    .no-select {
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    /* شريط التقدم */
+    .no-select { user-select: none; -webkit-user-select: none; }
     #progress { position: fixed; top:0; left:0; height:4px; background: linear-gradient(to right,#6366f1,#ec4899); width:0; z-index:50; }
-    /* زر العودة للأعلى */
-    #toTop { @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white hidden transform hover:scale-110 transition; }
-    /* إعدادات القارئ - مودال */
-    #reader-settings-modal { @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50; }
-    #reader-settings-content { @apply bg-white rounded-lg w-11/12 max-w-md p-6; }
+    #toTop { @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white hidden hover:scale-110 transition; }
+    /* إعدادات القارئ */
+    #reader-settings { @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden; z-index:50; }
+    #reader-settings .modal { @apply bg-white rounded-lg w-11/12 max-w-md; }
+    #reader-settings .header { @apply flex justify-between items-center p-4 border-b; }
+    #reader-settings .body { @apply p-4; }
+    #reader-settings .body .section + .section { @apply mt-4; }
+    #reader-settings .footer { @apply text-right p-4 border-t; }
+    .pill { @apply inline-block px-4 py-1 rounded-full cursor-pointer border; }
+    .pill.selected { @apply bg-indigo-500 text-white border-indigo-500; }
+    select { @apply w-full border rounded p-2; }
+    button.apply { @apply bg-blue-500 text-white px-4 py-2 rounded; }
   </style></head>
-<body class="relative overflow-x-hidden no-select">  <!-- شريط التقدم -->  <div id="progress"></div>
-  <!-- زر العودة للأعلى -->
-  <button id="toTop"><i class="fas fa-arrow-up"></i></button>  <!-- زر إعدادات القارئ -->  <button id="reader-settings-btn" class="fixed top-4 left-4 z-40 p-2 bg-gray-200 rounded-full shadow">
-    <i class="fas fa-cog"></i>
-  </button>  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal">
-    <div id="reader-settings-content">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">إعدادات القارئ</h2>
-        <button id="close-settings" class="text-gray-500"><i class="fas fa-times"></i></button>
+<body class="no-select relative overflow-x-hidden">  <!-- شريط التقدم والعودة -->  <div id="progress"></div>
+  <button id="toTop"><i class="fas fa-arrow-up"></i></button>  <!-- زر الإعدادات --><button id="open-settings" class="fixed top-4 left-4 p-2 bg-gray-200 rounded-full shadow"><i class="fas fa-cog"></i></button>
+
+  <!-- مودال الإعدادات -->  <div id="reader-settings">
+    <div class="modal">
+      <div class="header">
+        <h2 class="text-lg font-bold">إعدادات القارئ</h2>
+        <button id="close-settings"><i class="fas fa-times"></i></button>
       </div>
-      <!-- ثيم الألوان -->
-      <div class="flex gap-2 mb-4">
-        <button data-theme="light" class="w-8 h-8 bg-white border rounded"></button>
-        <button data-theme="dark" class="w-8 h-8 bg-black rounded"></button>
-        <button data-theme="#fce4ec" class="w-8 h-8 bg-pink-100 rounded"></button>
-        <button data-theme="#eef2ff" class="w-8 h-8 bg-indigo-50 rounded"></button>
-        <button data-theme="#e6ffed" class="w-8 h-8 bg-green-50 rounded"></button>
+      <div class="body">
+        <!-- ثيم الألوان -->
+        <div class="section">
+          <div class="flex flex-wrap gap-2">
+            <span data-theme="default" class="pill selected">عادي</span>
+            <span data-theme="black" class="pill">أسود</span>
+            <span data-theme="brown" class="pill">بني</span>
+            <span data-theme="blue" class="pill">أزرق</span>
+            <span data-theme="green" class="pill">أخضر</span>
+            <span data-theme="pink" class="pill">زهري</span>
+            <span data-theme="purple" class="pill">أرجواني</span>
+          </div>
+        </div>
+        <!-- نوع الخط -->
+        <div class="section">
+          <label class="block mb-1">نوع الخط</label>
+          <select id="font-family-select">
+            <option value="Cairo">خط كايرو</option>
+            <option value="Tajawal">خط تاجوال</option>
+          </select>
+        </div>
+        <!-- حجم الخط -->
+        <div class="section">
+          <label class="block mb-1">حجم الخط</label>
+          <select id="font-size-select">
+            <option value="16px">صغير</option>
+            <option value="18px" selected>متوسط</option>
+            <option value="22px">كبير</option>
+          </select>
+        </div>
+        <!-- ارتفاع السطور -->
+        <div class="section">
+          <label class="block mb-1">ارتفاع السطور</label>
+          <select id="line-height-select">
+            <option value="1.4">عادي</option>
+            <option value="1.6" selected>مرتفع</option>
+            <option value="1.8">مرتفع جدًا</option>
+          </select>
+        </div>
+        <!-- لون الخط -->
+        <div class="section">
+          <label class="block mb-1">درجة لون الخط</label>
+          <select id="font-color-select">
+            <option value="normal">عادي</option>
+            <option value="bright">مرتفعة</option>
+          </select>
+        </div>
+        <!-- تنسيق النص -->
+        <div class="section flex gap-2 justify-center">
+          <button id="bold-btn" class="px-2 py-1 border">B</button>
+          <button data-align="left" class="px-2 py-1 border"><i class="fas fa-align-left"></i></button>
+          <button data-align="center" class="px-2 py-1 border"><i class="fas fa-align-center"></i></button>
+          <button data-align="right" class="px-2 py-1 border"><i class="fas fa-align-right"></i></button>
+        </div>
       </div>
-      <!-- نوع الخط -->
-      <div class="mb-4">
-        <label class="block mb-1">نوع الخط</label>
-        <select id="font-select" class="w-full border rounded p-2">
-          <option value="Cairo">خط كايرو</option>
-          <option value="Tajawal">خط تاجوال</option>
-        </select>
-      </div>
-      <!-- حجم الخط -->
-      <div class="mb-4">
-        <label class="block mb-1">حجم الخط</label>
-        <select id="font-size-select" class="w-full border rounded p-2">
-          <option value="16px">صغير</option>
-          <option value="18px" selected>متوسط</option>
-          <option value="22px">كبير</option>
-        </select>
-      </div>
-      <!-- ارتفاع الخط -->
-      <div class="mb-4">
-        <label class="block mb-1">ارتفاع السطور</label>
-        <select id="line-height-select" class="w-full border rounded p-2">
-          <option value="1.4">عادي</option>
-          <option value="1.6" selected>مرتفع</option>
-          <option value="1.8">مرتفع جدًا</option>
-        </select>
-      </div>
-      <div class="text-right">
-        <button id="apply-settings" class="px-4 py-2 bg-blue-500 text-white rounded">تطبيق</button>
+      <div class="footer">
+        <button id="apply-settings" class="apply">تطبيق</button>
       </div>
     </div>
-  </div>  <div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-center text-4xl font-extrabold mb-6 animate-gradient" style="font-family:'Cairo',sans-serif;">الفصل الأول: عنوان الفصل هنا</h1>
-    <div class="divider"></div><!-- محتوى الفصل -->
-<div id="content" class="chapter-content whitespace-pre-wrap break-words">
-  الفصل الأول
-  [من وجهة نظر البطل]
-  ...
-</div>
-
-<div class="divider"></div>
-<!-- تفاعلات الإيموجي -->
-<div class="flex justify-center gap-4 mt-6">
-  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="like">👍 <span class="count">0</span></button>
-  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="love">❤️ <span class="count">0</span></button>
-  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="haha">😆 <span class="count">0</span></button>
-  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="sad">😢 <span class="count">0</span></button>
-  <button class="react-btn px-3 py-2 rounded-full shadow select-none" data-reaction="angry">😡 <span class="count">0</span></button>
-</div>
-
-  </div>  <!-- منع النسخ وF12 وغيرها -->  <script>
-    document.addEventListener('copy', e => e.preventDefault());
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', e => {
-      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12')
-        e.preventDefault();
-    });
-  </script>  <!-- وظائف الإعدادات والعودة والتقدم -->  <script>
-    // فتح/إغلاق المودال
-    const modal = document.getElementById('reader-settings-modal');
-    document.getElementById('reader-settings-btn').onclick = () => modal.classList.remove('hidden');
+  </div>  <!-- المحتوى -->  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-center text-4xl font-extrabold mb-6">الفصل الأول</h1>
+    <div id="content" class="whitespace-pre-wrap break-words">
+      <!-- نص الفصل هنا -->
+    </div>
+  </div>  <!-- سكربت الإعدادات والتطبيق -->  <script>
+    const modal = document.getElementById('reader-settings');
+    document.getElementById('open-settings').onclick = () => modal.classList.remove('hidden');
     document.getElementById('close-settings').onclick = () => modal.classList.add('hidden');
-    // تطبيق الإعدادات
+    // اختيار ثيم
+    document.querySelectorAll('.pill').forEach(p => p.onclick = () => {
+      document.querySelectorAll('.pill').forEach(x=>x.classList.remove('selected'));
+      p.classList.add('selected');
+      document.documentElement.style.setProperty('--bg-color', p.dataset.theme==='default'? '#f9fafb': p.dataset.theme);
+    });
+    // تطبيق الإعدادات الأخرى
     document.getElementById('apply-settings').onclick = () => {
-      // الثيم
-      document.body.style.background = document.querySelector('[data-theme].bg-white, [data-theme]').dataset.theme;
-      // نوع الخط
-      document.documentElement.style.setProperty('--font-family', document.getElementById('font-select').value);
-      // حجم الخط وارتفاع
-      document.documentElement.style.setProperty('--font-size', document.getElementById('font-size-select').value);
-      document.documentElement.style.setProperty('--line-height', document.getElementById('line-height-select').value);
+      document.documentElement.style.setProperty('--font-family',
+        document.getElementById('font-family-select').value);
+      document.documentElement.style.setProperty('--font-size',
+        document.getElementById('font-size-select').value);
+      document.documentElement.style.setProperty('--line-height',
+        document.getElementById('line-height-select').value);
+      // لون الخط
+      const fc = document.getElementById('font-color-select').value;
+      document.documentElement.style.setProperty('--text-color', fc==='bright'? '#000': '#1f2937');
+      // تنسيق النص الأساسي
+      const content = document.getElementById('content');
+      content.style.fontWeight = document.getElementById('bold-btn').classList.toggle('font-bold')? 'bold':'normal';
+      content.style.textAlign = document.querySelector('[data-align].font-bold, [data-align]')?.dataset.align || 'right';
       modal.classList.add('hidden');
     };
-    // التقدم والعودة للأعلى
-    window.addEventListener('scroll', ()=>{
-      const prog = document.getElementById('progress');
-      const h = document.documentElement;
+    // منع النسخ وF12
+    document.addEventListener('copy',e=>e.preventDefault());
+    document.addEventListener('contextmenu',e=>e.preventDefault());
+    document.addEventListener('keydown',e=>{ if((e.ctrlKey&&['c','u','s'].includes(e.key))||e.key==='F12')e.preventDefault();});
+    // شريط التقدم والعودة للأعلى
+    window.addEventListener('scroll',()=>{
+      const h=document.documentElement, prog=document.getElementById('progress');
       prog.style.width = (window.scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';
-      document.getElementById('toTop').classList.toggle('hidden', window.scrollY<300);
+      document.getElementById('toTop').classList.toggle('hidden',window.scrollY<300);
     });
-    document.getElementById('toTop').onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
-  </script>  <!-- ملف plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
-                                                            </html>
+  </script></body>
+              </html>
