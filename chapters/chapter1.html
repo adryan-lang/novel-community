@@ -47,10 +47,38 @@
 
 <div class="divider h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-6"></div>
 
-<!-- تفاعلات الإيموجي -->
+<!-- تفاعلات الإيموجي: أضفنا flex-wrap لالتفاف ذكي بدل التمرير الأفقي -->
 <div class="flex flex-wrap justify-center gap-4 mt-6">
-  <!-- يماثل الكود السابق للإيموجي -->
-</div>
+  <!-- زر Like -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">
+    <div id="like-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Love -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">
+    <div id="love-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Haha -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">
+    <div id="haha-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Sad -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="sad">
+    <div id="sad-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Angry -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">
+    <div id="angry-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+    </div>
 
   </div> <!-- نهاية الصندوق الرئيسي -->  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-xl p-6 shadow-lg w-80 max-w-full">
