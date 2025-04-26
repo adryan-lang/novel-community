@@ -71,21 +71,29 @@
 </h1>
 <div class="divider"></div>
 
-<!-- أدوات التحكم -->
-<div class="flex flex-wrap justify-center gap-3 mb-8">
-  <button onclick="setFontSize('16px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+<!-- زر إعدادات القارئ الجديد -->
+<div class="flex justify-center mb-8">
+  <button id="open-settings"
+          class="px-6 py-3 rounded-full shadow-md hover:shadow-lg transition bg-indigo-500 text-white no-select">
+    إعدادات القارئ
+  </button>
+</div>
+
+<!-- لوحة الإعدادات المخفية (تحوي أزرار التحكم الأصلية) -->
+<div id="reader-settings-panel" class="hidden flex flex-wrap justify-center gap-3 mb-8">
+  <button onclick="setFontSize('16px')" class="px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
     صغير
   </button>
-  <button onclick="setFontSize('18px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+  <button onclick="setFontSize('18px')" class="px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
     متوسط
   </button>
-  <button onclick="setFontSize('22px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+  <button onclick="setFontSize('22px')" class="px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
     كبير
   </button>
-  <button onclick="setTheme('light')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+  <button onclick="setTheme('light')" class="px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
     نهار
   </button>
-  <button onclick="setTheme('dark')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+  <button onclick="setTheme('dark')" class="px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
     ليلي
   </button>
 </div>
@@ -198,5 +206,23 @@
         });
       });
     });
-  </script>  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
+  </script>  
+  <script>
+  // عند الضغط على زر "إعدادات القارئ" نُظهر/نخفي لوحة الإعدادات
+  document.addEventListener('DOMContentLoaded', function() {
+    const openBtn = document.getElementById('open-settings');
+    const panel   = document.getElementById('reader-settings-panel');
+
+    openBtn.addEventListener('click', function() {
+      // إذا كانت مخفية نزيل الصفة hidden، وإلا نضيفها
+      if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+      } else {
+        panel.classList.add('hidden');
+      }
+    });
+  });
+  </script>
+  <!-- plugin.js الأصلي --> 
+  <script src="../js/plugin.js"></script></body>
   </html>
