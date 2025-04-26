@@ -117,6 +117,16 @@ body {
   <option value="'Tajawal', sans-serif">خط تجول</option>
   </select>
         </div>
+          <!-- حجم الخط -->
+  <div>
+    <label class="block text-sm mb-1">حجم الخط</label>
+    <select onchange="setFontSize(this.value)" class="w-full p-2 border rounded">
+      <option value="16px">90%</option>
+      <option value="18px" selected>100%</option>
+      <option value="22px">125%</option>
+      <option value="26px">150%</option>
+    </select>
+  </div>
         <div>
           <label class="block text-sm mb-1">ارتفاع الخط</label>
           <select onchange="document.documentElement.style.setProperty('line-height', this.value)" class="w-full p-2 border rounded">
