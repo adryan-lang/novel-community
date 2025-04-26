@@ -126,15 +126,6 @@
       if (fs) setFontSize(fs);
       if (th) setTheme(th);
 
-      // شريط التقدم وزر العودة للأعلى
-      const prog = document.getElementById('progress'), btn = document.getElementById('toTop');
-      window.addEventListener('scroll', () => {
-        const h = document.documentElement;
-        prog.style.width = (window.scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
-        btn.classList.toggle('hidden', window.scrollY < 300);
-      });
-      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
       // فتح وإغلاق نافذة الإعدادات
       const settingsBtn = document.getElementById('settingsBtn');
       const modal = document.getElementById('readerSettingsModal');
