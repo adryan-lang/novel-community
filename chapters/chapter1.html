@@ -244,21 +244,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
   reactions.forEach(type => {
     const container = document.getElementById(`${type}-lottie`);
-    // تحميل الأنيميشن بدون تشغيل تلقائي
     const anim = lottie.loadAnimation({
       container,
       renderer: 'svg',
       loop: false,
       autoplay: false,
-      path: `../lottie/${type}.json`
+      path: `./chapters/${type}.json`    <!-- تم التعديل هنا -->
     });
 
-    // عند المرور بالفأرة: تشغيل حركة قصيرة
     container.addEventListener('mouseenter', () => anim.play());
-    // عند الخروج: إعادة إلى البداية
     container.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
 
-    // عند النقر: تشغيل الحركة وتحديث العدّاد
     container.parentElement.addEventListener('click', () => {
       anim.play();
       const countSpan = container.parentElement.querySelector('.count');
@@ -266,7 +262,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-  </script>
+</script>
   <!-- plugin.js الأصلي -->
   <script src="../js/plugin.js"></script>
 </body>
