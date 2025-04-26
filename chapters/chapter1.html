@@ -112,13 +112,13 @@
           </select>
         </div>
         <div>
-          <label class="block text-sm mb-1">حجم الخط</label>
-          <select onchange="setFontSize(this.value)" class="w-full p-2 border rounded">
-            <option value="16px">90%</option>
-            <option value="18px" selected>100%</option>
-            <option value="22px">125%</option>
-            <option value="26px">150%</option>
-          </select>
+          <label class="block text-sm mb-1">نوع الخط</label>
+<select onchange="document.documentElement.style.setProperty('--font-family', this.value)" class="w-full p-2 border rounded">
+  <option value="system-ui, sans-serif">خط المتصفح</option>
+  <option value="'Cairo', sans-serif" selected>خط كايرو</option>
+  <option value="'Amiri', serif">خط الأميرى</option>
+  <option value="'Tajawal', sans-serif">خط تجول</option>
+  </select>
         </div>
         <div>
           <label class="block text-sm mb-1">ارتفاع الخط</label>
