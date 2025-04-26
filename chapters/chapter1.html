@@ -1,123 +1,197 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>قراءة الفصل – الفصل الأول</title>  <!-- Tailwind CSS -->  <script src="https://cdn.tailwindcss.com"></script>  <!-- خط عربي فخم -->  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet" />  <style>
-    :root {
-      --bg-color: #f9fafb;
-      --text-color: #1f2937;
-      --font-size: 18px;
+  <title>قراءة الفصل – الفصل الأول</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- خط عربي فخم -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+
+<style>
+  :root {
+    --bg-color: #f9fafb;
+    --text-color: #1f2937;
+    --font-size: 18px;
+  }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--font-size);
+    transition: background 0.3s, color 0.3s, font-size 0.3s;
+  }
+
+  /* إطار بسيط وأنيق */
+- .frame {
+-   padding: 2rem;
+-   border-radius: 1.25rem;
+-   background-color: #ffffff !important;
+-   color: #1f2937 !important;
+-   box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+- }
++ .frame {
++   padding: 2rem;
++   border-radius: 1.25rem;
++   background-color: var(--bg-color);
++   color: var(--text-color);
++   box-shadow: 0 12px 30px rgba(0,0,0,0.05);
++ }
+
+  .divider {
+    height: 1px;
+    background-image: linear-gradient(to right, transparent, #d1d5db, transparent);
+    margin: 2rem 0;
+  }
+
+  @keyframes textGradient {
+    0% { background-position: 0% 50% }
+    100% { background-position: 100% 50% }
+  }
+  .animate-gradient {
+    background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textGradient 6s ease infinite;
+  }
+
+  #toTop {
+    @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
+  }
+
+  #progress {
+    position: fixed; top:0; left:0; height:4px;
+    background: linear-gradient(to right, #6366f1, #ec4899);
+    width:0; z-index:50;
+  }
+
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+    /* فواصل إسلامية */
+    .divider {
+      height: 1px;
+      background-image: linear-gradient(to right, transparent, #d1d5db, transparent);
+      margin: 2rem 0;
     }
-    body {
-      font-family: 'Cairo', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-size: var(--font-size);
-      transition: background 0.3s, color 0.3s, font-size 0.3s;
+
+    /* تدرّج نصي متحرّك للعنوان */
+    @keyframes textGradient {
+      0% { background-position: 0% 50% }
+      100% { background-position: 100% 50% }
+    }
+    .animate-gradient {
+      background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textGradient 6s ease infinite;
     }
 
-    .frame {
-      padding: 2rem;
-      border-radius: 1.25rem;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+    /* زر العودة للأعلى */
+    #toTop {
+      @apply fixed bottom-6 left-6 p-3 rounded-full shadow-lg bg-indigo-500 text-white transform hover:scale-110 transition hidden;
     }
 
-    #readerSettingsModal {
-      /* modal backdrop */
-      background: rgba(0, 0, 0, 0.5);
+    /* شريط التقدم */
+    #progress {
+      position: fixed; top:0; left:0; height:4px;
+      background: linear-gradient(to right, #6366f1, #ec4899);
+      width:0; z-index:50;
     }
 
-    /* hide modal by default */
-    .hidden { display: none; }
-  </style></head>
-<body class="relative overflow-x-hidden">  <!-- شريط التقدم -->  <div id="progress"></div>  <div class="max-w-3xl mx-auto px-4 py-12">
-    <!-- العنوان مع زر الإعدادات -->
-    <div class="flex items-center justify-between mb-6">
-<h1 class="text-4xl font-extrabold text-center animate-gradient mb-4">
-  الفصل الأول: عنوان الفصل هنا
-</h1>
+    /* منع النسخ */
+    .no-select {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  </style>
+</head>
+<body class="relative overflow-x-hidden">
 
-<div class="flex justify-center mb-6">
-  <button id="settingsBtn" class="flex items-center gap-2 px-4 py-2 bg-indigo-500 text-white rounded-full shadow hover:bg-indigo-600 transition">
-    <!-- أيقونة cog -->
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" …>…</svg>
-    <span>إعدادات القارئ</span>
-  </button>
-</div>
-    <div class="divider"></div><!-- إطار المحتوى -->
-<div id="content" class="frame chapter-content no-select whitespace-pre-wrap break-words">
-  الفصل الأول
+  <!-- شريط التقدم -->
+  <div id="progress"></div>
 
-  [من وجهة نظر البطل]
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <!-- العنوان -->
+    <h1 class="text-center text-4xl font-extrabold mb-6 animate-gradient" style="font-family: 'Cairo', sans-serif;">
+      الفصل الأول: عنوان الفصل هنا
+    </h1>
+    <div class="divider"></div>
 
-  أنا في ورطة.
-
-  أنا في ورطة حقيقية.
-
-  "أنا في ورطة حقيقية."
-</div>
-
-<div class="divider"></div>
-<!-- تفاعلات الإيموجي -->
-<div class="flex justify-center gap-4 mt-6">
-  <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">👍 <span class="count">0</span></button>
-  <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">❤️ <span class="count">0</span></button>
-  <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">😆 <span class="count">0</span></button>
-  <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="sad">😢 <span class="count">0</span></button>
-  <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">😡 <span class="count">0</span></button>
-</div>
-
-  </div>  <!-- نافذة الإعدادات (مخفية افتراضياً) -->  <div id="readerSettingsModal" class="fixed inset-0 flex items-center justify-center hidden">
-    <div class="bg-white dark:bg-gray-800 frame max-w-lg w-full">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold">إعدادات القارئ</h2>
-        <button id="closeSettings" class="text-gray-500 hover:text-gray-700 transition">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="space-y-6">
-        <!-- حجم الخط -->
-        <div>
-          <h3 class="font-medium mb-2">حجم الخط</h3>
-          <div class="flex gap-3">
-            <button onclick="setFontSize('16px');" class="px-4 py-2 rounded-full shadow hover:shadow-md transition">صغير</button>
-            <button onclick="setFontSize('18px');" class="px-4 py-2 rounded-full shadow hover:shadow-md transition">متوسط</button>
-            <button onclick="setFontSize('22px');" class="px-4 py-2 rounded-full shadow hover:shadow-md transition">كبير</button>
-          </div>
-        </div>
-        <!-- الوضع -->
-        <div>
-          <h3 class="font-medium mb-2">الوضع</h3>
-          <div class="flex gap-3">
-            <button onclick="setTheme('light');" class="px-4 py-2 rounded-full shadow hover:shadow-md transition">نهار</button>
-            <button onclick="setTheme('dark');" class="px-4 py-2 rounded-full shadow hover:shadow-md transition">ليلي</button>
-          </div>
-        </div>
-      </div>
+    <!-- أدوات التحكم -->
+    <div class="flex flex-wrap justify-center gap-3 mb-8">
+      <button onclick="setFontSize('16px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+        صغير
+      </button>
+      <button onclick="setFontSize('18px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+        متوسط
+      </button>
+      <button onclick="setFontSize('22px')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+        كبير
+      </button>
+      <button onclick="setTheme('light')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+        نهار
+      </button>
+      <button onclick="setTheme('dark')" class="flex items-center gap-1 px-5 py-2 rounded-full shadow-md hover:shadow-lg transition">
+        ليلي
+      </button>
     </div>
-  </div>  <!-- سكربت المنع -->  <script>
+
+    <!-- إطار المحتوى -->
+    <div id="content" class="frame chapter-content no-select whitespace-pre-wrap break-words">
+الفصل الأول
+
+[من وجهة نظر البطل]
+
+أنا في ورطة.
+
+أنا في ورطة حقيقية.
+
+"أنا في ورطة حقيقية."
+
+ </p>
+    </div>
+
+    <div class="divider"></div>
+    <!-- تفاعلات الإيموجي -->
+    <div class="flex justify-center gap-4 mt-6">
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">👍 <span class="count">0</span></button>
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">❤️ <span class="count">0</span></button>
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">😆 <span class="count">0</span></button>
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="sad">😢 <span class="count">0</span></button>
+      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">😡 <span class="count">0</span></button>
+    </div>
+  </div>
+
+  <!-- سكربت المنع -->
+  <script>
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
-      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key === 'F12')
+      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12')
         e.preventDefault();
     });
-  </script>  <!-- سكربت الوظائف -->  <script>
+  </script>
+
+  <!-- سكربت الوظائف -->
+  <script>
     function setFontSize(size) {
       document.documentElement.style.setProperty('--font-size', size);
       localStorage.setItem('fontSize', size);
     }
     function setTheme(theme) {
-      if (theme === 'dark') {
-        document.documentElement.style.setProperty('--bg-color', '#1e1e1e');
-        document.documentElement.style.setProperty('--text-color', '#f3f4f6');
+      if (theme==='dark') {
+        document.documentElement.style.setProperty('--bg-color','#1e1e1e');
+        document.documentElement.style.setProperty('--text-color','#f3f4f6');
       } else {
-        document.documentElement.style.setProperty('--bg-color', '#f9fafb');
-        document.documentElement.style.setProperty('--text-color', '#1f2937');
+        document.documentElement.style.setProperty('--bg-color','#f9fafb');
+        document.documentElement.style.setProperty('--text-color','#1f2937');
       }
       localStorage.setItem('theme', theme);
     }
@@ -126,16 +200,17 @@
       if (fs) setFontSize(fs);
       if (th) setTheme(th);
 
-      // فتح وإغلاق نافذة الإعدادات
-      const settingsBtn = document.getElementById('settingsBtn');
-      const modal = document.getElementById('readerSettingsModal');
-      const closeBtn = document.getElementById('closeSettings');
-      settingsBtn.addEventListener('click', () => modal.classList.remove('hidden'));
-      closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-      // إغلاق بالنقر خارج الإطار
-      modal.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.add('hidden');
+      const prog=document.getElementById('progress'), btn=document.getElementById('toTop');
+      window.addEventListener('scroll', ()=>{
+        const h=document.documentElement;
+        prog.style.width = (window.scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';
+        btn.classList.toggle('hidden', window.scrollY<300);
       });
+      btn.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
     });
-  </script>  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
-    </html>
+  </script>
+
+  <!-- plugin.js الأصلي -->
+  <script src="../js/plugin.js"></script>
+</body>
+  </html>
