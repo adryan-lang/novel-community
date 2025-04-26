@@ -110,6 +110,12 @@
       user-select: none;
       -webkit-user-select: none;
     }
+  
+/* بعد: تنسيقات Lottie */
+.lottie-icon {
+  width: 32px;
+  height: 32px;
+  }
   </style>
 </head>
 <body class="relative overflow-x-hidden">
@@ -160,14 +166,37 @@
 
     <div class="divider"></div>
     <!-- تفاعلات الإيموجي -->
-    <div class="flex justify-center gap-4 mt-6">
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">👍 <span class="count">0</span></button>
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">❤️ <span class="count">0</span></button>
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">😆 <span class="count">0</span></button>
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="sad">😢 <span class="count">0</span></button>
-      <button class="react-btn px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">😡 <span class="count">0</span></button>
+ <div class="flex justify-center gap-4 mt-6">
+  <!-- زر Like -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">
+    <div id="like-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Love -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">
+    <div id="love-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Haha -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">
+    <div id="haha-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Sad -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="sad">
+    <div id="sad-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Angry -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">
+    <div id="angry-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
     </div>
-  </div>
 
   <!-- سكربت المنع -->
   <script>
