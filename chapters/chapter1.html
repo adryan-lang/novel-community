@@ -8,8 +8,8 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- خط عربي فخم -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
 <style>
   :root {
     --bg-color: #f9fafb;
@@ -209,7 +209,35 @@
       btn.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
     });
   </script>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const reactions = ['like', 'love', 'haha', 'sad', 'angry'];
 
+  reactions.forEach(type => {
+    const container = document.getElementById(`${type}-lottie`);
+    // تحميل الأنيميشن بدون تشغيل تلقائي
+    const anim = lottie.loadAnimation({
+      container,
+      renderer: 'svg',
+      loop: false,
+      autoplay: false,
+      path: `../lottie/${type}.json`
+    });
+
+    // عند المرور بالفأرة: تشغيل حركة قصيرة
+    container.addEventListener('mouseenter', () => anim.play());
+    // عند الخروج: إعادة إلى البداية
+    container.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
+
+    // عند النقر: تشغيل الحركة وتحديث العدّاد
+    container.parentElement.addEventListener('click', () => {
+      anim.play();
+      const countSpan = container.parentElement.querySelector('.count');
+      countSpan.textContent = parseInt(countSpan.textContent) + 1;
+    });
+  });
+});
+  </script>
   <!-- plugin.js الأصلي -->
   <script src="../js/plugin.js"></script>
 </body>
