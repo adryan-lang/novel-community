@@ -249,16 +249,19 @@ window.addEventListener('DOMContentLoaded', () => {
       renderer: 'svg',
       loop: false,
       autoplay: false,
-      path: `./chapters/${type}.json`    <!-- تم التعديل هنا -->
+      // ← هذا هو التعديل الحصري: استخدم مجلد "chapters"
+      path: `/chapters/${type}.json`
     });
 
+    // تشغيل عند المرور بالماوس
     container.addEventListener('mouseenter', () => anim.play());
     container.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
 
+    // تحديث العداد وتشغيل الأنيميشن عند النقر
     container.parentElement.addEventListener('click', () => {
       anim.play();
-      const countSpan = container.parentElement.querySelector('.count');
-      countSpan.textContent = parseInt(countSpan.textContent) + 1;
+      const span = container.parentElement.querySelector('.count');
+      span.textContent = parseInt(span.textContent) + 1;
     });
   });
 });
