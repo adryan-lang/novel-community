@@ -10,6 +10,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-pbF5X0FvCm8YbZSLfuNIc6U6VJohnsonVXG+YypFh9V+2fUm1kpz8+FZerpmXl15kd2Zjl1FKwIkHMDv6m0cw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
   <style>
     :root {
   --bg-color:   #f9fafb;
@@ -148,42 +155,28 @@ body {
           </select>
         </div>
       </div>
-      <!-- شريط التنسيق (مُحدَّث بأيقونات SVG وتأثير تفعيل) -->
+      <!-- شريط التنسيق بأيقونات Font Awesome -->
 <div class="flex justify-center items-center gap-4 pt-4 border-t">
-
-  <!-- زرّ غامق/عادي -->
+  <!-- غامق/B -->
   <button id="bold-btn" class="px-2 py-1 border rounded focus:outline-none">
-    <span class="font-semibold">B</span>
+    <i class="fa-solid fa-bold text-xl"></i>
   </button>
 
-  <!-- أيقونة المحاذاة إلى اليسار -->
+  <!-- محاذاة لليسار -->
   <button id="left-btn" class="px-2 py-1 border rounded focus:outline-none">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-         viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 6h16M4 12h10M4 18h16" />
-    </svg>
+    <i class="fa-solid fa-align-left text-xl"></i>
   </button>
 
-  <!-- أيقونة المحاذاة إلى المنتصف -->
+  <!-- محاذاة للمنتصف -->
   <button id="center-btn" class="px-2 py-1 border rounded focus:outline-none">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-         viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 6h16M8 12h8M4 18h16" />
-    </svg>
+    <i class="fa-solid fa-align-center text-xl"></i>
   </button>
 
-  <!-- أيقونة المحاذاة إلى اليمين -->
+  <!-- محاذاة لليمين -->
   <button id="right-btn" class="px-2 py-1 border rounded focus:outline-none">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-         viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 6h16M10 12h10M4 18h16" />
-    </svg>
+    <i class="fa-solid fa-align-right text-xl"></i>
   </button>
-
-      </div>
+</div>
     </div>
   </div>  <!-- سكربت المنع -->  <script>
     document.addEventListener('copy', e => e.preventDefault());
