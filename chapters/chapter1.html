@@ -185,15 +185,12 @@ body {
       if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12') e.preventDefault();
     });
   </script>
-  <!-- سكربت الوظائف -->
+<!-- سكربت الوظائف الموحد -->
 <script>
-  // 1. تغيير حجم الخط وحفظ الإعداد
   function setFontSize(size) {
     document.documentElement.style.setProperty('--font-size', size);
     localStorage.setItem('fontSize', size);
   }
-
-  // 2. تغيير الثيم وحفظ الإعداد
   function setTheme(theme) {
     const root = document.documentElement;
     switch (theme) {
@@ -228,14 +225,16 @@ body {
     localStorage.setItem('theme', theme);
   }
 
-  // 3. بعد تحميل الصفحة، نربط جميع الأحداث
   document.addEventListener('DOMContentLoaded', () => {
     // استعادة الإعدادات
     const fs      = localStorage.getItem('fontSize'),
           th      = localStorage.getItem('theme'),
           content = document.getElementById('content'),
           prog    = document.getElementById('progress'),
-          btnTop  = document.getElementById('toTop');
+          btnTop  = document.getElementById('toTop'),
+          openBtn = document.getElementById('open-settings'),
+          closeBtn= document.getElementById('close-settings'),
+          modal   = document.getElementById('reader-settings-modal');
 
     if (fs) setFontSize(fs);
     if (th) setTheme(th);
@@ -249,72 +248,58 @@ body {
     btnTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
     // مودال إعدادات القارئ
-    const openBtn  = document.getElementById('open-settings'),
-          closeBtn = document.getElementById('close-settings'),
-          modal    = document.getElementById('reader-settings-modal');
     openBtn.addEventListener('click', () => modal.classList.toggle('hidden'));
     closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
 
-    // **** زرّ الـ B و أزرار المحاذاة مع تأثير التفعيل ****
-document.addEventListener('DOMContentLoaded', () => {
-  const content = document.getElementById('content');
-  const btns = {
-    bold:   document.getElementById('bold-btn'),
-    left:   document.getElementById('left-btn'),
-    center: document.getElementById('center-btn'),
-    right:  document.getElementById('right-btn')
-  };
-
-  // وظيفة تزيل التأثير عن جميع الأزرار
-  function clearActive() {
-    Object.values(btns).forEach(b => b.classList.remove('active-btn'));
-  }
-
-  // B: toggle غامق/عادي مع تأثير
-  btns.bold.addEventListener('click', () => {
-    if (content.style.fontWeight === 'bold') {
-      content.style.fontWeight = 'normal';
-      btns.bold.classList.remove('active-btn');
-    } else {
-      content.style.fontWeight = 'bold';
-      clearActive();
-      btns.bold.classList.add('active-btn');
-    }
-  });
-
-  // محاذاة النص مع إبراز الزر
-  btns.left.addEventListener('click', () => {
-    content.style.textAlign = 'left';
-    clearActive();
-    btns.left.classList.add('active-btn');
-  });
-  btns.center.addEventListener('click', () => {
-    content.style.textAlign = 'center';
-    clearActive();
-    btns.center.classList.add('active-btn');
-  });
-  btns.right.addEventListener('click', () => {
-    content.style.textAlign = 'right';
-    clearActive();
-    btns.right.classList.add('active-btn');
-  });
-});
-</script>  <!-- تهيئة Lottie -->  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const reactions = ['like','love','haha','sad','angry'];
-      reactions.forEach(type => {
-        const container = document.getElementById(`${type}-lottie`);
-        if (!container) return;
-        const anim = lottie.loadAnimation({ container, renderer:'svg', loop:false, autoplay:false, path:`/animations/${type}.json` });
-        container.addEventListener('mouseenter', () => anim.play());
-        container.addEventListener('mouseleave', () => anim.goToAndStop(0,true));
-        container.parentElement.addEventListener('click', () => {
-          anim.play();
-          const span = container.parentElement.querySelector('.count');
-          span.textContent = +span.textContent + 1;
-        });
+    // تهيئة تفاعلات Lottie
+    ['like','love','haha','sad','angry'].forEach(type => {
+      const c = document.getElementById(`${type}-lottie`);
+      if (!c) return;
+      const anim = lottie.loadAnimation({
+        container: c, renderer: 'svg', loop: false, autoplay: false,
+        path: `/animations/${type}.json`
+      });
+      c.addEventListener('mouseenter', () => anim.play());
+      c.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
+      c.parentElement.addEventListener('click', () => {
+        anim.play();
+        const span = c.parentElement.querySelector('.count');
+        span.textContent = +span.textContent + 1;
       });
     });
-  </script>  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
+
+    // ربط زرّ B وأزرار المحاذاة
+    const btns = {
+      bold:   document.getElementById('bold-btn'),
+      left:   document.getElementById('left-btn'),
+      center: document.getElementById('center-btn'),
+      right:  document.getElementById('right-btn')
+    };
+    function clearActive() {
+      Object.values(btns).forEach(b => b.classList.remove('active-btn'));
+    }
+    btns.bold.addEventListener('click', () => {
+      if (content.style.fontWeight === 'bold') {
+        content.style.fontWeight = 'normal';
+        btns.bold.classList.remove('active-btn');
+      } else {
+        content.style.fontWeight = 'bold';
+        clearActive();
+        btns.bold.classList.add('active-btn');
+      }
+    });
+    btns.left.addEventListener('click', () => {
+      content.style.textAlign = 'left'; clearActive(); btns.left.classList.add('active-btn');
+    });
+    btns.center.addEventListener('click', () => {
+      content.style.textAlign = 'center'; clearActive(); btns.center.classList.add('active-btn');
+    });
+    btns.right.addEventListener('click', () => {
+      content.style.textAlign = 'right'; clearActive(); btns.right.classList.add('active-btn');
+    });
+  });
+</script>  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
         </html>
