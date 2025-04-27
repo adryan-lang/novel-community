@@ -329,5 +329,41 @@
       content.style.textAlign = 'right'; clearActive(); btns.right.classList.add('active-btn');
     });
   });
-</script>  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
+</script> 
+  <script type="module">
+  const el       = document.getElementById('content');
+  const novelId   = el.dataset.novel;
+  const chapterId = el.dataset.chapter;
+
+  function ref() {
+    return doc(db, 'reactions', novelId, 'chapters', chapterId);
+  }
+
+  async function initReactions() {
+    const r = ref(), s = await getDoc(r);
+    if (!s.exists()) {
+      await setDoc(r, { like:0, love:0, haha:0, sad:0, angry:0 });
+      return { like:0, love:0, haha:0, sad:0, angry:0 };
+    }
+    return s.data();
+  }
+
+  async function react(type) {
+    await updateDoc(ref(), { [type]: increment(1) });
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const data = await initReactions();
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      const t = btn.dataset.reaction;
+      btn.querySelector('.count').textContent = data[t] || 0;
+      btn.addEventListener('click', async () => {
+        await react(t);
+        btn.querySelector('.count').textContent =
+          +btn.querySelector('.count').textContent + 1;
+      });
+    });
+  });
+  </script>
+  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
         </html>
