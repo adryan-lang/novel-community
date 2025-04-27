@@ -30,6 +30,10 @@ body {
       width: 32px;
       height: 32px;
     }
+    /* عند تفعيل زرّ التنسيق يضيف خلفية فاتحة وحزام */
+.active-btn {
+  @apply bg-indigo-100 ring-2 ring-indigo-300;
+}
   </style>
 </head>
 <body class="relative overflow-x-hidden">
@@ -259,22 +263,50 @@ body {
     closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
     modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
 
-    // **** زرّ الـ B: تفعيل/إلغاء الخط الغامق ****
-    const boldBtn   = document.getElementById('bold-btn'),
-          leftBtn   = document.getElementById('left-btn'),
-          centerBtn = document.getElementById('center-btn'),
-          rightBtn  = document.getElementById('right-btn');
+    // **** زرّ الـ B و أزرار المحاذاة مع تأثير التفعيل ****
+document.addEventListener('DOMContentLoaded', () => {
+  const content = document.getElementById('content');
+  const btns = {
+    bold:   document.getElementById('bold-btn'),
+    left:   document.getElementById('left-btn'),
+    center: document.getElementById('center-btn'),
+    right:  document.getElementById('right-btn')
+  };
 
-    // عند الضغط على B يتبدّل font-weight بين normal و bold
-    boldBtn.addEventListener('click', () => {
-      content.style.fontWeight = (content.style.fontWeight === 'bold') ? 'normal' : 'bold';
-    });
+  // وظيفة تزيل التأثير عن جميع الأزرار
+  function clearActive() {
+    Object.values(btns).forEach(b => b.classList.remove('active-btn'));
+  }
 
-    // زرّات المحاذاة
-    leftBtn.addEventListener('click', () =>   content.style.textAlign = 'left');
-    centerBtn.addEventListener('click', () => content.style.textAlign = 'center');
-    rightBtn.addEventListener('click', () =>  content.style.textAlign = 'right');
+  // B: toggle غامق/عادي مع تأثير
+  btns.bold.addEventListener('click', () => {
+    if (content.style.fontWeight === 'bold') {
+      content.style.fontWeight = 'normal';
+      btns.bold.classList.remove('active-btn');
+    } else {
+      content.style.fontWeight = 'bold';
+      clearActive();
+      btns.bold.classList.add('active-btn');
+    }
   });
+
+  // محاذاة النص مع إبراز الزر
+  btns.left.addEventListener('click', () => {
+    content.style.textAlign = 'left';
+    clearActive();
+    btns.left.classList.add('active-btn');
+  });
+  btns.center.addEventListener('click', () => {
+    content.style.textAlign = 'center';
+    clearActive();
+    btns.center.classList.add('active-btn');
+  });
+  btns.right.addEventListener('click', () => {
+    content.style.textAlign = 'right';
+    clearActive();
+    btns.right.classList.add('active-btn');
+  });
+});
 </script>  <!-- تهيئة Lottie -->  <script>
     window.addEventListener('DOMContentLoaded', () => {
       const reactions = ['like','love','haha','sad','angry'];
