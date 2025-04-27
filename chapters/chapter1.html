@@ -24,31 +24,34 @@
     referrerpolicy="no-referrer"
   />
   
-  <style>
-    :root {
-  --bg-color:   #f9fafb;
-  --text-color: #1f2937;
-  --font-size:  18px;
-  --font-family: 'Cairo', sans-serif; /* القيمة الافتراضية */
-}
-
-body {
-  font-family: var(--font-family);
-  background-color: var(--bg-color);
-  color:            var(--text-color);
-  font-size:        var(--font-size);
-  transition: background 0.3s, color 0.3s, font-size 0.3s, font-family 0.3s;
+<style>
+  :root {
+    --bg-color:      #f9fafb;
+    /* نحول --text-color ليخزن قيم RGB فقط (بدون #) */
+    --text-color:    31,41,55;
+    --text-opacity:  1;    /* القيمة الافتراضية */
+    --font-family:   'Cairo', sans-serif;
+    --font-size:     18px;
   }
-    /* بعد: تنسيقات Lottie */
-    .lottie-icon {
-      width: 32px;
-      height: 32px;
-    }
-    /* عند تفعيل زرّ التنسيق يضيف خلفية فاتحة وحزام */
-.active-btn {
-  @apply bg-indigo-100 ring-2 ring-indigo-300;
-}
-  </style>
+
+  body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    /* الآن نستخدم rgba لربط اللون بالمتغيّرين */
+    color: rgba(var(--text-color), var(--text-opacity));
+    font-size: var(--font-size);
+    transition: background 0.3s, color 0.3s, font-size 0.3s, font-family 0.3s;
+  }
+
+  .lottie-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .active-btn {
+    @apply bg-indigo-100 ring-2 ring-indigo-300;
+  }
+</style>
 </head>
 <body class="relative overflow-x-hidden">
   <!-- شريط التقدم -->
