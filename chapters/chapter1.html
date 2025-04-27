@@ -24,19 +24,67 @@
     referrerpolicy="no-referrer"
   />
   <script type="module">
+  // ★ استيراد Firebase + Firestore ★
   import { initializeApp }    from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAnalytics }     from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
-  // ← أضف هذا فقط:
   import {
-    getFirestore, doc, getDoc,
-    setDoc, updateDoc, increment
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    increment
   } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-  const firebaseConfig = { /* ... */ };
+  // ★ تهيئة المشروع ★
+  const firebaseConfig = {
+    apiKey:       "AIzaSy…",
+    authDomain:   "my-novels-site.firebaseapp.com",
+    projectId:    "my-novels-site",
+    storageBucket:"…",
+    messagingSenderId: "…",
+    appId:        "…",
+    measurementId: "…"
+  };
   const app       = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
-  const db        = getFirestore(app);  // ← تعريف قاعدة البيانات
-</script>
+  const db        = getFirestore(app);
+
+  // ★ كود التفاعلات ★
+  async function initReactions() {
+    const el        = document.getElementById('content');
+    const novelId   = el.dataset.novel;
+    const chapterId = el.dataset.chapter;
+    const r = doc(db, 'reactions', novelId, 'chapters', chapterId);
+    const snap = await getDoc(r);
+    if (!snap.exists()) {
+      await setDoc(r, { like:0, love:0, haha:0, sad:0, angry:0 });
+      return { like:0, love:0, haha:0, sad:0, angry:0 };
+    }
+    return snap.data();
+  }
+
+  async function react(type) {
+    const el        = document.getElementById('content');
+    const novelId   = el.dataset.novel;
+    const chapterId = el.dataset.chapter;
+    const r = doc(db, 'reactions', novelId, 'chapters', chapterId);
+    await updateDoc(r, { [type]: increment(1) });
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const data = await initReactions();
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      const t = btn.dataset.reaction;
+      btn.querySelector('.count').textContent = data[t] || 0;
+      btn.addEventListener('click', async () => {
+        await react(t);
+        btn.querySelector('.count').textContent =
+          +btn.querySelector('.count').textContent + 1;
+      });
+    });
+  });
+    </script>
 <style>
   :root {
     --bg-color:      #f9fafb;
@@ -330,40 +378,5 @@
     });
   });
 </script> 
-  <script type="module">
-  const el       = document.getElementById('content');
-  const novelId   = el.dataset.novel;
-  const chapterId = el.dataset.chapter;
-
-  function ref() {
-    return doc(db, 'reactions', novelId, 'chapters', chapterId);
-  }
-
-  async function initReactions() {
-    const r = ref(), s = await getDoc(r);
-    if (!s.exists()) {
-      await setDoc(r, { like:0, love:0, haha:0, sad:0, angry:0 });
-      return { like:0, love:0, haha:0, sad:0, angry:0 };
-    }
-    return s.data();
-  }
-
-  async function react(type) {
-    await updateDoc(ref(), { [type]: increment(1) });
-  }
-
-  document.addEventListener('DOMContentLoaded', async () => {
-    const data = await initReactions();
-    document.querySelectorAll('.react-btn').forEach(btn => {
-      const t = btn.dataset.reaction;
-      btn.querySelector('.count').textContent = data[t] || 0;
-      btn.addEventListener('click', async () => {
-        await react(t);
-        btn.querySelector('.count').textContent =
-          +btn.querySelector('.count').textContent + 1;
-      });
-    });
-  });
-  </script>
   <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
         </html>
