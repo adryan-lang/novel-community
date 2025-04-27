@@ -144,12 +144,41 @@ body {
           </select>
         </div>
       </div>
-      <!-- شريط التنسيق -->
-      <div class="flex justify-center items-center gap-4 pt-4 border-t">
-        <button id="bold-btn" class="px-2 py-1 border rounded">B</button>
-        <button onclick="document.getElementById('content').style.textAlign = 'left'" class="px-2 py-1 border rounded">⟵</button>
-        <button onclick="document.getElementById('content').style.textAlign = 'center'" class="px-2 py-1 border rounded">⤧</button>
-        <button onclick="document.getElementById('content').style.textAlign = 'right'" class="px-2 py-1 border rounded">⟶</button>
+      <!-- شريط التنسيق (مُحدَّث بأيقونات SVG وتأثير تفعيل) -->
+<div class="flex justify-center items-center gap-4 pt-4 border-t">
+
+  <!-- زرّ غامق/عادي -->
+  <button id="bold-btn" class="px-2 py-1 border rounded focus:outline-none">
+    <span class="font-semibold">B</span>
+  </button>
+
+  <!-- أيقونة المحاذاة إلى اليسار -->
+  <button id="left-btn" class="px-2 py-1 border rounded focus:outline-none">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+         viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h10M4 18h16" />
+    </svg>
+  </button>
+
+  <!-- أيقونة المحاذاة إلى المنتصف -->
+  <button id="center-btn" class="px-2 py-1 border rounded focus:outline-none">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+         viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M8 12h8M4 18h16" />
+    </svg>
+  </button>
+
+  <!-- أيقونة المحاذاة إلى اليمين -->
+  <button id="right-btn" class="px-2 py-1 border rounded focus:outline-none">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+         viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M10 12h10M4 18h16" />
+    </svg>
+  </button>
+
       </div>
     </div>
   </div>  <!-- سكربت المنع -->  <script>
