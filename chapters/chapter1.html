@@ -382,8 +382,6 @@
       c.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
       c.parentElement.addEventListener('click', () => {
         anim.play();
-        const span = c.parentElement.querySelector('.count');
-        span.textContent = +span.textContent + 1;
       });
     });
 
