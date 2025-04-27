@@ -23,7 +23,7 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  <script type="module">
+<script type="module">
   // ★ استيراد Firebase + Firestore ★
   import { initializeApp }    from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAnalytics }     from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
@@ -36,17 +36,26 @@
     increment
   } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-  // ★ تهيئة المشروع ★
-  const firebaseConfig = { /* ... */ };
+  // ★ تهيئة مشروعك بالقيم الصحيحة ★
+  const firebaseConfig = {
+    apiKey:            "AIzaSyBbvNSR8FQguOPwlLw_EHuVNzTt4LJe8rM",
+    authDomain:        "my-novels-site.firebaseapp.com",
+    projectId:         "my-novels-site",
+    storageBucket:     "my-novels-site.firebasestorage.app",
+    messagingSenderId: "902736822570",
+    appId:             "1:902736822570:web:af7780e3512944720c1e53",
+    measurementId:     "G-47GNFEQKEM"
+  };
   const app       = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db        = getFirestore(app);
 
-  // ★ دوال مساعدة ★
+  // ★ مساعدات لإنشاء المرجع ★
   function refDoc(novelId, chapterId) {
     return doc(db, 'reactions', novelId, 'chapters', chapterId);
   }
 
+  // ★ جلب أو تهيئة أعداد التفاعلات ★
   async function initReactions(novelId, chapterId) {
     const r    = refDoc(novelId, chapterId);
     const snap = await getDoc(r);
@@ -57,9 +66,9 @@
     return snap.data();
   }
 
-  // دالة للتصويت أو نقل التصويت
+  // ★ دالة لنقل التصويت (تخفض القديم وتزيد الجديد) ★
   async function vote(novelId, chapterId, prevType, newType) {
-    const r = refDoc(novelId, chapterId);
+    const r       = refDoc(novelId, chapterId);
     const updates = {};
     if (prevType && prevType !== newType) {
       updates[prevType] = increment(-1);
@@ -68,6 +77,7 @@
     await updateDoc(r, updates);
   }
 
+  // ★ التنفيذ عند تحميل الصفحة ★
   document.addEventListener('DOMContentLoaded', async () => {
     const el        = document.getElementById('content');
     const novelId   = el.dataset.novel;
@@ -78,13 +88,13 @@
     const data = await initReactions(novelId, chapterId);
     document.querySelectorAll('.react-btn').forEach(btn => {
       const t = btn.dataset.reaction;
-      btn.querySelector('.count').textContent = data[t] || 0;
+      btn.querySelector('.count').textContent = data[t] ?? 0;
     });
 
-    // 2) قراءة التصويت السابق (إن وُجد)
+    // 2) تعرف لو كان الزائر قد صوت سابقاً
     let prev = localStorage.getItem(voteKey);
 
-    // 3) تعيين حالة الزر المحدد (اختياري: يمكنك تظليل الزر المُختار)
+    // 3) إذا صوت سابقاً ظلّل الزر المختار
     if (prev) {
       const activeBtn = document.querySelector(`.react-btn[data-reaction="${prev}"]`);
       activeBtn?.classList.add('active-btn');
@@ -94,9 +104,10 @@
     document.querySelectorAll('.react-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         const type = btn.dataset.reaction;
-        if (type === prev) return;               // إذا ضغط على نفس الإيموجي لا نفعل شيئاً
+        if (type === prev) return;  // عدم إعادة التصويت على نفس الإيموجي
         await vote(novelId, chapterId, prev, type);
-        // 5) تحديث الواجهة: نقل العدد من الزر القديم إلى الجديد
+
+        // تحديث الواجهة: نقص من القديم وأضف إلى الجديد
         if (prev) {
           const oldSpan = document.querySelector(`.react-btn[data-reaction="${prev}"] .count`);
           oldSpan.textContent = +oldSpan.textContent - 1;
@@ -106,13 +117,14 @@
         const newSpan = btn.querySelector('.count');
         newSpan.textContent = +newSpan.textContent + 1;
         btn.classList.add('active-btn');
-        // 6) حفظ التصويت الجديد
+
+        // حفظ اختيار الزائر الجديد
         localStorage.setItem(voteKey, type);
         prev = type;
       });
     });
   });
-  </script>
+    </script>
 <style>
   :root {
     --bg-color:      #f9fafb;
