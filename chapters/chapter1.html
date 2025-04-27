@@ -158,47 +158,95 @@ body {
     document.addEventListener('keydown', e => {
       if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12') e.preventDefault();
     });
-  </script>  <!-- سكربت الوظائف -->  <script>
-    function setFontSize(size) {
-      document.documentElement.style.setProperty('--font-size', size);
-      localStorage.setItem('fontSize', size);
-    }
-    function setTheme(theme) {
-      const root = document.documentElement;
-      switch(theme) {
-        case 'dark': root.style.setProperty('--bg-color', '#1e1e1e'); root.style.setProperty('--text-color', '#f3f4f6'); break;
-        case 'brown': root.style.setProperty('--bg-color', '#efdfd3'); root.style.setProperty('--text-color', '#1f2937'); break;
-        case 'blue': root.style.setProperty('--bg-color', '#e0f2fe'); root.style.setProperty('--text-color', '#1f2937'); break;
-        case 'green': root.style.setProperty('--bg-color', '#d1fae5'); root.style.setProperty('--text-color', '#1f2937'); break;
-        case 'pink': root.style.setProperty('--bg-color', '#ffe4e6'); root.style.setProperty('--text-color', '#1f2937'); break;
-        case 'purple': root.style.setProperty('--bg-color', '#ede9fe'); root.style.setProperty('--text-color', '#1f2937'); break;
-        default: root.style.setProperty('--bg-color', '#f9fafb'); root.style.setProperty('--text-color', '#1f2937');
-      }
-      localStorage.setItem('theme', theme);
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-      const fs = localStorage.getItem('fontSize'), th = localStorage.getItem('theme');
-      if (fs) setFontSize(fs);
-      if (th) setTheme(th);
+  </script>
+  <!-- سكربت الوظائف -->
+<script>
+  // 1. تغيير حجم الخط وحفظ الإعداد
+  function setFontSize(size) {
+    document.documentElement.style.setProperty('--font-size', size);
+    localStorage.setItem('fontSize', size);
+  }
 
-      const prog = document.getElementById('progress');
-      const btn  = document.getElementById('toTop');
-      window.addEventListener('scroll', () => {
-        const h = document.documentElement;
-        prog.style.width = (window.scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
-        btn.classList.toggle('hidden', window.scrollY < 300);
-      });
-      btn?.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+  // 2. تغيير الثيم وحفظ الإعداد
+  function setTheme(theme) {
+    const root = document.documentElement;
+    switch (theme) {
+      case 'dark':
+        root.style.setProperty('--bg-color', '#1e1e1e');
+        root.style.setProperty('--text-color', '#f3f4f6');
+        break;
+      case 'brown':
+        root.style.setProperty('--bg-color', '#efdfd3');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      case 'blue':
+        root.style.setProperty('--bg-color', '#e0f2fe');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      case 'green':
+        root.style.setProperty('--bg-color', '#d1fae5');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      case 'pink':
+        root.style.setProperty('--bg-color', '#ffe4e6');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      case 'purple':
+        root.style.setProperty('--bg-color', '#ede9fe');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      default:
+        root.style.setProperty('--bg-color', '#f9fafb');
+        root.style.setProperty('--text-color', '#1f2937');
+    }
+    localStorage.setItem('theme', theme);
+  }
 
-      // إعدادات القارئ
-      const openBtn = document.getElementById('open-settings');
-      const closeBtn = document.getElementById('close-settings');
-      const modal = document.getElementById('reader-settings-modal');
-      openBtn.addEventListener('click', () => modal.classList.toggle('hidden'));
-      closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-      modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+  // 3. بعد تحميل الصفحة، نربط جميع الأحداث
+  document.addEventListener('DOMContentLoaded', () => {
+    // استعادة الإعدادات
+    const fs      = localStorage.getItem('fontSize'),
+          th      = localStorage.getItem('theme'),
+          content = document.getElementById('content'),
+          prog    = document.getElementById('progress'),
+          btnTop  = document.getElementById('toTop');
+
+    if (fs) setFontSize(fs);
+    if (th) setTheme(th);
+
+    // شريط التقدم وزر الرجوع للأعلى
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      prog.style.width = (window.scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
+      btnTop?.classList.toggle('hidden', window.scrollY < 300);
     });
-  </script>  <!-- تهيئة Lottie -->  <script>
+    btnTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // مودال إعدادات القارئ
+    const openBtn  = document.getElementById('open-settings'),
+          closeBtn = document.getElementById('close-settings'),
+          modal    = document.getElementById('reader-settings-modal');
+    openBtn.addEventListener('click', () => modal.classList.toggle('hidden'));
+    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+
+    // **** زرّ الـ B: تفعيل/إلغاء الخط الغامق ****
+    const boldBtn   = document.getElementById('bold-btn'),
+          leftBtn   = document.getElementById('left-btn'),
+          centerBtn = document.getElementById('center-btn'),
+          rightBtn  = document.getElementById('right-btn');
+
+    // عند الضغط على B يتبدّل font-weight بين normal و bold
+    boldBtn.addEventListener('click', () => {
+      content.style.fontWeight = (content.style.fontWeight === 'bold') ? 'normal' : 'bold';
+    });
+
+    // زرّات المحاذاة
+    leftBtn.addEventListener('click', () =>   content.style.textAlign = 'left');
+    centerBtn.addEventListener('click', () => content.style.textAlign = 'center');
+    rightBtn.addEventListener('click', () =>  content.style.textAlign = 'right');
+  });
+</script>  <!-- تهيئة Lottie -->  <script>
     window.addEventListener('DOMContentLoaded', () => {
       const reactions = ['like','love','haha','sad','angry'];
       reactions.forEach(type => {
