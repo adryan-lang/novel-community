@@ -381,17 +381,16 @@
       const links = document.querySelectorAll('.sidebar a[data-filter]');
       const novels = document.querySelectorAll('.novel-card');
       links.forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const f = link.getAttribute('data-filter');
-    novels.forEach(n => {
-      const isMatch = (f === 'all') || n.classList.contains(f);
-      const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
-      // اخفاء إذا ليس ضمن الفئة، أو إذا في all ثم هو for-sale
-      n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
-    });
-  });
-});
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const f = link.getAttribute('data-filter');
+          novels.forEach(n => {
+            const isMatch = (f === 'all') || n.classList.contains(f);
+            const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
+            n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
+          });
+        });
+      });
       // ربط البحث
       const input = document.querySelector('.search-box input');
       input.addEventListener('input', function() {
@@ -400,6 +399,15 @@
           const title = n.querySelector('h3').textContent.toLowerCase();
           n.classList.toggle('hidden', !title.includes(q));
         });
+      });
+
+      // تفعيل قائمة العصر الأدبي الفرعية
+      const eraToggle = document.getElementById('era-toggle');
+      const eraOptions = document.getElementById('era-options');
+      eraToggle.addEventListener('click', e => {
+        e.preventDefault();
+        eraOptions.classList.toggle('hidden');
+        eraToggle.classList.toggle('open');
       });
     };
   </script>
