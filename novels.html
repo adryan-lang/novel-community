@@ -394,85 +394,67 @@
   </div>
 
   <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('active');
-    }
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
 
-    function toggleTheme() {
-      const body = document.body;
-      const isDark = body.classList.toggle('dark');
-      const moonIcon = document.getElementById('moon-icon');
-      const sunIcon  = document.getElementById('sun-icon');
-      if (isDark) {
-        moonIcon.style.display = 'none';
-        sunIcon.style.display  = 'block';
-      } else {
-        moonIcon.style.display = 'block';
-        sunIcon.style.display  = 'none';
-      }
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
+  function toggleTheme() {
+    const body = document.body;
+    const isDark = body.classList.toggle('dark');
+    document.getElementById('moon-icon').style.display = isDark ? 'none' : 'block';
+    document.getElementById('sun-icon').style.display  = isDark ? 'block' : 'none';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }
 
-    window.onload = function () {
-      // تهيئة الثيم
-      const saved = localStorage.getItem('theme');
-      const body = document.body;
-      const moonIcon = document.getElementById('moon-icon');
-      const sunIcon  = document.getElementById('sun-icon');
-      if (saved === 'dark') {
-        body.classList.add('dark');
-        moonIcon.style.display = 'none';
-        sunIcon.style.display  = 'block';
-      } else {
-        moonIcon.style.display = 'block';
-        sunIcon.style.display  = 'none';
-      }
-      // ربط الفلترة
-      const links = document.querySelectorAll('.sidebar a[data-filter]');
-      const novels = document.querySelectorAll('.novel-card');
-      links.forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const f = link.getAttribute('data-filter');
-    novels.forEach(n => {
-      const isMatch = (f === 'all') || n.classList.contains(f);
-      const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
-      // اخفاء إذا ليس ضمن الفئة، أو إذا في all ثم هو for-sale
-      n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
-    });
-  });
-});
-      // ربط البحث
-      const input = document.querySelector('.search-box input');
-      input.addEventListener('input', function() {
-        const q = this.value.trim().toLowerCase();
+  window.onload = function () {
+    // 1) تهيئة الثيم بناءً على التخزين المحلي
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') toggleTheme();  // سيضبط الأيقونات والـclass
+
+    // 2) ربط الفلترة الرئيسية والقوائم
+    const novels = document.querySelectorAll('.novel-card');
+
+    // 2.1) ربط أزرار الفئات (الرئيسية، خيال، شراء)
+    document.querySelectorAll('.sidebar a[data-filter]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const f = link.getAttribute('data-filter');
         novels.forEach(n => {
-          const title = n.querySelector('h3').textContent.toLowerCase();
-          n.classList.toggle('hidden', !title.includes(q));
-          });
-    });
-// ١) فتح/إغلاق القوائم الشجرية
-  document.querySelectorAll('.has-submenu > a').forEach(toggle => {
-    toggle.addEventListener('click', e => {
-      e.preventDefault();
-      // يضيف/يزيل الصنف open لفتح القائمة الفرعية
-      toggle.parentElement.classList.toggle('open');
-    });
-  });
-
-  // ٢) فلترة الروايات بناءً على السمات data-century و data-lang
-  document.querySelectorAll('ul.submenu a[data-century]').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const { century, lang } = link.dataset;
-      document.querySelectorAll('.novel-card').forEach(card => {
-        // إذا تطابقت السمات مع البطاقة، أظهرها، وإلا أخفِها
-        const match = card.dataset.century === century && card.dataset.lang === lang;
-        card.classList.toggle('hidden', !match);
+          const isMatch = (f === 'all') || n.classList.contains(f);
+          const hideForSaleOnAll = (f === 'all' && n.classList.contains('for-sale'));
+          n.classList.toggle('hidden', !(isMatch) || hideForSaleOnAll);
+        });
       });
+    });
+
+    // 2.2) ربط البحث النصّي
+    const input = document.querySelector('.search-box input');
+    input.addEventListener('input', function() {
+      const q = this.value.trim().toLowerCase();
+      novels.forEach(n => {
+        const title = n.querySelector('h3').textContent.toLowerCase();
+        n.classList.toggle('hidden', !title.includes(q));
+      });
+    });
+
+    // 2.3) فتح/إغلاق القوائم الشجرية
+    document.querySelectorAll('.has-submenu > a').forEach(toggle => {
+      toggle.addEventListener('click', e => {
+        e.preventDefault();
+        toggle.parentElement.classList.toggle('open');
+      });
+    });
+
+    // 2.4) فلترة الروايات حسب data-century و data-lang
+    document.querySelectorAll('ul.submenu a[data-century]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const { century, lang } = link.dataset;
+        novels.forEach(card => {
+          const match = (card.dataset.century === century) && (card.dataset.lang === lang);
+          card.classList.toggle('hidden', !match);
+        });
       });
     });
   };
   </script>
-</body>
-      </html>
