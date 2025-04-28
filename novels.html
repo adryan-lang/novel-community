@@ -253,10 +253,7 @@
     <a href="#" data-filter="for-sale"><i class="fas fa-shopping-cart"></i> شراء الكتب</a>
     <a href="#"><i class="fas fa-heart"></i> ادعم الموقع</a>
                                                                                                </div>
-        <div id="section-header" class="section-header hidden">
-  <h2>العصر الفيكتوري</h2>
-</div>
-<div class="novels-container">
+        <div class="novels-container">
   <!-- روايات خيال المعجبين -->
   <a class="novel-card fanfic" href="novel1.html">
     <img src="images/cover.webp" alt="رواية البطل الخارق">
@@ -381,38 +378,38 @@
         sunIcon.style.display  = 'none';
       }
       // ربط الفلترة
-          // --- هنا يبدأ الكود الجديد للفلترة والعنوان ---
-    const links   = document.querySelectorAll('.sidebar a[data-filter]');
-    const novels  = document.querySelectorAll('.novel-card');
-    const header  = document.getElementById('section-header');   // عنصر العنوان
-    const eraTitles = {
-      victorian:       'العصر الفيكتوري',
-      nineteenth:      'القرن التاسع عشر',
-      'early-twentieth': 'أوائل القرن العشرين',
-      'ancient-classics':'الكلاسيكيات القديمة'
-    };
-
-    links.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const f = link.getAttribute('data-filter');
-
-        // أ) إظهار/إخفاء بطاقات الروايات
-        novels.forEach(n => {
-          const isMatch        = (f === 'all') || n.classList.contains(f);
-          const hideForSaleAll = (f === 'all') && n.classList.contains('for-sale');
-          n.classList.toggle('hidden', !isMatch || hideForSaleAll);
+      const links = document.querySelectorAll('.sidebar a[data-filter]');
+      const novels = document.querySelectorAll('.novel-card');
+      links.forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const f = link.getAttribute('data-filter');
+          novels.forEach(n => {
+            const isMatch = (f === 'all') || n.classList.contains(f);
+            const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
+            n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
+          });
         });
-
-        // ب) إظهار عنوان القسم أو إخفاؤه
-        if (eraTitles[f]) {
-          header.querySelector('h2').textContent = eraTitles[f];
-          header.classList.remove('hidden');
-        } else {
-          header.classList.add('hidden');
-        }
       });
-    });
-    // --- نهاية الكود الجديد ---
-  };
+      // ربط البحث
+      const input = document.querySelector('.search-box input');
+      input.addEventListener('input', function() {
+        const q = this.value.trim().toLowerCase();
+        novels.forEach(n => {
+          const title = n.querySelector('h3').textContent.toLowerCase();
+          n.classList.toggle('hidden', !title.includes(q));
+        });
+      });
+
+      // تفعيل قائمة العصر الأدبي الفرعية
+      const eraToggle = document.getElementById('era-toggle');
+      const eraOptions = document.getElementById('era-options');
+      eraToggle.addEventListener('click', e => {
+        e.preventDefault();
+        eraOptions.classList.toggle('hidden');
+        eraToggle.classList.toggle('open');
+      });
+    };
   </script>
+</body>
+      </html>
