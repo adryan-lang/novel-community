@@ -234,60 +234,73 @@
   </div>
 
   <div class="sidebar" id="sidebar">
-    <button class="sidebar-close" onclick="toggleSidebar()">×</button>
-    <h2>القائمة</h2>
-    <a href="#" data-filter="all"><i class="fas fa-home"></i> الرئيسية</a>
-    <a href="#" data-filter="fanfic"><i class="fas fa-book-open"></i> روايات خيال المعجبين</a>
-    <li class="sidebar-item has-submenu">
-  <a href="#">العصر الأدبي ▾</a>
-
-  <!-- قائمة فلترة تفاعلية فقط -->
-  <ul class="submenu">
-    <!-- القرن التاسع عشر -->
+  <button class="sidebar-close" onclick="toggleSidebar()">×</button>
+  <h2>القائمة</h2>
+  <ul class="menu">
+    <!-- الرئيسية -->
+    <li>
+      <a href="#" data-filter="all"><i class="fas fa-home"></i> الرئيسية</a>
+    </li>
+    <!-- روايات خيال المعجبين -->
+    <li>
+      <a href="#" data-filter="fanfic"><i class="fas fa-book-open"></i> روايات خيال المعجبين</a>
+    </li>
+    <!-- قائمة العصر الأدبي -->
     <li class="has-submenu">
-      <a href="#">القرن التاسع عشر ▸</a>
+      <a href="#">العصر الأدبي ▾</a>
       <ul class="submenu">
-        <li><a href="#" data-century="19th" data-lang="ru">روسي</a></li>
-        <li><a href="#" data-century="19th" data-lang="fr">فرنسي</a></li>
-        <li><a href="#" data-century="19th" data-lang="en">إنجليزي</a></li>
-        <li><a href="#" data-century="19th" data-lang="ar">عربي</a></li>
+        <!-- القرن التاسع عشر -->
+        <li class="has-submenu">
+          <a href="#">القرن التاسع عشر ▸</a>
+          <ul class="submenu">
+            <li><a href="#" data-century="19th" data-lang="ru">روسي</a></li>
+            <li><a href="#" data-century="19th" data-lang="fr">فرنسي</a></li>
+            <li><a href="#" data-century="19th" data-lang="en">إنجليزي</a></li>
+            <li><a href="#" data-century="19th" data-lang="ar">عربي</a></li>
+          </ul>
+        </li>
+        <!-- العصر الفيكتوري -->
+        <li class="has-submenu">
+          <a href="#">العصر الفيكتوري ▸</a>
+          <ul class="submenu">
+            <li><a href="#" data-century="victorian" data-lang="ru">روسي</a></li>
+            <li><a href="#" data-century="victorian" data-lang="fr">فرنسي</a></li>
+            <li><a href="#" data-century="victorian" data-lang="en">إنجليزي</a></li>
+            <li><a href="#" data-century="victorian" data-lang="ar">عربي</a></li>
+          </ul>
+        </li>
+        <!-- أوائل القرن العشرين -->
+        <li class="has-submenu">
+          <a href="#">أوائل القرن العشرين ▸</a>
+          <ul class="submenu">
+            <li><a href="#" data-century="20th-early" data-lang="ru">روسي</a></li>
+            <li><a href="#" data-century="20th-early" data-lang="fr">فرنسي</a></li>
+            <li><a href="#" data-century="20th-early" data-lang="en">إنجليزي</a></li>
+            <li><a href="#" data-century="20th-early" data-lang="ar">عربي</a></li>
+          </ul>
+        </li>
+        <!-- الكلاسيكيات القديمة -->
+        <li class="has-submenu">
+          <a href="#">الكلاسيكيات القديمة ▸</a>
+          <ul class="submenu">
+            <li><a href="#" data-century="ancient" data-lang="ru">روسي</a></li>
+            <li><a href="#" data-century="ancient" data-lang="fr">فرنسي</a></li>
+            <li><a href="#" data-century="ancient" data-lang="en">إنجليزي</a></li>
+            <li><a href="#" data-century="ancient" data-lang="ar">عربي</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
-    <!-- العصر الفيكتوري -->
-    <li class="has-submenu">
-      <a href="#">العصر الفيكتوري ▸</a>
-      <ul class="submenu">
-        <li><a href="#" data-century="victorian" data-lang="ru">روسي</a></li>
-        <li><a href="#" data-century="victorian" data-lang="fr">فرنسي</a></li>
-        <li><a href="#" data-century="victorian" data-lang="en">إنجليزي</a></li>
-        <li><a href="#" data-century="victorian" data-lang="ar">عربي</a></li>
-      </ul>
+    <!-- شراء الكتب -->
+    <li>
+      <a href="#" data-filter="for-sale"><i class="fas fa-shopping-cart"></i> شراء الكتب</a>
     </li>
-    <!-- أوائل القرن العشرين -->
-    <li class="has-submenu">
-      <a href="#">أوائل القرن العشرين ▸</a>
-      <ul class="submenu">
-        <li><a href="#" data-century="20th-early" data-lang="ru">روسي</a></li>
-        <li><a href="#" data-century="20th-early" data-lang="fr">فرنسي</a></li>
-        <li><a href="#" data-century="20th-early" data-lang="en">إنجليزي</a></li>
-        <li><a href="#" data-century="20th-early" data-lang="ar">عربي</a></li>
-      </ul>
-    </li>
-    <!-- الكلاسيكيات القديمة -->
-    <li class="has-submenu">
-      <a href="#">الكلاسيكيات القديمة ▸</a>
-      <ul class="submenu">
-        <li><a href="#" data-century="ancient" data-lang="ru">روسي</a></li>
-        <li><a href="#" data-century="ancient" data-lang="fr">فرنسي</a></li>
-        <li><a href="#" data-century="ancient" data-lang="en">إنجليزي</a></li>
-        <li><a href="#" data-century="ancient" data-lang="ar">عربي</a></li>
-      </ul>
+    <!-- دعم الموقع -->
+    <li>
+      <a href="#"><i class="fas fa-heart"></i> ادعم الموقع</a>
     </li>
   </ul>
-        </li>
-    <a href="#" data-filter="for-sale"><i class="fas fa-shopping-cart"></i> شراء الكتب</a>
-    <a href="#"><i class="fas fa-heart"></i> ادعم الموقع</a>
-  </div>  <div class="novels-container">
+                  </div>  <div class="novels-container">
   <!-- روايات خيال المعجبين -->
   <a class="novel-card fanfic" href="novel1.html">
     <img src="images/cover.webp" alt="رواية البطل الخارق">
