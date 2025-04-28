@@ -11,67 +11,62 @@
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <style>
     :root {
-      --main-color: #3498db;
-      --dark-bg: #121212;
-      --light-bg: #f2f2f2;
-      --text-dark: #fff;
-      --text-light: #000;
-      --era-bg: rgba(92, 51, 23, 0.9);
-      --era-text: #d4af37;
+      --era-border: 2px solid #5c3317;
+      --era-radius: 8px;
+      --era-padding: 12px;
+      --era-gap: 10px;
+      --era-icon-size: 30px;
+      --era-banner-height: 50px;
+      --era-bg-light: #f2f2f2;
+      --era-bg-dark: #2c2c2c;
+      --era-text-color: #d4af37;
     }
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background-color: var(--light-bg);
-      color: var(--text-light);
-      transition: background-color 0.3s, color 0.3s;
+
+    /* توحيد جميع بنود القائمة */
+    .sub-menu {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      padding: 20px;
     }
-    body.dark {
-      background-color: var(--dark-bg);
-      color: var(--text-dark);
+    .sub-menu a {
+      text-decoration: none;
     }
-    .navbar {
-      background: var(--main-color);
-      color: white;
+    .era-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: var(--era-padding);
+      border: var(--era-border);
+      border-radius: var(--era-radius);
+      background: var(--era-bg-light);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    body.dark .era-item {
+      background: var(--era-bg-dark);
+      border-color: var(--era-text-color);
+    }
+    .era-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      gap: var(--era-gap);
+      width: 100%;
     }
-    .navbar img.logo { height: 40px; }
-    .navbar .search-box { flex: 1; margin: 0 20px; display: flex; align-items: center; background: rgba(255,255,255,0.2); border-radius: 8px; padding: 5px 10px; transition: background 0.3s; }
-    body.dark .navbar .search-box { background: rgba(0,0,0,0.2); }
-    .navbar .search-box input { border: none; background: transparent; color: inherit; width: 100%; padding: 5px; font-size: 16px; }
-    .navbar .search-box input::placeholder { color: #ddd; }
-    .navbar .search-box i { margin-left: 10px; }
-    .navbar .icons { display: flex; align-items: center; gap: 15px; }
-    .navbar button { background: none; border: none; color: inherit; font-size: 20px; cursor: pointer; }
-    .sidebar { position: fixed; top: 0; left: -100%; width: 250px; height: 100%; background: #34495e; color: white; padding: 20px; transition: left 0.3s ease, background 0.3s; z-index: 1001; box-shadow: 2px 0 10px rgba(0,0,0,0.3); overflow-y: auto; }
-    body.dark .sidebar { background: #222; }
-    .sidebar.active { left: 0; }
-    .sidebar-close { position: absolute; top: 10px; left: 10px; font-size: 24px; background: none; border: none; color: inherit; cursor: pointer; }
-    .sidebar h2 { margin-top: 40px; }
-    .sidebar a { display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: inherit; text-decoration: none; font-size: 18px; border-radius: 8px; transition: background-color 0.3s, transform 0.2s; }
-    .sidebar a:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
-    .sidebar a i { font-size: 18px; }
-    .sub-menu { padding: 0 20px 10px; margin-bottom: 10px; border-right: 1px solid rgba(255,255,255,0.1); }
-    .sub-menu a { display: block; padding: 8px 0; color: inherit; font-size: 16px; text-decoration: none; transition: background-color 0.3s; }
-    .sub-menu a:hover { background: rgba(255,255,255,0.1); }
-    .sub-icon { transition: transform 0.3s; margin-left: auto; }
-    .has-submenu.open .sub-icon { transform: rotate(90deg); }
-    .novels-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; padding: 20px; }
-    .novel-card { background: #fff; border-radius: 10px; transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s; position: relative; text-decoration: none; color: inherit; }
-    body.dark .novel-card { background: #1e1e1e; color: #fff; box-shadow: 0 4px 10px rgba(255,255,255,0.1); }
-    .novel-card img { width: 100%; height: auto; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px 8px 0 0; display: block; transition: filter 0.3s; }
-    body.dark .novel-card img { filter: brightness(0.9); }
-    .novel-card h3 { margin: 10px; font-size: 16px; font-weight: 500; font-family: 'Tajawal', sans-serif; text-align: right; line-height: 1.4; max-height: 3.2em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; transition: color 0.3s; }
-    .hidden { display: none !important; }
-    /* Era overlay */
-    #era-overlay { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background-color: var(--era-bg); color: var(--era-text); padding: 10px 20px; font-size: 24px; font-weight: bold; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.5s; }
-    #era-overlay.visible { opacity: 1; }
+    .era-icon-left {
+      width: var(--era-icon-size);
+      height: var(--era-icon-size);
+      flex-shrink: 0;
+    }
+    .era-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: inherit;
+    }
+    .era-banner {
+      width: 100%;
+      height: var(--era-banner-height);
+      margin-top: var(--era-gap);
+    }
   </style>
 </head>
 <body>
