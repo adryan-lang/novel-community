@@ -72,6 +72,21 @@
     /* Era overlay */
     #era-overlay { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background-color: var(--era-bg); color: var(--era-text); padding: 10px 20px; font-size: 24px; font-weight: bold; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.5s; }
     #era-overlay.visible { opacity: 1; }
+    /* البداية: تحكم في موضع وحجم شريط الـ sale-ribbon */
+ .sale-ribbon {
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   width: 80px;
+   height: 80px;
+   pointer-events: none;
+   z-index: 2;
+ }
+ .sale-ribbon lottie-player {
+   width: 100%;
+   height: 100%;
+ }
+ /* النهاية */
   </style>
 </head>
 <body>
