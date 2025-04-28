@@ -449,6 +449,8 @@
         novels.forEach(n => {
           const title = n.querySelector('h3').textContent.toLowerCase();
           n.classList.toggle('hidden', !title.includes(q));
+          });
+    });
 // ١) فتح/إغلاق القوائم الشجرية
   document.querySelectorAll('.has-submenu > a').forEach(toggle => {
     toggle.addEventListener('click', e => {
@@ -467,6 +469,7 @@
         // إذا تطابقت السمات مع البطاقة، أظهرها، وإلا أخفِها
         const match = card.dataset.century === century && card.dataset.lang === lang;
         card.classList.toggle('hidden', !match);
+      });
       });
     });
   };
