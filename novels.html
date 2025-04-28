@@ -113,17 +113,17 @@
     </div>
   </div>
 <!-- Era Animation -->
-  <div id="era-animation">
-    <lottie-player
-      id="era-lottie"
-      src="animations/victorian.json" 
-      background="transparent"
-      speed="1"
-      style="width:150px; height:150px;"
-      loop
-      autoplay>
-    </lottie-player>
-  </div>
+<div id="era-animation" class="hidden">
+  <lottie-player
+    id="era-lottie"
+    src="animations/victorian.json"
+    background="transparent"
+    speed="1"
+    style="width:150px; height:150px;"
+    loop
+    autoplay>
+  </lottie-player>
+</div>
   <!-- Era Overlay -->
   <div id="era-overlay">العصر الفيكتوري</div>
 
@@ -245,31 +245,53 @@
       sunIcon.style.display  = isDark ? 'block' : 'none';
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
-    window.onload = function() {
-      const saved = localStorage.getItem('theme'); const body = document.body;
-      const moonIcon = document.getElementById('moon-icon'); const sunIcon = document.getElementById('sun-icon');
-      if (saved === 'dark') { body.classList.add('dark'); moonIcon.style.display = 'none'; sunIcon.style.display = 'block'; }
-      const links = document.querySelectorAll('.sidebar a[data-filter]');
-      const novels = document.querySelectorAll('.novel-card');
-      const overlay = document.getElementById('era-overlay');
-      links.forEach(link => {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          const f = link.getAttribute('data-filter');
-          novels.forEach(n => {
-            const isMatch = (f === 'all') || n.classList.contains(f);
-            const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
-            n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
-          });
-          if (f === 'victorian') overlay.classList.add('visible'); else overlay.classList.remove('visible');
+      window.onload = function() {
+    const saved = localStorage.getItem('theme'); const body = document.body;
+    const moonIcon = document.getElementById('moon-icon'); const sunIcon = document.getElementById('sun-icon');
+    if (saved === 'dark') { body.classList.add('dark'); moonIcon.style.display = 'none'; sunIcon.style.display = 'block'; }
+
+    const links     = document.querySelectorAll('.sidebar a[data-filter]');
+    const novels    = document.querySelectorAll('.novel-card');
+    const overlay   = document.getElementById('era-overlay');
+    const animation = document.getElementById('era-animation');  // ← **سطر إضافي**
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const f = link.getAttribute('data-filter');
+        novels.forEach(n => {
+          const isMatch          = (f === 'all') || n.classList.contains(f);
+          const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
+          n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
         });
+        if (f === 'victorian') {
+          overlay.classList.add('visible');
+          animation.classList.remove('hidden');  // ← **سطر إضافي**
+        } else {
+          overlay.classList.remove('visible');
+          animation.classList.add('hidden');     // ← **سطر إضافي**
+        }
       });
-      document.getElementById('era-toggle').addEventListener('click', e => { e.preventDefault(); const opts = document.getElementById('era-options'); opts.classList.toggle('hidden'); e.currentTarget.classList.toggle('open'); });
-      document.querySelector('.search-box input').addEventListener('input', function() {
+    });
+
+    document.getElementById('era-toggle')
+      .addEventListener('click', e => {
+        e.preventDefault();
+        const opts = document.getElementById('era-options');
+        opts.classList.toggle('hidden');
+        e.currentTarget.classList.toggle('open');
+      });
+
+    document.querySelector('.search-box input')
+      .addEventListener('input', function() {
         const q = this.value.trim().toLowerCase();
-        document.querySelectorAll('.novel-card').forEach(n => n.classList.toggle('hidden', !n.querySelector('h3').textContent.toLowerCase().includes(q)));
+        document.querySelectorAll('.novel-card').forEach(n =>
+          n.classList.toggle('hidden',
+            !n.querySelector('h3').textContent.toLowerCase().includes(q)
+          )
+        );
       });
-    };
+  };
   </script>
 </body>
   </html>
