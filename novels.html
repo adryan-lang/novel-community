@@ -393,11 +393,13 @@
     </a>
   </div>
 
-  <script>
+<script>
+  // فتح/إغلاق الشريط الجانبي
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('active');
   }
 
+  // تبديل الوضع الليلي
   function toggleTheme() {
     const body = document.body;
     const isDark = body.classList.toggle('dark');
@@ -407,45 +409,49 @@
   }
 
   window.onload = function () {
-    // 1) تهيئة الثيم بناءً على التخزين المحلي
+    // --- 1) تهيئة الثيم
     const saved = localStorage.getItem('theme');
-    if (saved === 'dark') toggleTheme();  // سيضبط الأيقونات والـclass
+    if (saved === 'dark') {
+      // إذا كان محفوظًا “dark”، نفّذ toggleTheme لإعداد الأيقونات والـclass
+      toggleTheme();
+    }
 
-    // 2) ربط الفلترة الرئيسية والقوائم
+    // نجمع كل بطاقات الروايات
     const novels = document.querySelectorAll('.novel-card');
 
-    // 2.1) ربط أزرار الفئات (الرئيسية، خيال، شراء)
+    // --- 2) ربط أزرار الفلترة الرئيسية (الرئيسية، خيال المعجبين، شراء الكتب)
     document.querySelectorAll('.sidebar a[data-filter]').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         const f = link.getAttribute('data-filter');
-        novels.forEach(n => {
-          const isMatch = (f === 'all') || n.classList.contains(f);
-          const hideForSaleOnAll = (f === 'all' && n.classList.contains('for-sale'));
-          n.classList.toggle('hidden', !(isMatch) || hideForSaleOnAll);
+        novels.forEach(card => {
+          const isMatch = (f === 'all') || card.classList.contains(f);
+          const hideForSaleOnAll = (f === 'all' && card.classList.contains('for-sale'));
+          card.classList.toggle('hidden', !(isMatch) || hideForSaleOnAll);
         });
       });
     });
 
-    // 2.2) ربط البحث النصّي
+    // --- 3) ربط البحث النصّي
     const input = document.querySelector('.search-box input');
     input.addEventListener('input', function() {
       const q = this.value.trim().toLowerCase();
-      novels.forEach(n => {
-        const title = n.querySelector('h3').textContent.toLowerCase();
-        n.classList.toggle('hidden', !title.includes(q));
+      novels.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        card.classList.toggle('hidden', !title.includes(q));
       });
     });
 
-    // 2.3) فتح/إغلاق القوائم الشجرية
-    document.querySelectorAll('.has-submenu > a').forEach(toggle => {
-      toggle.addEventListener('click', e => {
+    // --- 4) فتح/إغلاق القوائم الشجرية
+    document.querySelectorAll('.has-submenu > a').forEach(toggleLink => {
+      toggleLink.addEventListener('click', e => {
         e.preventDefault();
-        toggle.parentElement.classList.toggle('open');
+        const parentLi = toggleLink.parentElement;
+        parentLi.classList.toggle('open');
       });
     });
 
-    // 2.4) فلترة الروايات حسب data-century و data-lang
+    // --- 5) فلترة الروايات حسب data-century و data-lang
     document.querySelectorAll('ul.submenu a[data-century]').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
@@ -456,5 +462,6 @@
         });
       });
     });
-  };
-  </script>
+
+  }; // نهاية window.onload
+</script>
