@@ -446,6 +446,7 @@
     document.querySelectorAll('.has-submenu > a').forEach(toggleLink => {
       toggleLink.addEventListener('click', e => {
         e.preventDefault();
+    e.stopPropagation(); // يمنع إغلاق/فتح شبهات القوائم بعد الفلترة
         const parentLi = toggleLink.parentElement;
         parentLi.classList.toggle('open');
       });
