@@ -343,7 +343,7 @@
     </a>
   </div>
 
-  <script>
+ <script>
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('active');
     }
@@ -384,13 +384,22 @@
         link.addEventListener('click', e => {
           e.preventDefault();
           const f = link.getAttribute('data-filter');
+          // إخفاء/إظهار البنرات
           novels.forEach(n => {
             const isMatch = (f === 'all') || n.classList.contains(f);
             const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
             n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
           });
+          // عرض/إخفاء نص العصر
+          const overlay = document.getElementById('era-overlay');
+          if (f === 'victorian') {
+            overlay.classList.add('visible');
+          } else {
+            overlay.classList.remove('visible');
+          }
         });
       });
+
       // ربط البحث
       const input = document.querySelector('.search-box input');
       input.addEventListener('input', function() {
@@ -410,6 +419,5 @@
         eraToggle.classList.toggle('open');
       });
     };
-  </script>
-</body>
-      </html>
+  </script></body>
+  </html>
