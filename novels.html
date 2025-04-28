@@ -433,9 +433,27 @@
         novels.forEach(n => {
           const title = n.querySelector('h3').textContent.toLowerCase();
           n.classList.toggle('hidden', !title.includes(q));
-        });
+// ١) فتح/إغلاق القوائم الشجرية
+  document.querySelectorAll('.has-submenu > a').forEach(toggle => {
+    toggle.addEventListener('click', e => {
+      e.preventDefault();
+      // يضيف/يزيل الصنف open لفتح القائمة الفرعية
+      toggle.parentElement.classList.toggle('open');
+    });
+  });
+
+  // ٢) فلترة الروايات بناءً على السمات data-century و data-lang
+  document.querySelectorAll('ul.submenu a[data-century]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const { century, lang } = link.dataset;
+      document.querySelectorAll('.novel-card').forEach(card => {
+        // إذا تطابقت السمات مع البطاقة، أظهرها، وإلا أخفِها
+        const match = card.dataset.century === century && card.dataset.lang === lang;
+        card.classList.toggle('hidden', !match);
       });
-    };
+    });
+  });
   </script>
 </body>
       </html>
