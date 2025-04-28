@@ -409,32 +409,26 @@
   }
 
   window.onload = function () {
-    // --- 1) تهيئة الثيم
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
-      // إذا كان محفوظًا “dark”، نفّذ toggleTheme لإعداد الأيقونات والـclass
-      toggleTheme();
-    }
+    // 1) تهيئة الثيم
+    if (localStorage.getItem('theme') === 'dark') toggleTheme();
 
-    // نجمع كل بطاقات الروايات
     const novels = document.querySelectorAll('.novel-card');
 
-    // --- 2) ربط أزرار الفلترة الرئيسية (الرئيسية، خيال المعجبين، شراء الكتب)
+    // 2) فلترة الفئات الرئيسية (الرئيسية، خيال، شراء)
     document.querySelectorAll('.sidebar a[data-filter]').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         const f = link.getAttribute('data-filter');
         novels.forEach(card => {
           const isMatch = (f === 'all') || card.classList.contains(f);
-          const hideForSaleOnAll = (f === 'all' && card.classList.contains('for-sale'));
-          card.classList.toggle('hidden', !(isMatch) || hideForSaleOnAll);
+          const hideForSale = (f === 'all' && card.classList.contains('for-sale'));
+          card.classList.toggle('hidden', !(isMatch) || hideForSale);
         });
       });
     });
 
-    // --- 3) ربط البحث النصّي
-    const input = document.querySelector('.search-box input');
-    input.addEventListener('input', function() {
+    // 3) البحث النصّي
+    document.querySelector('.search-box input').addEventListener('input', function() {
       const q = this.value.trim().toLowerCase();
       novels.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
@@ -442,20 +436,20 @@
       });
     });
 
-    // --- 4) فتح/إغلاق القوائم الشجرية
+    // 4) فتح/إغلاق القوائم الشجرية
     document.querySelectorAll('.has-submenu > a').forEach(toggleLink => {
       toggleLink.addEventListener('click', e => {
         e.preventDefault();
-    e.stopPropagation(); // يمنع إغلاق/فتح شبهات القوائم بعد الفلترة
-        const parentLi = toggleLink.parentElement;
-        parentLi.classList.toggle('open');
+        // لا نحتاج stopPropagation هنا
+        toggleLink.parentElement.classList.toggle('open');
       });
     });
 
-    // --- 5) فلترة الروايات حسب data-century و data-lang
+    // 5) فلترة الروايات حسب data-century و data-lang
     document.querySelectorAll('ul.submenu a[data-century]').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
+        e.stopPropagation();   // ← مهم جداً: يمنع هذا النقر من الوصول لمستمع (4)
         const { century, lang } = link.dataset;
         novels.forEach(card => {
           const match = (card.dataset.century === century) && (card.dataset.lang === lang);
@@ -463,6 +457,5 @@
         });
       });
     });
-
-  }; // نهاية window.onload
-</script>
+  };
+  </script>
