@@ -265,12 +265,13 @@
           n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
         });
         if (f === 'victorian') {
-          overlay.classList.add('visible');
-          animation.classList.remove('hidden');  // ← **سطر إضافي**
-        } else {
-          overlay.classList.remove('visible');
-          animation.classList.add('hidden');     // ← **سطر إضافي**
-        }
+  overlay.classList.add('visible');
+  animation.classList.remove('hidden');
+  document.getElementById('era-lottie').play();  // يعيد التشغيل من البداية
+} else {
+  overlay.classList.remove('visible');
+  animation.classList.add('hidden');
+    }
       });
     });
 
