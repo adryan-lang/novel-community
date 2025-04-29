@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ادعم الموقع</title>
+  <link rel="icon" href="images/logo.png">
+
+  <!-- CSS أساسي مطابق لموقعك -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0; padding: 1rem;
+      font-family: 'Cairo', sans-serif;
+      background-color: #f2f2f2;
+      color: #000;
+      max-width: 600px; margin: auto;
+      line-height: 1.6;
+    }
+    h1 { margin-bottom: 0.5rem; }
+    p { margin-bottom: 1rem; }
+    .section {
+      border: 1px solid #ddd; border-radius: 8px;
+      padding: 1rem; margin-bottom: 1.5rem;
+    }
+    #json-container img {
+      display: block; margin: 0.5rem auto;
+      max-width: 100%; height: auto;
+    }
+  </style>
+
+  <!-- PayPal SDK: استبدل YOUR_CLIENT_ID بمعرّفك الحقيقي -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+</head>
+<body>
+
+  <h1>ادعم الموقع</h1>
+  <p>
+    إذا أعجبك الموقع ووجدته مفيدًا، يمكنك دعمه عبر إحدى الوسائل التالية 
+    لتمكيننا من الاستمرار في تقديم المحتوى المجاني.
+  </p>
+
+  <!-- 1) قسم تحميل صورة واحدة من JSON -->
+  <div id="json-container" class="section">
+    <p>صورة تعريفية للدعم:</p>
+    <img id="json-image" src="" alt="صورة دعم">
+  </div>
+
+  <!-- 2) قسم PayPal -->
+  <div id="paypal-section" class="section">
+    <h2><i class="fab fa-paypal"></i> PayPal</h2>
+    <div id="paypal-button-container"></div>
+  </div>
+
+  <!-- 3) قسم Vodafone Cash -->
+  <div id="vodafone-section" class="section">
+    <h2><i class="fas fa-mobile-alt"></i> Vodafone Cash</h2>
+    <p>رقم الحساب: <strong>0123456789</strong></p>
+    <p>مسح رمز QR لإتمام الدفع:</p>
+    <img src="images/vodafone-qr.png" alt="QR Vodafone Cash" style="max-width:200px;">
+    <p style="margin-top:0.5rem;">
+      بعد الدفع، أرسل رقم المعاملة (Transaction ID) إلى:
+      <a href="mailto:you@example.com">you@example.com</a>
+    </p>
+  </div>
+
+  <script>
+    // ——— مثال JSON بسيط (يمكنك استبداله بملف خارجي أو API) ———
+    const supportData = {
+      "image": "images/support-banner.png"
+    };
+    document.getElementById('json-image').src = supportData.image;
+
+    // ——— تهيئة زر PayPal ———
+    paypal.Buttons({
+      style: { layout: 'horizontal', color: 'gold' },
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [{ amount: { value: '5.00' } }]
+        });
+      },
+      onApprove: (data, actions) => {
+        return actions.order.capture().then(details => {
+          alert('شكرًا، ' + details.payer.name.given_name + '!');
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+
+</body>
+</html>
