@@ -1,8 +1,11 @@
+هل هناك مشكلة في الر الإنتقال لصفحة التالية:
+
+
 <!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>قراءة الفصل – الفصل الأول</title>
+  <title>قراءة الفصل – الفصل الثاني</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -23,7 +26,108 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  
+<script type="module">
+  // ★ استيراد Firebase + Firestore ★
+  import { initializeApp }    from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAnalytics }     from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    increment
+  } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  // ★ تهيئة مشروعك بالقيم الصحيحة ★
+  const firebaseConfig = {
+    apiKey:            "AIzaSyBbvNSR8FQguOPwlLw_EHuVNzTt4LJe8rM",
+    authDomain:        "my-novels-site.firebaseapp.com",
+    projectId:         "my-novels-site",
+    storageBucket:     "my-novels-site.firebasestorage.app",
+    messagingSenderId: "902736822570",
+    appId:             "1:902736822570:web:af7780e3512944720c1e53",
+    measurementId:     "G-47GNFEQKEM"
+  };
+  const app       = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db        = getFirestore(app);
+
+  // ★ مساعدات لإنشاء المرجع ★
+  function refDoc(novelId, chapterId) {
+    return doc(db, 'reactions', novelId, 'chapters', chapterId);
+  }
+
+  // ★ جلب أو تهيئة أعداد التفاعلات ★
+  async function initReactions(novelId, chapterId) {
+    const r    = refDoc(novelId, chapterId);
+    const snap = await getDoc(r);
+    if (!snap.exists()) {
+      await setDoc(r, { like:0, love:0, haha:0, sad:0, angry:0 });
+      return { like:0, love:0, haha:0, sad:0, angry:0 };
+    }
+    return snap.data();
+  }
+
+  // ★ دالة لنقل التصويت (تخفض القديم وتزيد الجديد) ★
+  async function vote(novelId, chapterId, prevType, newType) {
+    const r       = refDoc(novelId, chapterId);
+    const updates = {};
+    if (prevType && prevType !== newType) {
+      updates[prevType] = increment(-1);
+    }
+    updates[newType] = increment(1);
+    await updateDoc(r, updates);
+  }
+
+  // ★ التنفيذ عند تحميل الصفحة ★
+  document.addEventListener('DOMContentLoaded', async () => {
+    const el        = document.getElementById('content');
+    const novelId   = el.dataset.novel;
+    const chapterId = el.dataset.chapter;
+    const voteKey   = `voted-${novelId}-${chapterId}`;
+
+    // 1) جلب الأعداد وعرضها
+    const data = await initReactions(novelId, chapterId);
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      const t = btn.dataset.reaction;
+      btn.querySelector('.count').textContent = data[t] ?? 0;
+    });
+
+    // 2) تعرف لو كان الزائر قد صوت سابقاً
+    let prev = localStorage.getItem(voteKey);
+
+    // 3) إذا صوت سابقاً ظلّل الزر المختار
+    if (prev) {
+      const activeBtn = document.querySelector(`.react-btn[data-reaction="${prev}"]`);
+      activeBtn?.classList.add('active-btn');
+    }
+
+    // 4) ربط حدث النقر لكل زر
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const type = btn.dataset.reaction;
+        if (type === prev) return;  // عدم إعادة التصويت على نفس الإيموجي
+        await vote(novelId, chapterId, prev, type);
+
+        // تحديث الواجهة: نقص من القديم وأضف إلى الجديد
+        if (prev) {
+          const oldSpan = document.querySelector(`.react-btn[data-reaction="${prev}"] .count`);
+          oldSpan.textContent = +oldSpan.textContent - 1;
+          document.querySelector(`.react-btn[data-reaction="${prev}"]`)
+                  .classList.remove('active-btn');
+        }
+        const newSpan = btn.querySelector('.count');
+        newSpan.textContent = +newSpan.textContent + 1;
+        btn.classList.add('active-btn');
+
+        // حفظ اختيار الزائر الجديد
+        localStorage.setItem(voteKey, type);
+        prev = type;
+      });
+    });
+  });
+    </script>
 <style>
   :root {
     --bg-color:      #f9fafb;
@@ -69,8 +173,13 @@
 </div>
 
 <!-- المحتوى -->
-<div id="content" class="frame chapter-content no-select whitespace-pre-wrap break-words">
-  <p>الفصل الأول</p>
+<div
+  id="content"
+  class="frame chapter-content no-select whitespace-pre-wrap break-words"
+  data-novel="chapters"
+  data-chapter="chapter1"
+>
+  <p>الفصل الثاني</p>
   <p>[من وجهة نظر البطل]</p>
   <p>أنا في ورطة. أنا في ورطة حقيقية.</p>
 </div>
@@ -110,7 +219,33 @@
   </button>
     </div>
 
-  </div> <!-- نهاية الصندوق الرئيسي -->  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+<!-- أزرار التنقل بين الفصول داخل مجلد chapters -->
+<div class="chapter-nav flex justify-between items-center my-8">
+  <!-- زر الفصل السابق -->
+  <a
+    href="./chapter1.html"
+    class="flex items-center gap-2 px-4 py-2 rounded-full
+           bg-indigo-500 text-white hover:bg-indigo-600
+           transition transform active:scale-95 active:shadow-inner"
+  >
+    الفصل السابق
+    <span class="material-icons">arrow_forward</span>
+  </a>
+
+  <!-- زر الفصل التالي -->
+  <a
+    href="./chapter3.html"
+    class="flex items-center gap-2 px-4 py-2 rounded-full
+           bg-indigo-500 text-white hover:bg-indigo-600
+           transition transform active:scale-95 active:shadow-inner"
+  >
+    <span class="material-icons">arrow_back</span>
+    الفصل التالي
+  </a>
+    </div>
+
+    </div>
+  <!-- نهاية الصندوق الرئيسي -->  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white text-gray-900 rounded-xl p-6 shadow-lg w-80 max-w-full">
       <!-- رأس المودال -->
       <div class="flex justify-between items-center mb-4">
@@ -276,8 +411,6 @@
       c.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
       c.parentElement.addEventListener('click', () => {
         anim.play();
-        const span = c.parentElement.querySelector('.count');
-        span.textContent = +span.textContent + 1;
       });
     });
 
@@ -311,5 +444,6 @@
       content.style.textAlign = 'right'; clearActive(); btns.right.classList.add('active-btn');
     });
   });
-</script>  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
-    </html>
+</script> 
+  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
+  </html>
