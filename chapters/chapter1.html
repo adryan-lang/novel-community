@@ -218,20 +218,20 @@
 
 <!-- أزرار التنقل بين الفصول داخل مجلد chapters -->
 <div class="chapter-nav flex justify-between items-center my-8">
-  <!-- زر الفصل السابق -->
+  <!-- زر السابق مخفي -->
   <a
-    href="./chapter1.html"
+    style="visibility:hidden"
     class="flex items-center gap-2 px-4 py-2 rounded-full
-           bg-indigo-500 text-white hover:bg-indigo-600
-           transition transform active:scale-95 active:shadow-inner"
+           bg-indigo-500 text-white transition transform
+           active:scale-95 active:shadow-inner"
   >
     الفصل السابق
     <span class="material-icons">arrow_forward</span>
   </a>
 
-  <!-- زر الفصل التالي -->
+  <!-- زر التالي -->
   <a
-    href="./chapter3.html"
+    href="./chapter2.html"
     class="flex items-center gap-2 px-4 py-2 rounded-full
            bg-indigo-500 text-white hover:bg-indigo-600
            transition transform active:scale-95 active:shadow-inner"
@@ -239,7 +239,7 @@
     <span class="material-icons">arrow_back</span>
     الفصل التالي
   </a>
-    </div>
+</div>
 
     </div>
   <!-- نهاية الصندوق الرئيسي -->  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
