@@ -215,8 +215,25 @@
     <span class="count">0</span>
   </button>
     </div>
+<!-- أزرار التنقل بين الفصول داخل مجلد chapters -->
+<div class="chapter-nav flex justify-between items-center my-8">
+  <!-- زر الفصل السابق مخفيّ -->
+  <a style="visibility:hidden"
+     class="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500 text-white">
+    <span class="material-icons">arrow_back</span>
+    الفصل السابق
+  </a>
 
-  </div> <!-- نهاية الصندوق الرئيسي -->  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <!-- زر الفصل التالي -->
+  <a
+    href="./chapter2.html"
+    class="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 transition"
+  >
+    الفصل التالي
+    <span class="material-icons">arrow_forward</span>
+  </a>
+</div>
+  <!-- نهاية الصندوق الرئيسي -->  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white text-gray-900 rounded-xl p-6 shadow-lg w-80 max-w-full">
       <!-- رأس المودال -->
       <div class="flex justify-between items-center mb-4">
