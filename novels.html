@@ -95,6 +95,65 @@
    height: 100%;
  }
  /* النهاية */
+    /* بطاقة الملهمون */
+.hero-card {
+  position: relative;
+  margin: 20px;
+  background: #000;
+  color: #fff;
+  border-radius: var(--radii-3xl);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  transform: perspective(800px) rotateY(-5deg);
+  overflow: hidden;
+}
+
+.hero-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.hero-images img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: var(--radii-2xl);
+  transition: transform var(--transition-slower) ease-in-out;
+}
+
+.hero-images img:hover {
+  transform: scale(1.05);
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  padding: 1rem 2rem;
+}
+
+.hero-text {
+  font-size: var(--fontSizes-lg);
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #fff;
+  border-radius: var(--radii-full);
+  text-decoration: none;
+  transition: background var(--transition-normal) ease;
+}
+
+.hero-cta:hover,
+.hero-cta:focus-visible {
+  background: rgba(255,255,255,0.1);
+  outline: 2px solid #fff;
+    }
   </style>
 </head>
 <body>
@@ -293,6 +352,19 @@
         );
       });
   };
+    // عند تحميل الصفحة
+window.addEventListener('DOMContentLoaded', () => {
+  const inspiredBtn  = document.getElementById('inspired-toggle');
+  const heroSection  = document.getElementById('hero-section');
+
+  inspiredBtn.addEventListener('click', e => {
+    e.preventDefault();
+    // أظهر/اخفِ البطاقة عند الضغط
+    heroSection.classList.toggle('hidden');
+    // إذا أردت إخفاء بقية الأقسام بينما تظهر البطاقة، يمكنك إضافة/إزالة .hidden لها هنا
+  });
+});
+      };
   </script>
 </body>
       </html>
