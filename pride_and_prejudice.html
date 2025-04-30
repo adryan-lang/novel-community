@@ -39,16 +39,22 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     /* ---------- Root Variables ---------- */
     :root {
-      --color-bg: #f5f5f5;
-      --color-text: #333;
-      --color-primary: #d32f2f;
-      --color-secondary: #555;
-      --bg-light: #ffffff;
-      --bg-dark: #121212;
-      --text-light: #ffffff;
-      --transition: 0.3s ease;
-      --radius: 0.6rem;
-      --font-body: 'Cairo', sans-serif;
+  /* خلفية رئيسية دافئة تذكّر الأوراق العتيقة */
+  --color-bg: #f4ecd8;       /* ورقي فاتح (off-white) */
+  /* لون نص داكن غير قاسٍ للعين */
+  --color-text: #4b3f2f;     /* بني داكن مائل للرمادي */
+  /* لون رئيسي للعناوين والروابط */
+  --color-primary: #8b5a2b;  /* بني جوزي كلاسيكي */
+  /* لون ثانوي للنصوص الثانوية والعناصر الثانوية */
+  --color-secondary: #6d5a3c;/* بني أقل تشبعًا */
+  /* خلفيات داخلية بيضاء قليلاً لتباين أقل */
+  --bg-light: #fbf7f0;       
+  /* خلفية الوضع الداكن (إن كنت تحافظ عليه) */
+  --bg-dark: #2e2a24;       
+  --text-light: #f0e9df;    
+  --transition: 0.3s ease;
+  --radius: 0.6rem;
+  --font-body: 'Cairo', sans-serif;
     }
     /* ---------- Base Styles ---------- */
     body {
