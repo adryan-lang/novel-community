@@ -373,14 +373,19 @@
   };
     // عند تحميل الصفحة
 window.addEventListener('DOMContentLoaded', () => {
-  const inspiredBtn  = document.getElementById('inspired-toggle');
-  const heroSection  = document.getElementById('hero-section');
+  const inspiredBtn   = document.getElementById('inspired-toggle');
+  const heroSection   = document.getElementById('hero-section');
+  const novelsSection = document.querySelector('.novels-container');
 
   inspiredBtn.addEventListener('click', e => {
     e.preventDefault();
-    // أظهر/اخفِ البطاقة عند الضغط
+    // 1) إظهار/إخفاء البطاقة
     heroSection.classList.toggle('hidden');
-    // إذا أردت إخفاء بقية الأقسام بينما تظهر البطاقة، يمكنك إضافة/إزالة .hidden لها هنا
+    // 2) إخفاء/إظهار شبكة الروايات
+    novelsSection.classList.toggle('hidden');
+    // 3) (اختياري) إخفاء أي أقسام أخرى إذا لزم الأمر
+    // document.querySelector('.sidebar').classList.toggle('hidden');
+    // document.querySelector('.navbar').classList.toggle('hidden');
   });
 });
   </script>
