@@ -269,35 +269,36 @@
     </div>
 
 <!-- أزرار التنقل بين الفصول داخل مجلد chapters -->
-<div class="chapter-nav flex justify-between items-center my-8">
-  <!-- زر السابق مخفي -->
+<div class="chapter-nav flex justify-center items-center my-8">
+  <!-- زر السابق (مخفي) مع مساحات جانبية وحشوة موحدة -->
   <a
     style="visibility:hidden"
-    class="flex items-center gap-2 px-4 py-2 rounded-full
+    class="mx-2 flex items-center gap-2 px-4 py-3 rounded-full
            bg-indigo-500 text-white transition transform
            active:scale-95 active:shadow-inner"
   >
-    الفصل السابق
-    <span class="material-icons">arrow_forward</span>
+    <span class="material-icons text-2xl">arrow_forward</span>
   </a>
-<!-- زر العودة إلى صفحة الرواية -->
-<a
-  href="novel1.html"
-  class="flex items-center gap-2 px-4 py-2 rounded-full
-         bg-gray-500 text-white hover:bg-gray-600
-         transition transform active:scale-95 active:shadow-inner"
->
-  <span class="material-icons">home</span>
-</a>
+
+  <!-- زر العودة إلى صفحة الرواية (الأيقونة فقط) -->
+  <a
+    href="novel1.html"
+    class="mx-2 flex items-center justify-center px-4 py-3 rounded-full
+           bg-gray-500 text-white hover:bg-gray-600
+           transition transform active:scale-95 active:shadow-inner"
+    aria-label="الرئيسية"
+  >
+    <span class="material-icons text-2xl">home</span>
+  </a>
+
   <!-- زر التالي -->
   <a
     href="./chapter2.html"
-    class="flex items-center gap-2 px-4 py-2 rounded-full
+    class="mx-2 flex items-center gap-2 px-4 py-3 rounded-full
            bg-indigo-500 text-white hover:bg-indigo-600
            transition transform active:scale-95 active:shadow-inner"
   >
-    <span class="material-icons">arrow_back</span>
-    الفصل التالي
+    <span class="material-icons text-2xl">arrow_back</span>
   </a>
 </div>
 
