@@ -1,0 +1,561 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>كبرياء وتحامل</title>
+  <meta name="description" content=" .">
+  <!-- Structured Data لتحسين SEO  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": " كبرياء وتحامل",
+    "author": {"@type": "Person", "name": "اسم المؤلف"},
+    "image": "https://example.com/images/cover3.jpg",
+    "description": "  ....",
+    "inLanguage": "ar",
+    "datePublished": "2025-04-10",
+    "publisher": {"@type": "Organization", "name": "دار النشر"}
+  }
+  </script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- AOS Library للرسوم المتحركة أثناء التمرير -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha384-pXx3JM5A6SziE+SVkoJhZ62ZP3a9X+uF2W0xfbodvAZ38lJyP+6O3UJ+8X0VxO94" crossorigin="anonymous" />
+<!-- Lottie WebComponent -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <!-- Styles -->
+  <style>
+    /* ---------- Reset ---------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ---------- Root Variables ---------- */
+    :root {
+      --color-bg: #f5f5f5;
+      --color-text: #333;
+      --color-primary: #d32f2f;
+      --color-secondary: #555;
+      --bg-light: #ffffff;
+      --bg-dark: #121212;
+      --text-light: #ffffff;
+      --transition: 0.3s ease;
+      --radius: 0.6rem;
+      --font-body: 'Cairo', sans-serif;
+    }
+    /* ---------- Base Styles ---------- */
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+    }
+    a { text-decoration: none; color: var(--color-primary); }
+    img { display: block; max-width: 100%; height: auto; }
+    /* ---------- Dark Mode Classes ---------- */
+    body.dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+    }
+    /* ---------- Navigation Bar ---------- */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; background-color: var(--bg-light);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky; top: 0; z-index: 100;
+      transition: background var(--transition);
+    }
+    .navbar.dark-mode { background-color: #1e1e1e; }
+    .navbar .logo { font-size: 1.8rem; font-weight: 700; }
+    .navbar ul { display: flex; gap: 1.5rem; list-style: none; }
+    .navbar li { }
+    .navbar a { font-size: 1rem; }
+    .toggle-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.2rem; }
+    /* ---------- Hero Section with Video Background ---------- */
+    .hero {
+      position: relative; overflow: hidden;
+      height: 70vh; display: flex; align-items: center;
+      justify-content: center; text-align: center;
+      color: var(--text-light);
+    }
+    .hero video {
+  display: none; /* يخفي الفيديو القديم */
+}
+
+.hero .hero-cover {
+  position: absolute;
+  inset: 0;                /* يغني عن top/left/right/bottom */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;     /* يضمن ظهور الصورة كاملة */
+  object-position: center; /* يركّزها وسط الحاوية */
+  z-index: -1;
+       }
+    .hero .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+    .hero h1 { font-size: 3rem; z-index: 1; margin: 0 1rem; }
+    /* ---------- Description Box ---------- */
+    .description {
+      background: var(--bg-light); padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: -3rem auto 2rem;
+      max-width: 800px; position: relative; z-index: 2;
+      font-size: 1.1rem;
+    }
+    .dark-mode .description { background: #1e1e1e; }
+    /* ---------- Chapters Grid & Filtering ---------- */
+    .filter-bar {
+      display: flex; justify-content: center; align-items: center;
+      gap: 0.5rem; margin: 2rem auto;
+    }
+    .filter-bar button {
+      padding: 0.5rem 1rem; border: none;
+      border-radius: var(--radius);
+      cursor: pointer; transition: background var(--transition);
+      background: var(--bg-light);
+    }
+    .filter-bar button.active, .filter-bar button:hover { background: var(--color-primary); color: #fff; }
+    .chapters {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;
+      max-width: 1200px; margin: auto;
+    }
+    .chapter-card {
+      background: var(--bg-light); padding: 1.2rem;
+      border-radius: var(--radius);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+    .chapter-card:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .chapter-card.hidden { display: none; }
+      /* ---------- Characters Section (محدث) ---------- */
+  .characters {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+  }
+  .characters h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--color-primary);
+    letter-spacing: 0.05em;
+  }
+  .character-grid {
+    /* عرض 4 بطاقات متراصة أفقياً */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .character-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .character-card::before {
+    content: "";
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle at center, rgba(211,47,47,0.3), transparent 70%);
+    transform: rotate(45deg);
+  }
+  .character-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+.character-card img {
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    object-fit: cover;        /* بدل contain بـ cover ليملأ الإطار الدائري */
+    object-position: center;  /* يضمن وجود مركز الصورة في منتصف الدائرة */
+    background: var(--bg-light);
+    padding: 0.3rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: box-shadow var(--transition);
+}
+
+.character-card img:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+  .character-card h3 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.3rem;
+    color: var(--color-secondary);
+  }
+  .character-card p {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+  /* استجابة للشاشات الصغيرة */
+  @media (max-width: 1024px) {
+    .character-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .character-grid { grid-template-columns: repeat(1, 1fr); }
+    .character-card img { width: 120px; height: 120px; }
+      }
+    /* ---------- Sidebar Trivia ---------- */
+    .sidebar {
+      position: fixed; top: 50%; left: 1rem;
+      transform: translateY(-50%); background: var(--bg-light);
+      padding: 1rem; border-radius: var(--radius);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 250px;
+    }
+    .trivia-item {
+      margin-bottom: 1rem; cursor: pointer;
+    }
+    .trivia-content { display: none; margin-top: 0.5rem; font-size: 0.9rem; color: var(--color-secondary); }
+    /* ---------- Parallax Hover Effect ---------- */
+    .parallax {
+      perspective: 1000px;
+    }
+    .parallax .parallax-inner {
+      transition: transform var(--transition);
+      transform-style: preserve-3d;
+    }
+    .parallax:hover .parallax-inner {
+      transform: rotateY(10deg) rotateX(10deg);
+    }
+    /* ---------- Responsive ---------- */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .navbar ul { display: none; }
+      .navbar .menu-toggle { display: block; }
+      .sidebar { display: none; }
+    }
+    /* ---------- Character Caption Box ---------- */
+.character-caption-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.5rem auto;
+  padding: 1rem 1.2rem;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.85);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--color-secondary);
+  line-height: 1.4;
+  font-style: italic;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  /* للـ dark mode: */
+  transition: background var(--transition), color var(--transition);
+}
+body.dark-mode .character-caption-box {
+  background: rgba(30, 30, 30, 0.85);
+  color: var(--text-light);
+}
+.character-caption-box svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: var(--color-primary);
+  flex-shrink: 0;
+    }
+    /* يحافظ على كسور الأسطر المكتوبة داخل الفقرة */
+.description {
+  white-space: pre-line;
+}
+
+/* يعيد مسافة فوق وتحت كل فقرة داخل الوصف */
+.description p {
+  margin: 1em 0;
+      }
+    #emoji-feedback lottie-player {
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  transition: transform 0.2s;
+}
+#emoji-feedback lottie-player:hover {
+  transform: translateY(-4px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="navbar">
+    <div class="logo"> كبرياء وتحامل </div>
+    <ul id="nav-links">
+    </ul>
+    <button class="toggle-btn" id="dark-toggle">
+  <!-- Lottie icon: moon shown by default -->
+  <lottie-player
+    id="moon-icon"
+    src="animations/moon.json"
+    background="transparent"
+    speed="1"
+    style="width:50px; height:50px; display: block;"
+    loop
+    autoplay>
+  </lottie-player>
+  <!-- Lottie icon: sun hidden by default -->
+  <lottie-player
+    id="sun-icon"
+    src="animations/sun.json"
+    background="transparent"
+    speed="1"
+    style="width:55px; height:55px; display: none;"
+    loop
+    autoplay>
+  </lottie-player>
+    </button>
+  </nav>
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+  <img src="images/pride_and_prejudice.webp" alt="غلاف الرواية" class="hero-cover">
+  <div class="overlay"></div>
+  <h1 data-aos="fade-up"></h1>
+  </section>
+  <!-- Description -->
+  <section class="description" id="description" data-aos="fade-right">
+
+في إنجلترا أواخر القرن الثامن عشر وأوائل القرن التاسع عشر، تسعى عائلة تتكوّن من والدين وأربع بنات إلى تأمين وضع اجتماعي مستقر لبناتها. تتركّز القصة على إليزابيث بينيت، الشابة التي ترفض الانصياع للألقاب والمظاهر. 
+ومع وصول السيد دارسي وصديقه السيد بينغلي إلى الحيّ المجاور، تنطلق سلسلة من اللقاءات الاجتماعية والتجارب الشخصية التي تكشف عن صراعات داخلية وخارجية. ومع مرور الوقت، تتعلّم الشخصيات تجاوز الأحكام المسبقة وتقدير الصفات الجوهرية في الآخرين، وتدرك أن الفهم المتبادل والاحترام أسمى من المال والمكانة الاجتماعية.
+  </section>
+  <!-- بداية واجهة الإيموجي التفاعلي (5 إيموجي) -->
+<div id="emoji-feedback"
+     style="display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:1.5rem;
+            margin-top:1.5rem;">
+  <lottie-player
+    id="enjoy"
+    src="animations/enjoy.json"
+    background="transparent"
+    speed="1"
+    style="width:100px; height:100px; cursor:pointer;"
+    loop
+    autoplay>
+  </lottie-player>
+</div>
+<!-- نهاية واجهة الإيموجي التفاعلي -->
+  <!-- Filter Bar -->
+  <div class="filter-bar" id="filter-bar" data-aos="fade-up">
+  <!-- حذفنا زرّ الكل -->
+  <button class="active" data-filter="arc1">القوس الأول</button>
+  <button data-filter="arc2">القوس الثاني</button>
+  <button data-filter="arc3">القوس الثالث</button>
+  <button data-filter="arc4">القوس الرابع</button>
+  </div>
+
+  <!-- Chapters Grid -->
+<section class="chapters" id="chapters" data-aos="fade-up">
+  <!-- بداية القوس الأول arc1: الفصول 1-11 -->
+  
+
+ 
+    </section>
+  <!-- placeholder لعرض Lottie عندما لا توجد فصول -->
+<div id="placeholder" style="display:none; text-align:center; margin:2rem 0;">
+  <lottie-player
+    id="cat-sleep"
+    src="animations/cat-sleep.json"
+    background="transparent"
+    speed="1"
+    style="width:200px; height:200px; margin:0 auto;"
+    loop autoplay>
+  </lottie-player>
+  <p>لا توجد فصول لهذا القوس بعد</p>
+</div>
+  <!-- Characters Section -->
+<section class="characters" id="characters" data-aos="fade-up">
+  <h2>الشخصيات الرئيسية</h2>
+
+  <!-- لوحة توضيحية أنيقة -->
+  <div class="character-caption-box" data-aos="fade-up">
+    <svg viewBox="0 0 16 16" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm.93-11.412-2.29.287A.533.533 0 0 0 6.03 5.17l.287 2.29c.03.24.25.412.5.412h.5v.5a.5.5 0 0 0 1 0v-1.5c0-.276-.224-.5-.5-.5h-1.5a.5.5 0 0 0 0 1h.5l-.287 2.29a.533.533 0 0 0 .287.588.533.533 0 0 0 .588-.287l.287-2.29 2.29-.287a.533.533 0 0 0 .412-.588.533.533 0 0 0-.412-.412l-2.29-.287.287-2.29a.533.533 0 0 0-.412-.588.533.533 0 0 0-.588.412L8.93 4.588Z"/>
+    </svg>
+    <span>
+      هذا الرسم التخيلي للشخصيات من إعداد موقع مجتمع الروايات، باستخدام أدوات فنية آلية تعتمد على الذكاء الاصطناعي.<br>
+    </span>
+  </div>
+  
+      <div class="character-grid">
+  <!-- بطاقات الشخصيات -->
+  <div class="character-card parallax" data-aos="flip-left">
+    <div class="parallax-inner">
+      <img src="images/mysoji.webp" alt=" إليزابيث بينيت">
+      <h3> إليزابيث بينيت</h3>
+      <p></p>
+    </div>
+  </div>
+
+  <div class="character-card parallax" data-aos="flip-left">
+    <div class="parallax-inner">
+      <img src="images/kyotaka.webp" alt="السيد دارسي">
+      <h3>السيد دارسي</h3>
+      <p></p>
+    </div>
+  </div>
+
+  <!-- كيوجورو رينغوكو -->
+  <div class="character-card parallax" data-aos="flip-left">
+    <div class="parallax-inner">
+      <img src="images/koyngi.webp" alt="جين بينيت">
+      <h3>جين بينيت</h3>
+      <p></p>
+    </div>
+  </div>
+        
+  <!-- تينغين أوزوي -->
+  <div class="character-card parallax" data-aos="flip-left">
+    <div class="parallax-inner">
+      <img src="images/riyon.webp" alt="السيدة بينيت">
+      <h3>السيدة بينيت</h3>
+      <p></p>
+    </div>
+  </div>
+  </div>
+      <!-- إضافة المزيد من بطاقات الشخصيات -->
+    </div>
+  </section>
+  
+  </aside>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha384-k9..." crossorigin="anonymous"></script>
+  <script>
+    /* تفعيل AOS */
+    AOS.init({ duration: 800, once: true });
+    /* Dark Mode Toggle */
+    const toggleBtn = document.getElementById('dark-toggle');
+const moonIcon  = document.getElementById('moon-icon');
+const sunIcon   = document.getElementById('sun-icon');
+
+toggleBtn.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark-mode');
+  document.getElementById('navbar').classList.toggle('dark-mode');
+
+  // بدل تغيير نص الإيموجي، نبدل عرض الأيقونات
+  if (isDark) {
+    moonIcon.style.display = 'none';
+    sunIcon.style.display  = 'block';
+  } else {
+    moonIcon.style.display = 'block';
+    sunIcon.style.display  = 'none';
+  }
+});
+     /* Menu Toggle for Mobile */
+  const menuBtn = document.getElementById('menu-btn');
+  const navLinks = document.getElementById('nav-links');
+  // ← قمنا بإضافة هذا الفحص حتى لو لم يوجد زر menu-btn لا يحدث خطأ:
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+    }
+    </script>
+  
+    <script>
+  /* Chapter Filtering Logic */
+  (function(){
+    const filterButtons = document.querySelectorAll('.filter-bar button');
+    const chapters      = Array.from(document.querySelectorAll('.chapter-card'));
+    const placeholder   = document.getElementById('placeholder');
+
+    function updateVisibility(filter) {
+      chapters.forEach(card => {
+        if (card.classList.contains(filter)) card.classList.remove('hidden');
+        else                                 card.classList.add('hidden');
+      });
+      const anyVisible = chapters.some(c => !c.classList.contains('hidden'));
+      placeholder.style.display = anyVisible ? 'none' : 'block';
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateVisibility(btn.dataset.filter);
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const first = filterButtons[0];
+      first.classList.add('active');
+      updateVisibility(first.dataset.filter);
+    });
+  })();
+</script>
+      <script>
+    /* Trivia Toggle */
+    const triviaItems = document.querySelectorAll('.trivia-item');
+    triviaItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const content = item.querySelector('.trivia-content');
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+   </script>
+    <script>
+    // Emoji Rating Widget Logic
+    (function(){
+      const widget = document.getElementById('rating');
+      if (!widget) return;
+      const fill    = widget.querySelector('.slider-fill');
+      const current = widget.querySelector('.current');
+      const inputs  = widget.querySelectorAll('input');
+      const labels  = widget.querySelectorAll('label');
+
+      function updateRating(val) {
+        const pct = (val - 1) / (inputs.length - 1);
+        widget.style.setProperty('--percent', pct);
+        current.textContent = val;
+      }
+
+      inputs.forEach(radio => {
+        radio.addEventListener('change', e => {
+          labels.forEach(l => l.classList.remove('active'));
+          const lab = widget.querySelector(`label[for="${e.target.id}"]`);
+          lab.classList.add('active');
+          updateRating(+e.target.value);
+          setTimeout(() => lab.classList.remove('active'), 1000);
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const init = widget.querySelector('input:checked');
+        if (init) {
+          const lab = widget.querySelector(`label[for="${init.id}"]`);
+          lab.classList.add('active');
+          updateRating(+init.value);
+          setTimeout(() => lab.classList.remove('active'), 1000);
+        }
+      });
+    })();
+  </script>
+  <!-- سكربت تشغيل/إيقاف الإيموجي عند النقر -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const enjoy = document.getElementById('enjoy');
+    // يشغّل الصورة التلقائية دون نقرة
+    enjoy.play();
+
+    const players = { enjoy };
+    function playOnly(key) {
+      Object.entries(players).forEach(([k,pl]) =>
+        k === key ? pl.play() : pl.stop()
+      );
+    }
+    Object.keys(players).forEach(key =>
+      players[key].addEventListener('click', () => playOnly(key))
+    );
+  });
+  </script>
+
+</body>
+</html>
