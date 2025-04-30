@@ -96,50 +96,71 @@
  }
  /* النهاية */
     /* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */
- /* ===== بطاقة الملهمون الموضعية الدقيقة ===== */
+/* ===== حاوية البطاقة لإعطاء عمق ثلاثي الأبعاد ===== */
+.hero-wrapper {
+  perspective: 800px; /* عمق المشهد */
+}
+
+/* ===== بطاقة الملهمون الموضعية ===== */
 .hero-card {
   position: relative;
-  width: calc(100% - 40px);
-  max-width: 600px;
-  margin: 20px auto;
+  width: calc(100% - 40px);    /* عرض متناسب دون تجاوز الهامش الجانبي */
+  max-width: 600px;            /* أقصى عرض */
+  margin: 20px auto;           /* مسافة عمودية وأفقية مركزيّة */
   background: #000;
   color: #fff;
-  /* النقش الخلفي المعقد */
-  background-image: url('images/pattern-light.svg');
-  background-size: 150px 150px;
-  background-repeat: repeat;
+
   /* القطع المنحني الدقيق */
   clip-path: polygon(
-    48px 0%,     /* بداية القطع العلوي الأيسر */
-    100% 0%,     /* أعلى يمين */
-    100% 100%,   /* أسفل يمين */
-    48px 100%,   /* أسفل يسار */
-    0% calc(100% - 48px), /* منحنى القطع السفلي */
-    0% 48px      /* نهاية القطع العلوي الأيسر */
+    48px 0%,
+    100% 0%,
+    100% 100%,
+    48px 100%,
+    0% calc(100% - 48px),
+    0% 48px
   );
+
   /* ظل ثلاثي الأبعاد متدرج */
   box-shadow:
     -8px 0 24px rgba(0,0,0,0.4),
     0 8px 16px rgba(0,0,0,0.2);
+
+  /* النقش الخلفي المعقد */
+  background-image: url('images/pattern-light.svg');
+  background-size: 150px 150px;
+  background-repeat: repeat;
+
   overflow: hidden;
+
+  /* ===== إضافات 3D transform ===== */
+  transform-style: preserve-3d;
+  transform: perspective(800px)
+             rotateY(-8deg)   /* ميلّ خفيف حول المحور الرأسي */
+             rotateZ(-2deg)   /* دوران بسيط حول المحور الأمامي */
+             translateZ(20px);/* بروز البطاقة نحو المشاهد */
 }
 
+/* شريط القطع الجانبي */
 .hero-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0;
-  width: 48px;
+  top: 0;
+  left: 0;
+  width: 48px;   /* نفس عمق القطع */
   height: 100%;
   background: #333;
   pointer-events: none;
 }
 
+/* شبكة الصور داخل البطاقة */
 .hero-images {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding: 16px;
   gap: 0;
 }
+
+/* صورة فردية */
 .hero-images img {
   width: 100%;
   aspect-ratio: 1/1;
@@ -149,10 +170,13 @@
   display: block;
 }
 
+/* محتوى النص */
 .hero-content {
   padding: 32px 16px 16px;
   text-align: center;
 }
+
+/* النص الرئيسي */
 .hero-text {
   margin: 0;
   font-size: 36px;
