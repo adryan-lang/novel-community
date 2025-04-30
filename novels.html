@@ -95,22 +95,23 @@
    height: 100%;
  }
  /* النهاية */
-    /* ===== 1. حاوية البطاقة (wrapper) مع عمق 3D ===== */
+    /* ===== 1. الحامل (wrapper) مع عمق المنظور ===== */
 .hero-wrapper {
   position: relative;
-  width: calc(100% - 40px); /* نفس عرض البطاقة مع هامش 20px على الجانبين */
+  width: calc(100% - 40px);
   max-width: 600px;
   margin: 20px auto;
-  perspective: 800px;       /* عمق المشهد ثلاثي الأبعاد */
+  perspective: 800px;       /* هنا يُنشأ “عمق المشهد” */
+  transform-style: preserve-3d;
 }
 
-/* الشريط الرمادي المائل على اليسار */
+/* الشريط المائل على اليسار */
 .hero-wrapper::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 48px;    /* نفس عمق القطع الجانبي */
+  width: 48px;
   height: 100%;
   background: #333;
   transform: skewY(-10deg);
@@ -118,71 +119,60 @@
   z-index: 1;
 }
 
-/* الشريط الرمادي المائل في الأسفل (كظل أرضي) */
+/* الشريط المائل في الأسفل (ظل أرضي) */
 .hero-wrapper::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 48px;     /* يبدأ بعد الشريط الجانبي */
+  left: 48px;              /* يبدأ بعد الشريط الجانبي */
   width: calc(100% - 48px);
-  height: 48px;   /* نفس عمق القطع السفلي */
+  height: 48px;
   background: #333;
   transform: skewX(10deg);
   transform-origin: left bottom;
   z-index: 1;
 }
 
-/* ===== 2. بطاقة الملهمون نفسها مع 3D transform ===== */
+/* ===== 2. البطاقة نفسها مع التحوّلات ثلاثية الأبعاد ===== */
 .hero-card {
   position: relative;
-  margin-left: 48px; /* نزح البطاقة يميناً فوق الشريط الجانبي */
-
-  width: 100%;
+  margin-left: 48px;      /* نزح يمينًا فوق الشريط الجانبي */
   background: #000;
   color: #fff;
-
-  /* القطع المنحني الدقيق */
   clip-path: polygon(
     48px 0%, 100% 0%, 100% 100%,
     48px 100%, 0% calc(100% - 48px),
     0% 48px
   );
-
-  /* ظل ثلاثي الأبعاد متدرج */
   box-shadow:
     -8px 0 24px rgba(0,0,0,0.4),
      0 8px 16px rgba(0,0,0,0.2);
-
-  /* النقش الخلفي المعقد */
   background-image: url('images/pattern-light.svg');
   background-size: 150px 150px;
   background-repeat: repeat;
-
   overflow: hidden;
 
-  /* الميل والبروز الثلاثي الأبعاد */
+  /* هنا نطبّق الميل والبروز ثلاثي الأبعاد */
   transform-style: preserve-3d;
-  transform: perspective(800px)
-             rotateY(-8deg)
+  transform-origin: left center;
+  transform: rotateY(-8deg)
              rotateZ(-2deg)
              translateZ(20px);
-
-  z-index: 2; /* فوق الشرائط */
+  z-index: 2;             /* فوق الشرائط */
 }
 
-/* ===== 3. شريط القطع الجانبي الداخلي في البطاقة (كما كان لديك) ===== */
+/* شريط القطع الداخلي كما كان لديك */
 .hero-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 48px;   /* نفس عمق القطع */
+  top: 0; left: 0;
+  width: 48px;
   height: 100%;
   background: #333;
   pointer-events: none;
 }
 
-/* ===== 4. شبكة الصور داخل البطاقة ===== */
+/* شبكة الصور */
 .hero-images {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -190,7 +180,7 @@
   gap: 0;
 }
 
-/* ===== 5. تنسيق الصور ===== */
+/* تنسيق الصور */
 .hero-images img {
   width: 100%;
   aspect-ratio: 1/1;
@@ -200,19 +190,19 @@
   display: block;
 }
 
-/* ===== 6. محتوى النص ===== */
+/* محتوى النص */
 .hero-content {
   padding: 32px 16px 16px;
   text-align: center;
 }
 
-/* ===== 7. تنسيق النص الرئيسي ===== */
+/* النص الرئيسي */
 .hero-text {
   margin: 0;
   font-size: 36px;
   font-weight: 800;
   line-height: 1.2;
-    }
+  }
   </style>
 </head>
 <body>
