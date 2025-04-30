@@ -96,28 +96,31 @@
  }
  /* النهاية */
     /* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */
-    /* ===== بطاقة الملهمون الموضعية ===== */
+ /* ===== بطاقة الملهمون الموضعية الدقيقة ===== */
 .hero-card {
   position: relative;
-  width: calc(100% - 40px);    /* عرض متناسب دون تجاوز الهامش الجانبي */
-  max-width: 600px;            /* أقصى عرض */
-  margin: 20px auto;           /* مسافة عمودية وأفقي مركزي */
+  width: calc(100% - 40px);
+  max-width: 600px;
+  margin: 20px auto;
   background: #000;
   color: #fff;
-  clip-path: polygon(
-    48px 0%,
-    100% 0%,
-    100% 100%,
-    48px 100%,
-    0% calc(100% - 48px),
-    0% 48px
-  );
-  box-shadow:
-    -8px 0 24px rgba(0,0,0,0.4),
-    0 8px 16px rgba(0,0,0,0.2);
+  /* النقش الخلفي المعقد */
   background-image: url('images/pattern-light.svg');
   background-size: 150px 150px;
   background-repeat: repeat;
+  /* القطع المنحني الدقيق */
+  clip-path: polygon(
+    48px 0%,     /* بداية القطع العلوي الأيسر */
+    100% 0%,     /* أعلى يمين */
+    100% 100%,   /* أسفل يمين */
+    48px 100%,   /* أسفل يسار */
+    0% calc(100% - 48px), /* منحنى القطع السفلي */
+    0% 48px      /* نهاية القطع العلوي الأيسر */
+  );
+  /* ظل ثلاثي الأبعاد متدرج */
+  box-shadow:
+    -8px 0 24px rgba(0,0,0,0.4),
+    0 8px 16px rgba(0,0,0,0.2);
   overflow: hidden;
 }
 
@@ -125,7 +128,7 @@
   content: '';
   position: absolute;
   top: 0; left: 0;
-  width: 48px;   /* نفس عمق القطع */
+  width: 48px;
   height: 100%;
   background: #333;
   pointer-events: none;
@@ -137,7 +140,6 @@
   padding: 16px;
   gap: 0;
 }
-
 .hero-images img {
   width: 100%;
   aspect-ratio: 1/1;
@@ -151,7 +153,6 @@
   padding: 32px 16px 16px;
   text-align: center;
 }
-
 .hero-text {
   margin: 0;
   font-size: 36px;
@@ -175,7 +176,7 @@
       <button onclick="toggleSidebar()">☰</button>
     </div>
   </div>
-<!-- ★ هنا تبدأ بطاقة “الملهمون” المُعدّلة ★ -->
+<!-- ★ بداية بطاقة الملهمون ★ -->
 <section id="hero-section" class="hero-card hidden">
   <div class="hero-images">
     <img src="images/face1.jpg" alt="وجه 1" loading="lazy">
@@ -187,8 +188,8 @@
   </div>
   <div class="hero-content">
     <p class="hero-text">
-      يضعكم مجتمع الروايات وجهًا لوجه مع أصحاب الرؤى غير العاديين والرواد الذين ساهموا في تشكيل عالمنا.<br>
-      
+      تضعكم مجتمع الروايات وجهًا لوجه مع أصحاب الرؤى غير العاديين والرواد الذين ساهموا في تشكيل عالمنا.<br>
+      هل أنت منهم؟
     </p>
   </div>
 </section>
