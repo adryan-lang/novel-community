@@ -357,29 +357,40 @@
     </div>
 
 <!-- أزرار التنقل بين الفصول داخل مجلد chapters -->
-<div class="chapter-nav flex justify-between items-center my-8">
-  <!-- زر الفصل السابق -->
+<div class="chapter-nav flex justify-center items-center my-8">
+  <!-- زر السابق (ظاهر) -->
   <a
     href="./chapter2.html"
-    class="flex items-center gap-2 px-4 py-2 rounded-full
+    class="mx-2 flex items-center justify-center px-4 py-3 rounded-full
            bg-indigo-500 text-white hover:bg-indigo-600
            transition transform active:scale-95 active:shadow-inner"
+    aria-label="الفصل السابق"
   >
-    الفصل السابق
-    <span class="material-icons">arrow_forward</span>
+    <span class="material-icons text-2xl">arrow_forward</span>
   </a>
 
-  <!-- زر الفصل التالي -->
+  <!-- زر العودة إلى الصفحة الرئيسية -->
+  <a
+    href="../novel1.html"
+    class="mx-2 flex items-center justify-center px-4 py-3 rounded-full
+           bg-gray-500 text-white hover:bg-gray-600
+           transition transform active:scale-95 active:shadow-inner"
+    aria-label="الرئيسية"
+  >
+    <span class="material-icons text-2xl">home</span>
+  </a>
+
+  <!-- زر التالي -->
   <a
     href="./chapter4.html"
-    class="flex items-center gap-2 px-4 py-2 rounded-full
+    class="mx-2 flex items-center justify-center px-4 py-3 rounded-full
            bg-indigo-500 text-white hover:bg-indigo-600
            transition transform active:scale-95 active:shadow-inner"
+    aria-label="الفصل التالي"
   >
-    <span class="material-icons">arrow_back</span>
-    الفصل التالي
+    <span class="material-icons text-2xl">arrow_back</span>
   </a>
-    </div>
+</div>
 
     </div>
   <!-- نهاية الصندوق الرئيسي -->  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
