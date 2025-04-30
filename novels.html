@@ -96,68 +96,81 @@
  }
  /* النهاية */
     /* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */
-:root {
-  /* … المتغيّرات الأخرى … */
-  --hero-pattern: url('images/pattern-light.svg');
-}
-/* ★ بطاقة الملهمون الدقيقة 100% ★ */
-.hero-card {
-  position: relative;
-  margin: 20px auto;
-  width: 90%;              /* عرض البطاقة؛ عدّله حسب حاجتك */
-  max-width: 600px;        /* أقصى عرض */
-  background: #000;
-  /* نقش الخلفية */
-  background-image: var(--hero-pattern);
-  background-size: 150px 150px;
-  background-repeat: repeat;
-  background-blend-mode: overlay;
-  color: #fff;
-  /* القطع والزوايا */
-  clip-path: polygon(
-    8% 0%,      /* بداية القطع في الزاوية العلوية اليسرى */
-    100% 0%,    /* أعلى يمين */
-    100% 100%,  /* أسفل يمين */
-    8% 100%,    /* أسفل يسار */
-    0% 92%,     /* حافة منحرفة لتناغم القطع */
-    0% 8%       /* نهاية القطع في الزاوية العلوية اليسرى */
-  );
-  /* الظل الثلاثي الأبعاد */
-  filter: drop-shadow(-6px 0px 12px rgba(0,0,0,0.4)) /* ظل جانبي أقوى */
-          drop-shadow(0px 4px 10px rgba(0,0,0,0.2)); /* ظل سفلي خفيف */
-  overflow: hidden;
+    :root {
+      --hero-width: 600px;
+      --cut-size: 24px;
+      --side-width: calc(var(--hero-width) * 0.08);
     }
 
-/* شبكة الصور */
-.hero-images {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0; /* الفاصل نصفيّ يتحقّق بالحافات السوداء للصورة */
-  padding: 16px;
-}
-
-.hero-images img {
-  width: 100%;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  border: 4px solid #000;    /* فاصل أسود ثابت 4px */
-  border-radius: 6px;        /* زوايا قليلاً مستديرة */
-  display: block;
+    body {
+      background: #f2f2f2;
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: flex-start;
+      font-family: 'Tajawal', sans-serif;
+      min-height: 100vh;
     }
 
-/* النص المركزي */
-.hero-content {
-  padding: 40px 16px 24px;  /* 40px من الأعلى، 16px جانبي، 24px أسفل */
-  text-align: center;
-}
+    /* البطاقة */
+    .hero-card {
+      position: relative;
+      width: var(--hero-width);
+      margin-top: 40px;
+      background: #000;
+      /* نقش الخلفية */
+      background-image: url('images/pattern-light.svg');
+      background-size: 150px 150px;
+      background-repeat: repeat;
+      color: #fff;
+      /* القطع والمنحني */
+      clip-path: polygon(
+        var(--side-width) 0,
+        100% 0,
+        100% 100%,
+        var(--side-width) 100%,
+        0 calc(100% - var(--cut-size)),
+        0 var(--cut-size)
+      );
+      /* ظل سلس */
+      box-shadow: -8px 0 24px rgba(0,0,0,0.4), 0 8px 16px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
 
-.hero-text {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 34px;    /* حجم قريب من 32–36px */
-  font-weight: 800;   /* ثقيل جدًا */
-  line-height: 1.2;
-  margin: 0;
-  }
+    /* الشريط الجانبي */
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: var(--side-width);
+      height: 100%;
+      background: #333;
+    }
+
+    /* شبكة الصور */
+    .hero-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 16px;
+    }
+    .hero-images img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border: 4px solid #000;
+      border-radius: 6px;
+      display: block;
+    }
+
+    /* النص */
+    .hero-content {
+      padding: 32px 16px 16px; /* 32px فوق، 16px جانبي، 16px تحت */
+      text-align: center;
+    }
+    .hero-text {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
