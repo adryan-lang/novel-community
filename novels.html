@@ -95,76 +95,69 @@
    height: 100%;
  }
  /* النهاية */
-/* بطاقة الملهمون — استبدل كامل القسم الموجود */
+    /* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */
+:root {
+  /* … المتغيّرات الأخرى … */
+  --hero-pattern: url('images/pattern-light.svg');
+}
+/* ★ بطاقة الملهمون الدقيقة 100% ★ */
 .hero-card {
   position: relative;
-  margin: 20px;
+  margin: 20px auto;
+  width: 90%;              /* عرض البطاقة؛ عدّله حسب حاجتك */
+  max-width: 600px;        /* أقصى عرض */
   background: #000;
-  /* ظلّ خفيف مع تركيز أقوى على الجانب الأيسر */
-  box-shadow: 
-    -4px 0 8px rgba(0,0,0,0.4), /* ظل جانبي أقوى */
-     0 4px 8px rgba(0,0,0,0.2);  /* ظل سفلي خفيف */
-  border-radius: 16px;          /* زوايا مستديرة عامة */
-  transform: perspective(800px) rotateY(-5deg);
-  overflow: hidden;
-}
-
-/* الشريط الجانبي الرمادي الداكن ( faced side ) */
-.hero-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 8%;           /* تقريبًا 5–8% من العرض */
-  height: 100%;
-  background: #333;    /* رمادي داكن */
-  pointer-events: none;
-}
-
-/* القطع في الزاوية العلوية اليسرى */
-.hero-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  border-top: 24px solid transparent;
-  border-left: 24px solid transparent;
-  background: none;
-  box-shadow: -4px 0 8px rgba(0,0,0,0.4);
-}
-
-/* النقش الخفيف في الخلفية */
-.hero-card {
-  background-image: url('images/pattern-light.png'); /* صورة نقوش شفافة خفيفة */
+  /* نقش الخلفية */
+  background-image: var(--hero-pattern);
   background-size: 150px 150px;
   background-repeat: repeat;
   background-blend-mode: overlay;
-}
+  color: #fff;
+  /* القطع والزوايا */
+  clip-path: polygon(
+    8% 0%,      /* بداية القطع في الزاوية العلوية اليسرى */
+    100% 0%,    /* أعلى يمين */
+    100% 100%,  /* أسفل يمين */
+    8% 100%,    /* أسفل يسار */
+    0% 92%,     /* حافة منحرفة لتناغم القطع */
+    0% 8%       /* نهاية القطع في الزاوية العلوية اليسرى */
+  );
+  /* الظل الثلاثي الأبعاد */
+  filter: drop-shadow(-6px 0px 12px rgba(0,0,0,0.4)) /* ظل جانبي أقوى */
+          drop-shadow(0px 4px 10px rgba(0,0,0,0.2)); /* ظل سفلي خفيف */
+  overflow: hidden;
+    }
 
 /* شبكة الصور */
 .hero-images {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;           /* فاصل ضيق ≈8px */
-  padding: 16px;      /* padding حول الشبكة */
+  gap: 0; /* الفاصل نصفيّ يتحقّق بالحافات السوداء للصورة */
+  padding: 16px;
 }
+
 .hero-images img {
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
-  border-radius: 4px; /* زوايا خفيفة ≈4px */
-}
+  border: 4px solid #000;    /* فاصل أسود ثابت 4px */
+  border-radius: 6px;        /* زوايا قليلاً مستديرة */
+  display: block;
+    }
 
 /* النص المركزي */
 .hero-content {
-  padding: 40px 16px; /* مسافة عمودية كبيرة ≈40px، أفقي ≈16px */
+  padding: 40px 16px 24px;  /* 40px من الأعلى، 16px جانبي، 24px أسفل */
   text-align: center;
 }
+
 .hero-text {
-  font-size: 36px;    /* حجم كبير جداً */
-  font-weight: 700;   /* ثقيل */
+  font-family: 'Tajawal', sans-serif;
+  font-size: 34px;    /* حجم قريب من 32–36px */
+  font-weight: 800;   /* ثقيل جدًا */
   line-height: 1.2;
-  color: #fff;
   margin: 0;
-    }
+  }
   </style>
 </head>
 <body>
@@ -194,8 +187,8 @@
   </div>
   <div class="hero-content">
     <p class="hero-text">
-      تضعكم مجتمع الروايات وجهًا لوجه مع أصحاب الرؤى غير العاديين والرواد الذين ساهموا في تشكيل عالمنا.<br>
-      هل أنت منهم؟
+      يضعكم مجتمع الروايات وجهًا لوجه مع أصحاب الرؤى غير العاديين والرواد الذين ساهموا في تشكيل عالمنا.<br>
+      
     </p>
   </div>
 </section>
