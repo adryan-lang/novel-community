@@ -95,64 +95,75 @@
    height: 100%;
  }
  /* النهاية */
-    /* بطاقة الملهمون */
+/* بطاقة الملهمون — استبدل كامل القسم الموجود */
 .hero-card {
   position: relative;
   margin: 20px;
   background: #000;
-  color: #fff;
-  border-radius: var(--radii-3xl);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  /* ظلّ خفيف مع تركيز أقوى على الجانب الأيسر */
+  box-shadow: 
+    -4px 0 8px rgba(0,0,0,0.4), /* ظل جانبي أقوى */
+     0 4px 8px rgba(0,0,0,0.2);  /* ظل سفلي خفيف */
+  border-radius: 16px;          /* زوايا مستديرة عامة */
   transform: perspective(800px) rotateY(-5deg);
   overflow: hidden;
 }
 
+/* الشريط الجانبي الرمادي الداكن ( faced side ) */
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 8%;           /* تقريبًا 5–8% من العرض */
+  height: 100%;
+  background: #333;    /* رمادي داكن */
+  pointer-events: none;
+}
+
+/* القطع في الزاوية العلوية اليسرى */
+.hero-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  border-top: 24px solid transparent;
+  border-left: 24px solid transparent;
+  background: none;
+  box-shadow: -4px 0 8px rgba(0,0,0,0.4);
+}
+
+/* النقش الخفيف في الخلفية */
+.hero-card {
+  background-image: url('images/pattern-light.png'); /* صورة نقوش شفافة خفيفة */
+  background-size: 150px 150px;
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+}
+
+/* شبكة الصور */
 .hero-images {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
+  gap: 8px;           /* فاصل ضيق ≈8px */
+  padding: 16px;      /* padding حول الشبكة */
 }
-
 .hero-images img {
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
-  border-radius: var(--radii-2xl);
-  transition: transform var(--transition-slower) ease-in-out;
+  border-radius: 4px; /* زوايا خفيفة ≈4px */
 }
 
-.hero-images img:hover {
-  transform: scale(1.05);
-}
-
+/* النص المركزي */
 .hero-content {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
+  padding: 40px 16px; /* مسافة عمودية كبيرة ≈40px، أفقي ≈16px */
   text-align: center;
-  padding: 1rem 2rem;
 }
-
 .hero-text {
-  font-size: var(--fontSizes-lg);
-  line-height: 1.4;
-  margin-bottom: 1rem;
-}
-
-.hero-cta {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: 1px solid #fff;
-  border-radius: var(--radii-full);
-  text-decoration: none;
-  transition: background var(--transition-normal) ease;
-}
-
-.hero-cta:hover,
-.hero-cta:focus-visible {
-  background: rgba(255,255,255,0.1);
-  outline: 2px solid #fff;
+  font-size: 36px;    /* حجم كبير جداً */
+  font-weight: 700;   /* ثقيل */
+  line-height: 1.2;
+  color: #fff;
+  margin: 0;
     }
   </style>
 </head>
@@ -171,7 +182,7 @@
       <button onclick="toggleSidebar()">☰</button>
     </div>
   </div>
-  <!-- ★ هنا تبدأ بطاقة “الملهمون” المخفية ★ -->
+<!-- ★ هنا تبدأ بطاقة “الملهمون” المُعدّلة ★ -->
 <section id="hero-section" class="hero-card hidden">
   <div class="hero-images">
     <img src="images/face1.jpg" alt="وجه 1" loading="lazy">
@@ -183,10 +194,9 @@
   </div>
   <div class="hero-content">
     <p class="hero-text">
-      يضعكم مجتمع الروايات وجهًا لوجه مع أصحاب الرؤى غير العاديين والرواد الذين ساهموا في تشكيل عالمنا.<br>
-      
+      تضعكم مجتمع الروايات وجهًا لوجه مع أصحاب الرؤى غير العاديين والرواد الذين ساهموا في تشكيل عالمنا.<br>
+      هل أنت منهم؟
     </p>
-    <a href="/add-bio" class="hero-cta"> </a>
   </div>
 </section>
 <!-- ★ هنا تنتهي البطاقة ★ -->
