@@ -95,96 +95,75 @@
    height: 100%;
  }
  /* النهاية */
-  /* 1) الحامل الخارجي الذي يخلق المنظور ثلاثي الأبعاد */
-    .hero-wrapper {
-      position: relative;
-      width: calc(100% - 40px);    /* نفس عرض البطاقة مع هامش 20px */
-      max-width: 600px;
-      margin: 20px auto;           /* مسافة من الأعلى والأسفل */
-      perspective: 800px;          /* عمق المنظور ثلاثي الأبعاد */
-      transform-style: preserve-3d;
-    }
+/* بطاقة الملهمون — استبدل كامل القسم الموجود */
+.hero-card {
+  position: relative;
+  margin: 20px;
+  background: #000;
+  /* ظلّ خفيف مع تركيز أقوى على الجانب الأيسر */
+  box-shadow: 
+    -4px 0 8px rgba(0,0,0,0.4), /* ظل جانبي أقوى */
+     0 4px 8px rgba(0,0,0,0.2);  /* ظل سفلي خفيف */
+  border-radius: 16px;          /* زوايا مستديرة عامة */
+  transform: perspective(800px) rotateY(-5deg);
+  overflow: hidden;
+}
 
-    /* 2) الشريط المائل على اليسار */
-    .hero-wrapper::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 48px;                 /* سمك القطع الجانبي */
-      height: 100%;
-      background: #333;
-      transform: skewY(-10deg);    /* زاوية ميل بسيطة */
-      transform-origin: left top;
-      z-index: 1;
-    }
+/* الشريط الجانبي الرمادي الداكن ( faced side ) */
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 8%;           /* تقريبًا 5–8% من العرض */
+  height: 100%;
+  background: #333;    /* رمادي داكن */
+  pointer-events: none;
+}
 
-    /* 3) الشريط المائل في الأسفل (ظل أرضي) */
-    .hero-wrapper::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 48px;                  /* يبدأ بعد الشريط الجانبي */
-      width: calc(100% - 48px);
-      height: 48px;                /* سمك القطع السفلي */
-      background: #333;
-      transform: skewX(10deg);     /* زاوية ميل معاكسة */
-      transform-origin: left bottom;
-      z-index: 1;
-    }
+/* القطع في الزاوية العلوية اليسرى */
+.hero-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  border-top: 24px solid transparent;
+  border-left: 24px solid transparent;
+  background: none;
+  box-shadow: -4px 0 8px rgba(0,0,0,0.4);
+}
 
-    /* 4) البطاقة نفسها مع التحوّلات ثلاثية الأبعاد */
-    .hero-card {
-      position: relative;
-      margin-left: 48px;           /* نزح يمينًا فوق الشريط الجانبي */
-      background: #000 url('images/pattern-light.svg') repeat;
-      color: #fff;
-      clip-path: polygon(
-        48px 0%, 100% 0%, 100% 100%,
-        48px 100%, 0% calc(100% - 48px),
-        0% 48px
-      );
-      box-shadow:
-        -8px 0 24px rgba(0,0,0,0.4),
-         0 8px 16px rgba(0,0,0,0.2);
-      overflow: hidden;
+/* النقش الخفيف في الخلفية */
+.hero-card {
+  background-image: url('images/pattern-light.png'); /* صورة نقوش شفافة خفيفة */
+  background-size: 150px 150px;
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+}
 
-      /* التحوّل ثلاثي الأبعاد: تدوير وبروز */
-      transform-style: preserve-3d;
-      transform-origin: left center;
-      transform:
-        rotateY(-8deg)    /* ميل في المحور Y */
-        rotateZ(-2deg)    /* تدوير خفيف في المحور Z */
-        translateZ(20px); /* بروز 20px نحو المُشاهد */
-      z-index: 2;         /* فوق الشرائط */
-    }
+/* شبكة الصور */
+.hero-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;           /* فاصل ضيق ≈8px */
+  padding: 16px;      /* padding حول الشبكة */
+}
+.hero-images img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 4px; /* زوايا خفيفة ≈4px */
+}
 
-    /* 5) الشريط الداخلي (كما كان لديك) */
-    .hero-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 48px; height: 100%;
-      background: #333;
-      pointer-events: none;
-    }
-
-    /* 6) شبكة الصور وفقرات النص (كما كان لديك) */
-    .hero-images {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      padding: 16px;
-      gap: 0;
-    }
-    .hero-images img {
-      width:100%; aspect-ratio:1/1; object-fit:cover;
-      border:4px solid #000; border-radius:6px;
-    }
-    .hero-content {
-      padding:32px 16px 16px; text-align:center;
-    }
-    .hero-text {
-      margin:0; font-size:36px; font-weight:800; line-height:1.2;
+/* النص المركزي */
+.hero-content {
+  padding: 40px 16px; /* مسافة عمودية كبيرة ≈40px، أفقي ≈16px */
+  text-align: center;
+}
+.hero-text {
+  font-size: 36px;    /* حجم كبير جداً */
+  font-weight: 700;   /* ثقيل */
+  line-height: 1.2;
+  color: #fff;
+  margin: 0;
     }
   </style>
 </head>
@@ -203,26 +182,23 @@
       <button onclick="toggleSidebar()">☰</button>
     </div>
   </div>
-<!-- الحامل الخارجي الذي يخلق المنظور ثلاثي الأبعاد -->
-<section id="hero-section" class="hero-wrapper hidden">
-  <!-- هنا تبقى بطاقة الملهمون -->
-  <div class="hero-card">
-    <div class="hero-images">
-      <img src="images/face1.jpg" alt="وجه 1" loading="lazy">
-      <img src="images/face2.jpg" alt="وجه 2" loading="lazy">
-      <img src="images/face3.jpg" alt="وجه 3" loading="lazy">
-      <img src="images/face4.jpg" alt="وجه 4" loading="lazy">
-      <img src="images/face5.jpg" alt="وجه 5" loading="lazy">
-      <img src="images/face6.jpg" alt="وجه 6" loading="lazy">
-    </div>
-    <div class="hero-content">
-      <p class="hero-text">
-        تضعكم مجتمع الروايات وجهًا لوجه مع أصحاب الرؤى غير العاديين والرواد الذين ساهموا في تشكيل عالمنا.<br>
-        هل أنت منهم؟
-      </p>
-    </div>
+<!-- ★ هنا تبدأ بطاقة “الملهمون” المُعدّلة ★ -->
+<section id="hero-section" class="hero-card hidden">
+  <div class="hero-images">
+    <img src="images/face1.jpg" alt="وجه 1" loading="lazy">
+    <img src="images/face2.jpg" alt="وجه 2" loading="lazy">
+    <img src="images/face3.jpg" alt="وجه 3" loading="lazy">
+    <img src="images/face4.jpg" alt="وجه 4" loading="lazy">
+    <img src="images/face5.jpg" alt="وجه 5" loading="lazy">
+    <img src="images/face6.jpg" alt="وجه 6" loading="lazy">
   </div>
-  </section>
+  <div class="hero-content">
+    <p class="hero-text">
+      تضعكم مجتمع الروايات وجهًا لوجه مع أصحاب الرؤى غير العاديين والرواد الذين ساهموا في تشكيل عالمنا.<br>
+      هل أنت منهم؟
+    </p>
+  </div>
+</section>
 <!-- ★ هنا تنتهي البطاقة ★ -->
 <!-- Era Animation -->
 <div id="era-animation" class="hidden">
@@ -424,4 +400,4 @@ window.addEventListener('DOMContentLoaded', () => {
 });
   </script>
 </body>
-      </html>
+  </html>
