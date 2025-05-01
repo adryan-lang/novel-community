@@ -98,6 +98,51 @@
    height: 100%;
  }
  /* النهاية */
+    /* شبكة بطاقات الملهمون! */
+    .inspirers-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+    .inspirer-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .inspirer-card img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+    .inspirer-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent 50%);
+    }
+    .inspirer-card .name-ar {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.2rem;
+      z-index: 1;
+    }
+    .inspirer-card .name-en {
+      position: absolute;
+      bottom: 16px;
+      width: 100%;
+      text-align: center;
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+      z-index: 1;
+    }
+    /* نهاية تصميم البطاقات */
   </style>
 </head>
 <body>
@@ -235,7 +280,22 @@
   <h3> </h3>
     </a>
   </div>
+</div>
 
+  <!-- شبكة الملهمون! -->
+  <div class="inspirers-container hidden">
+    <a class="inspirer-card" href="inspirer1.html">
+      <img src="images/stephen-king.jpg" alt="ستيفن كينغ">
+      <div class="name-ar">ستيفين كينغ</div>
+      <div class="name-en">Stephen King</div>
+    </a>
+    <a class="inspirer-card" href="inspirer2.html">
+      <img src="images/kadim-al-sahir.jpg" alt="كاظم الساهر">
+      <div class="name-ar">كاظم الساهر</div>
+      <div class="name-en">Kadim Al Sahir</div>
+    </a>
+    <!-- أضف مزيدًا من البطاقات حسب الحاجة -->
+  </div>
 
   <script>
     function toggleSidebar() {
@@ -259,24 +319,36 @@
     const animation = document.getElementById('era-animation');  // ← **سطر إضافي**
 
     links.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const f = link.getAttribute('data-filter');
-        novels.forEach(n => {
-          const isMatch          = (f === 'all') || n.classList.contains(f);
-          const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
-          n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
+          link.addEventListener('click', e => {
+            e.preventDefault();
+            const f = link.getAttribute('data-filter');
+
+            // 1) معالجة الروايات كما كان
+            novels.forEach(n => {
+              const isMatch          = (f === 'all') || n.classList.contains(f);
+              const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
+              n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
+            });
+
+            // 2) معالجة “الملهمون!”
+            const inspirersGrid = document.querySelector('.inspirers-container');
+            if (f === 'inspirers') {
+              inspirersGrid.classList.remove('hidden');
+            } else {
+              inspirersGrid.classList.add('hidden');
+            }
+
+            // 3) معالجة عصر الفيكتوري كما كان
+            if (f === 'victorian') {
+              overlay.classList.add('visible');
+              animation.classList.remove('hidden');
+              document.getElementById('era-lottie').play();
+            } else {
+              overlay.classList.remove('visible');
+              animation.classList.add('hidden');
+            }
+          });
         });
-        if (f === 'victorian') {
-  overlay.classList.add('visible');
-  animation.classList.remove('hidden');
-  document.getElementById('era-lottie').play();  // يعيد التشغيل من البداية
-} else {
-  overlay.classList.remove('visible');
-  animation.classList.add('hidden');
-    }
-      });
-    });
 
     document.getElementById('era-toggle')
       .addEventListener('click', e => {
