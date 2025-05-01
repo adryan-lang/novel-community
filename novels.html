@@ -1,408 +1,396 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>مجتمع الروايات</title>
-  <link rel="icon" href="images/logo.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500&display=swap" rel="stylesheet">
-  <!-- LottieFiles Player -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-  <style>
-    :root {
-      --main-color: #3498db;
-      --dark-bg: #121212;
-      --light-bg: #f2f2f2;
-      --text-dark: #fff;
-      --text-light: #000;
-      --era-bg: rgba(92, 51, 23, 0.9);
-      --era-text: #d4af37;
-    }
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background-color: var(--light-bg);
-      color: var(--text-light);
-      transition: background-color 0.3s, color 0.3s;
-    }
-    body.dark {
-      background-color: var(--dark-bg);
-      color: var(--text-dark);
-    }
-    .navbar {
-      background: var(--main-color);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .navbar img.logo { height: 40px; }
-    .navbar .search-box { flex: 1; margin: 0 20px; display: flex; align-items: center; background: rgba(255,255,255,0.2); border-radius: 8px; padding: 5px 10px; transition: background 0.3s; }
-    body.dark .navbar .search-box { background: rgba(0,0,0,0.2); }
-    .navbar .search-box input { border: none; background: transparent; color: inherit; width: 100%; padding: 5px; font-size: 16px; }
-    .navbar .search-box input::placeholder { color: #ddd; }
-    .navbar .search-box i { margin-left: 10px; }
-    .navbar .icons { display: flex; align-items: center; gap: 15px; }
-    .navbar button { background: none; border: none; color: inherit; font-size: 20px; cursor: pointer; }
-    .sidebar { position: fixed; top: 0; left: -100%; width: 250px; height: 100%; background: #34495e; color: white; padding: 20px; transition: left 0.3s ease, background 0.3s; z-index: 1001; box-shadow: 2px 0 10px rgba(0,0,0,0.3); overflow-y: auto; }
-    body.dark .sidebar { background: #222; }
-    .sidebar.active { left: 0; }
-    .sidebar-close { position: absolute; top: 10px; left: 10px; font-size: 24px; background: none; border: none; color: inherit; cursor: pointer; }
-    .sidebar h2 { margin-top: 40px; }
-    .sidebar a { display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: inherit; text-decoration: none; font-size: 18px; border-radius: 8px; transition: background-color 0.3s, transform 0.2s; }
-    .sidebar a:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
-    .sidebar a i { font-size: 18px; }
-    .sub-menu { padding: 0 20px 10px; margin-bottom: 10px; border-right: 1px solid rgba(255,255,255,0.1); }
-    .sub-menu a { display: block; padding: 8px 0; color: inherit; font-size: 16px; text-decoration: none; transition: background-color 0.3s; }
-    .sub-menu a:hover { background: rgba(255,255,255,0.1); }
-    .sub-icon { transition: transform 0.3s; margin-left: auto; }
-    .has-submenu.open .sub-icon { transform: rotate(90deg); }
-    .novels-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; padding: 20px; }
-    .novel-card { background: #fff; border-radius: 10px; transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s; position: relative; text-decoration: none; color: inherit; }
-    body.dark .novel-card { background: #1e1e1e; color: #fff; box-shadow: 0 4px 10px rgba(255,255,255,0.1); }
-    .novel-card img { width: 100%; height: auto; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px 8px 0 0; display: block; transition: filter 0.3s; }
-    body.dark .novel-card img { filter: brightness(0.9); }
-    .novel-card h3 { margin: 10px; font-size: 16px; font-weight: 500; font-family: 'Tajawal', sans-serif; text-align: right; line-height: 1.4; max-height: 3.2em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; transition: color 0.3s; }
-    .hidden { display: none !important; }
-    /* مكان الـ Lottie فوق العنوان */
-#era-animation {
-  position: fixed;
-  top: 20px;               /* المسافة من أعلى الصفحة */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;            /* أعلى من عناصر الخلفية */
-                    }
-    /* Era overlay */
-    #era-overlay { position: fixed; top: 130px; left: 50%; transform: translateX(-50%); background-color: var(--era-bg); color: var(--era-text); padding: 10px 20px; font-size: 24px; font-weight: bold; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.5s; }
-    #era-overlay.visible { opacity: 1; }
-    /* البداية: تحكم في موضع وحجم شريط الـ sale-ribbon */
- .sale-ribbon {
-   position: absolute;
-   top: -5px;
-   right: -10px;
-   width: 70px;
-   height: 70px;
-   pointer-events: none;
-   z-index: 2;
- }
- .sale-ribbon lottie-player {
-   width: 100%;
-   height: 100%;
- }
- /* النهاية */
-    :root {
-      --hero-pattern: url('images/pattern-light.svg');
-    }
-    /* التغليف لبطاقة الملهمون مع الشريط الرمادي */
-    .hero-wrapper {
-      position: relative;
-      width: 90%;
-      max-width: 600px;
-      margin: 20px auto;
-    }
-    /* الشريط الرمادي المشطوف */
-    .hero-wrapper::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      width: 20px;           /* عرض الشريط */
-      background: #777;      /* لون الشريط */
-      clip-path: polygon(
-        0% 8%,    /* بداية الشريط العلوي */
-        8% 0%,    /* قطع علوي أيسر */
-        100% 0%,  /* أعلى يمين */
-        100% 100%,/* أسفل يمين */
-        8% 100%,  /* بعد قطع سفلي أيسر */
-        0% 92%    /* نهاية الشريط السفلي */
-      );
-      z-index: 0;
-    }
-    /* البطاقة السوداء داخل التغليف */
-    .hero-card {
-      position: relative;
-      background: #000;
-      background-image: var(--hero-pattern);
-      background-size: 150px 150px;
-      background-repeat: repeat;
-      background-blend-mode: overlay;
-      color: #fff;
-      padding-top: 16px;
-      /* نقّاش البطاقة بدون الشريط */
-      clip-path: polygon(
-        8%   0%,
-        100% 0%,
-        100% 100%,
-        8%   100%,
-        0%   92%,
-        0%   8%
-      );
-      z-index: 1;
-      overflow: hidden;
-    }
-    .hero-images {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-      padding: 16px;
-    }
-    .hero-images img {
-      width: 100%;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      border: 4px solid #000;
-      border-radius: 6px;
-      display: block;
-    }
-    .hero-content {
-      padding: 40px 16px 24px;
-      text-align: center;
-      font-family: 'Tajawal', sans-serif;
-    }
-    .hero-text {
-      font-size: 34px;
-      font-weight: 800;
-      line-height: 1.2;
-      margin: 0;
-    }
-  </style>
-</head>
-<body>
-  <div class="navbar">
-    <img src="images/mogtamaa-logo.webp" class="logo" alt="شعار مجتمع الروايات">
-    <div class="search-box">
-      <input type="text" placeholder="البحث...">
-      <i class="fa fa-search"></i>
-    </div>
-    <div class="icons">
-      <button id="theme-toggle" class="toggle-btn" onclick="toggleTheme()">
-        <lottie-player id="moon-icon" src="animations/moon.json" background="transparent" speed="1" style="width:32px; height:32px; display:block;" loop autoplay></lottie-player>
-        <lottie-player id="sun-icon" src="animations/sun.json" background="transparent" speed="1" style="width:40px; height:40px; display:none;" loop autoplay></lottie-player>
-      </button>
-      <button onclick="toggleSidebar()">☰</button>
-    </div>
-  </div>
-  <div class="hero-wrapper">
-    <section id="hero-section" class="hero-card">
-      <div class="hero-images">
-        <img src="images/face1.jpg" alt="وجه 1">
-        <img src="images/face2.jpg" alt="وجه 2">
-        <img src="images/face3.jpg" alt="وجه 3">
-        <img src="images/face4.jpg" alt="وجه 4">
-        <img src="images/face5.jpg" alt="وجه 5">
-        <img src="images/face6.jpg" alt="وجه 6">
-      </div>
-      <div class="hero-content">
-        <p class="hero-text">
-          نحن نحتفي بأولئك الذين جعلوا من الكلمات جسورًا تعبر بنا إلى عوالم جديدة.
-        </p>
-      </div>
-    </section>
-<!-- ★ هنا تنتهي البطاقة ★ -->
-<!-- Era Animation -->
-<div id="era-animation" class="hidden">
-  <lottie-player
-  id="era-lottie"
-  src="animations/victorian.json"
-  background="transparent"
-  speed="1"
-  style="width:150px; height:150px;"
-  autoplay>                            <!-- ← أزلنا سطر loop تماماً -->
-</lottie-player>
-</div>
-  <!-- Era Overlay -->
-  <div id="era-overlay">العصر الفيكتوري</div>
-
-  <div class="sidebar" id="sidebar">
-    <button class="sidebar-close" onclick="toggleSidebar()">×</button>
-    <h2>القائمة</h2>
-    <a href="#" data-filter="all"><i class="fas fa-home"></i> الرئيسية</a>
-    <a href="#" data-filter="fanfic"><i class="fas fa-book-open"></i> روايات خيال المعجبين</a>
-    <a href="#" id="era-toggle" class="has-submenu"><i class="fas fa-book"></i> العصر الأدبي <i class="fas fa-chevron-down sub-icon"></i></a>
-    <div id="era-options" class="sub-menu hidden">
-      <a href="#" data-filter="victorian">العصر الفيكتوري</a>
-      <a href="#" data-filter="early-twentieth">أوائل القرن العشرين</a>
-      <a href="#" data-filter="ancient-classics">الكلاسيكيات المبكرة</a>
-    </div>
-    <!-- زر الملهمون! الجديد -->
-<a href="#" id="inspired-toggle"><i class="fas fa-lightbulb"></i> الملهمون!</a>
-    <a href="#" data-filter="for-sale"><i class="fas fa-shopping-cart"></i> شراء الكتب</a>
-    <a href="support.html"><i class="fas fa-heart"></i> ادعم الموقع</a>
-  </div>
-
-  <div class="novels-container">
-     <!-- روايات خيال المعجبين -->
-  <a class="novel-card fanfic" href="novel1.html">
-    <img src="images/cover.webp" alt="رواية البطل الخارق">
-    <h3> الرحلة الصامتة</h3>
-  </a>
-
-  <a class="novel-card fanfic" href="novel2.html">
-    <img src="images/cover2.webp" alt="يوميات الشرير">
-    <h3> المختار المُكرَّم</h3>
-  </a>
-
-  <!-- روايات كلاسيكية -->
-  <a class="novel-card classic" href="alice_in_wonderland.html">
-    <img src="images/alice_in_wonderland.jpg" alt="أليس في بلاد العجائب">
-    <h3>أليس في بلاد العجائب</h3>
-  </a>
-
-  <!-- روايات خيال المعجبين -->
-  <a class="novel-card fanfic" href="novel3.html">
-    <img src="images/cover3.jpg" alt="أتيت ، رأيت ، خسرت!">
-    <h3>أتيت ، رأيت ، خسرت!</h3>
-  </a>
-
-  <!-- روايات كلاسيكية -->
-  <a class="novel-card classic" href="dracula.html">
-    <img src="images/dracula.webp" alt="دراكولا" loading="lazy">
-    <h3>دراكولا</h3>
-  </a>
-
-  <!-- روايات خيال المعجبين -->
-  <a class="novel-card fanfic" href="novel4.html">
-    <img src="images/dylal10.webp" alt="إطلاق العنان للظلال العشرة" loading="lazy">
-    <h3>إطلاق العنان للظلال العشرة</h3>
-  </a>
-
-  <!-- روايات كلاسيكية -->
-  <a class="novel-card classic" href="gulifer.html">
-    <img src="images/gulifer.webp" alt="رحلات جلفر" loading="lazy">
-    <h3>رحلات جلفر</h3>
-  </a>
-
-  <a class="novel-card classic" href="pride_and_prejudice.html">
-    <img src="images/pride_and_prejudice.webp" alt="كبرياء وتحامل" loading="lazy">
-    <h3>كبرياء وتحامل</h3>
-  </a>
-
-  <a class="novel-card for-sale hidden" href="https://amazon.com/your-affiliate-link">
-  <!-- 1) حاوية الشريط -->
-  <div class="sale-ribbon">
-    <lottie-player
-      src="animations/sale-ribbon.json"
-      background="transparent"
-      speed="1"
-      loop autoplay>
-    </lottie-player>
-  </div>
-  <!-- 2) المحتوى الأصلي للبطاقة -->
-  <img src="images/book.webp" alt="">
-  <h3></h3>
-  </a>
-    <!-- كتاب 2 -->
-<a class="novel-card for-sale hidden" href="https://amazon.com/book2-link">
-  <div class="sale-ribbon">
-    <lottie-player
-      src="animations/sale-ribbon.json"
-      background="transparent"
-      speed="1"
-      loop autoplay>
-    </lottie-player>
-  </div>
-  <img src="images/book.webp" alt=" ">
-  <h3></h3>
-</a>
-
-<!-- كتاب 3 -->
-<a class="novel-card for-sale hidden" href="https://amazon.com/book3-link">
-  <div class="sale-ribbon">
-    <lottie-player
-      src="animations/sale-ribbon.json"
-      background="transparent"
-      speed="1"
-      loop autoplay>
-    </lottie-player>
-  </div>
-  <img src="images/book.webp" alt=" ">
-  <h3> </h3>
-    </a>
-  </div>
-
-
-  <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('active');
-    }
-    function toggleTheme() {
-      const body = document.body; const moonIcon = document.getElementById('moon-icon'); const sunIcon = document.getElementById('sun-icon');
-      const isDark = body.classList.toggle('dark');
-      moonIcon.style.display = isDark ? 'none' : 'block';
-      sunIcon.style.display  = isDark ? 'block' : 'none';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
-      window.onload = function() {
-    const saved = localStorage.getItem('theme'); const body = document.body;
-    const moonIcon = document.getElementById('moon-icon'); const sunIcon = document.getElementById('sun-icon');
-    if (saved === 'dark') { body.classList.add('dark'); moonIcon.style.display = 'none'; sunIcon.style.display = 'block'; }
-
-    const links     = document.querySelectorAll('.sidebar a[data-filter]');
-    const novels    = document.querySelectorAll('.novel-card');
-    const overlay   = document.getElementById('era-overlay');
-    const animation = document.getElementById('era-animation');  // ← **سطر إضافي**
-
-    links.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const f = link.getAttribute('data-filter');
-        novels.forEach(n => {
-          const isMatch          = (f === 'all') || n.classList.contains(f);
-          const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
-          n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
-        });
-        if (f === 'victorian') {
-  overlay.classList.add('visible');
-  animation.classList.remove('hidden');
-  document.getElementById('era-lottie').play();  // يعيد التشغيل من البداية
-} else {
-  overlay.classList.remove('visible');
-  animation.classList.add('hidden');
-    }
-      });
-    });
-
-    document.getElementById('era-toggle')
-      .addEventListener('click', e => {
-        e.preventDefault();
-        const opts = document.getElementById('era-options');
-        opts.classList.toggle('hidden');
-        e.currentTarget.classList.toggle('open');
-      });
-
-    document.querySelector('.search-box input')
-      .addEventListener('input', function() {
-        const q = this.value.trim().toLowerCase();
-        document.querySelectorAll('.novel-card').forEach(n =>
-          n.classList.toggle('hidden',
-            !n.querySelector('h3').textContent.toLowerCase().includes(q)
-          )
-        );
-      });
-  };
-    // عند تحميل الصفحة
-window.addEventListener('DOMContentLoaded', () => {
-  const inspiredBtn   = document.getElementById('inspired-toggle');
-  const heroSection   = document.getElementById('hero-section');
-  const novelsSection = document.querySelector('.novels-container');
-
-  inspiredBtn.addEventListener('click', e => {
-    e.preventDefault();
-    // 1) إظهار/إخفاء البطاقة
-    heroSection.classList.toggle('hidden');
-    // 2) إخفاء/إظهار شبكة الروايات
-    novelsSection.classList.toggle('hidden');
-    // 3) (اختياري) إخفاء أي أقسام أخرى إذا لزم الأمر
-    // document.querySelector('.sidebar').classList.toggle('hidden');
-    // document.querySelector('.navbar').classList.toggle('hidden');
-  });
-});
-  </script>
-</body>
-  </html>
+<!DOCTYPE html>  
+<html lang="ar" dir="rtl">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  <title>مجتمع الروايات</title>  
+  <link rel="icon" href="images/logo.png">  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />  
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500&display=swap" rel="stylesheet">  
+  <!-- LottieFiles Player -->  
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>  
+  <style>  
+    :root {  
+      --main-color: #3498db;  
+      --dark-bg: #121212;  
+      --light-bg: #f2f2f2;  
+      --text-dark: #fff;  
+      --text-light: #000;  
+      --era-bg: rgba(92, 51, 23, 0.9);  
+      --era-text: #d4af37;  
+    }  
+    body {  
+      margin: 0;  
+      font-family: 'Cairo', sans-serif;  
+      background-color: var(--light-bg);  
+      color: var(--text-light);  
+      transition: background-color 0.3s, color 0.3s;  
+    }  
+    body.dark {  
+      background-color: var(--dark-bg);  
+      color: var(--text-dark);  
+    }  
+    .navbar {  
+      background: var(--main-color);  
+      color: white;  
+      display: flex;  
+      align-items: center;  
+      justify-content: space-between;  
+      padding: 10px 20px;  
+      position: sticky;  
+      top: 0;  
+      z-index: 1000;  
+    }  
+    .navbar img.logo { height: 40px; }  
+    .navbar .search-box { flex: 1; margin: 0 20px; display: flex; align-items: center; background: rgba(255,255,255,0.2); border-radius: 8px; padding: 5px 10px; transition: background 0.3s; }  
+    body.dark .navbar .search-box { background: rgba(0,0,0,0.2); }  
+    .navbar .search-box input { border: none; background: transparent; color: inherit; width: 100%; padding: 5px; font-size: 16px; }  
+    .navbar .search-box input::placeholder { color: #ddd; }  
+    .navbar .search-box i { margin-left: 10px; }  
+    .navbar .icons { display: flex; align-items: center; gap: 15px; }  
+    .navbar button { background: none; border: none; color: inherit; font-size: 20px; cursor: pointer; }  
+    .sidebar { position: fixed; top: 0; left: -100%; width: 250px; height: 100%; background: #34495e; color: white; padding: 20px; transition: left 0.3s ease, background 0.3s; z-index: 1001; box-shadow: 2px 0 10px rgba(0,0,0,0.3); overflow-y: auto; }  
+    body.dark .sidebar { background: #222; }  
+    .sidebar.active { left: 0; }  
+    .sidebar-close { position: absolute; top: 10px; left: 10px; font-size: 24px; background: none; border: none; color: inherit; cursor: pointer; }  
+    .sidebar h2 { margin-top: 40px; }  
+    .sidebar a { display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: inherit; text-decoration: none; font-size: 18px; border-radius: 8px; transition: background-color 0.3s, transform 0.2s; }  
+    .sidebar a:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }  
+    .sidebar a i { font-size: 18px; }  
+    .sub-menu { padding: 0 20px 10px; margin-bottom: 10px; border-right: 1px solid rgba(255,255,255,0.1); }  
+    .sub-menu a { display: block; padding: 8px 0; color: inherit; font-size: 16px; text-decoration: none; transition: background-color 0.3s; }  
+    .sub-menu a:hover { background: rgba(255,255,255,0.1); }  
+    .sub-icon { transition: transform 0.3s; margin-left: auto; }  
+    .has-submenu.open .sub-icon { transform: rotate(90deg); }  
+    .novels-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; padding: 20px; }  
+    .novel-card { background: #fff; border-radius: 10px; transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s; position: relative; text-decoration: none; color: inherit; }  
+    body.dark .novel-card { background: #1e1e1e; color: #fff; box-shadow: 0 4px 10px rgba(255,255,255,0.1); }  
+    .novel-card img { width: 100%; height: auto; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px 8px 0 0; display: block; transition: filter 0.3s; }  
+    body.dark .novel-card img { filter: brightness(0.9); }  
+    .novel-card h3 { margin: 10px; font-size: 16px; font-weight: 500; font-family: 'Tajawal', sans-serif; text-align: right; line-height: 1.4; max-height: 3.2em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; transition: color 0.3s; }  
+    .hidden { display: none !important; }  
+    /* مكان الـ Lottie فوق العنوان */  
+#era-animation {  
+  position: fixed;  
+  top: 20px;               /* المسافة من أعلى الصفحة */  
+  left: 50%;  
+  transform: translateX(-50%);  
+  z-index: 999;            /* أعلى من عناصر الخلفية */  
+                    }  
+    /* Era overlay */  
+    #era-overlay { position: fixed; top: 130px; left: 50%; transform: translateX(-50%); background-color: var(--era-bg); color: var(--era-text); padding: 10px 20px; font-size: 24px; font-weight: bold; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.5s; }  
+    #era-overlay.visible { opacity: 1; }  
+    /* البداية: تحكم في موضع وحجم شريط الـ sale-ribbon */  
+ .sale-ribbon {  
+   position: absolute;  
+   top: -5px;  
+   right: -10px;  
+   width: 70px;  
+   height: 70px;  
+   pointer-events: none;  
+   z-index: 2;  
+ }  
+ .sale-ribbon lottie-player {  
+   width: 100%;  
+   height: 100%;  
+ }  
+ /* النهاية */  
+    /* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */  
+:root {  
+  /* … المتغيّرات الأخرى … */  
+  --hero-pattern: url('images/pattern-light.svg');  
+}  
+/* ★ بطاقة الملهمون الدقيقة 100% ★ */  
+.hero-card {  
+  position: relative;  
+  margin: 20px auto;  
+  width: 90%;              /* عرض البطاقة؛ عدّله حسب حاجتك */  
+  max-width: 600px;        /* أقصى عرض */  
+  background: #000;  
+  /* نقش الخلفية */  
+  background-image: var(--hero-pattern);  
+  background-size: 150px 150px;  
+  background-repeat: repeat;  
+  background-blend-mode: overlay;  
+  color: #fff;  
+  /* القطع والزوايا */  
+  clip-path: polygon(  
+    8% 0%,      /* بداية القطع في الزاوية العلوية اليسرى */  
+    100% 0%,    /* أعلى يمين */  
+    100% 100%,  /* أسفل يمين */  
+    8% 100%,    /* أسفل يسار */  
+    0% 92%,     /* حافة منحرفة لتناغم القطع */  
+    0% 8%       /* نهاية القطع في الزاوية العلوية اليسرى */  
+  );  
+  /* الظل الثلاثي الأبعاد */  
+  filter: drop-shadow(-6px 0px 12px rgba(0,0,0,0.4)) /* ظل جانبي أقوى */  
+          drop-shadow(0px 4px 10px rgba(0,0,0,0.2)); /* ظل سفلي خفيف */  
+  overflow: hidden;  
+    }  
+  
+/* شبكة الصور */  
+.hero-images {  
+  display: grid;  
+  grid-template-columns: repeat(3, 1fr);  
+  gap: 0; /* الفاصل نصفيّ يتحقّق بالحافات السوداء للصورة */  
+  padding: 16px;  
+}  
+  
+.hero-images img {  
+  width: 100%;  
+  aspect-ratio: 1/1;  
+  object-fit: cover;  
+  border: 4px solid #000;    /* فاصل أسود ثابت 4px */  
+  border-radius: 6px;        /* زوايا قليلاً مستديرة */  
+  display: block;  
+    }  
+  
+/* النص المركزي */  
+.hero-content {  
+  padding: 40px 16px 24px;  /* 40px من الأعلى، 16px جانبي، 24px أسفل */  
+  text-align: center;  
+}  
+  
+.hero-text {  
+  font-family: 'Tajawal', sans-serif;  
+  font-size: 34px;    /* حجم قريب من 32–36px */  
+  font-weight: 800;   /* ثقيل جدًا */  
+  line-height: 1.2;  
+  margin: 0;  
+  }  
+  </style>  
+</head>  
+<body>  
+  <div class="navbar">  
+    <img src="images/mogtamaa-logo.webp" class="logo" alt="شعار مجتمع الروايات">  
+    <div class="search-box">  
+      <input type="text" placeholder="البحث...">  
+      <i class="fa fa-search"></i>  
+    </div>  
+    <div class="icons">  
+      <button id="theme-toggle" class="toggle-btn" onclick="toggleTheme()">  
+        <lottie-player id="moon-icon" src="animations/moon.json" background="transparent" speed="1" style="width:32px; height:32px; display:block;" loop autoplay></lottie-player>  
+        <lottie-player id="sun-icon" src="animations/sun.json" background="transparent" speed="1" style="width:40px; height:40px; display:none;" loop autoplay></lottie-player>  
+      </button>  
+      <button onclick="toggleSidebar()">☰</button>  
+    </div>  
+  </div>  
+<!-- ★ هنا تبدأ بطاقة “الملهمون” المُعدّلة ★ -->  
+<section id="hero-section" class="hero-card hidden">  
+  <div class="hero-images">  
+    <img src="images/face1.jpg" alt="وجه 1" loading="lazy">  
+    <img src="images/face2.jpg" alt="وجه 2" loading="lazy">  
+    <img src="images/face3.jpg" alt="وجه 3" loading="lazy">  
+    <img src="images/face4.jpg" alt="وجه 4" loading="lazy">  
+    <img src="images/face5.jpg" alt="وجه 5" loading="lazy">  
+    <img src="images/face6.jpg" alt="وجه 6" loading="lazy">  
+  </div>  
+  <div class="hero-content">  
+    <p class="hero-text">  
+نحن نحتفي بأولئك الذين جعلوا من الكلمات جسورًا تعبر بنا إلى عوالم جديدة.<br>  
+        
+    </p>  
+  </div>  
+</section>  
+<!-- ★ هنا تنتهي البطاقة ★ -->  
+<!-- Era Animation -->  
+<div id="era-animation" class="hidden">  
+  <lottie-player  
+  id="era-lottie"  
+  src="animations/victorian.json"  
+  background="transparent"  
+  speed="1"  
+  style="width:150px; height:150px;"  
+  autoplay>                            <!-- ← أزلنا سطر loop تماماً -->  
+</lottie-player>  
+</div>  
+  <!-- Era Overlay -->  
+  <div id="era-overlay">العصر الفيكتوري</div>  
+  
+  <div class="sidebar" id="sidebar">  
+    <button class="sidebar-close" onclick="toggleSidebar()">×</button>  
+    <h2>القائمة</h2>  
+    <a href="#" data-filter="all"><i class="fas fa-home"></i> الرئيسية</a>  
+    <a href="#" data-filter="fanfic"><i class="fas fa-book-open"></i> روايات خيال المعجبين</a>  
+    <a href="#" id="era-toggle" class="has-submenu"><i class="fas fa-book"></i> العصر الأدبي <i class="fas fa-chevron-down sub-icon"></i></a>  
+    <div id="era-options" class="sub-menu hidden">  
+      <a href="#" data-filter="victorian">العصر الفيكتوري</a>  
+      <a href="#" data-filter="early-twentieth">أوائل القرن العشرين</a>  
+      <a href="#" data-filter="ancient-classics">الكلاسيكيات المبكرة</a>  
+    </div>  
+    <!-- زر الملهمون! الجديد -->  
+<a href="#" id="inspired-toggle"><i class="fas fa-lightbulb"></i> الملهمون!</a>  
+    <a href="#" data-filter="for-sale"><i class="fas fa-shopping-cart"></i> شراء الكتب</a>  
+    <a href="support.html"><i class="fas fa-heart"></i> ادعم الموقع</a>  
+  </div>  
+  
+  <div class="novels-container">  
+     <!-- روايات خيال المعجبين -->  
+  <a class="novel-card fanfic" href="novel1.html">  
+    <img src="images/cover.webp" alt="رواية البطل الخارق">  
+    <h3> الرحلة الصامتة</h3>  
+  </a>  
+  
+  <a class="novel-card fanfic" href="novel2.html">  
+    <img src="images/cover2.webp" alt="يوميات الشرير">  
+    <h3> المختار المُكرَّم</h3>  
+  </a>  
+  
+  <!-- روايات كلاسيكية -->  
+  <a class="novel-card classic" href="alice_in_wonderland.html">  
+    <img src="images/alice_in_wonderland.jpg" alt="أليس في بلاد العجائب">  
+    <h3>أليس في بلاد العجائب</h3>  
+  </a>  
+  
+  <!-- روايات خيال المعجبين -->  
+  <a class="novel-card fanfic" href="novel3.html">  
+    <img src="images/cover3.jpg" alt="أتيت ، رأيت ، خسرت!">  
+    <h3>أتيت ، رأيت ، خسرت!</h3>  
+  </a>  
+  
+  <!-- روايات كلاسيكية -->  
+  <a class="novel-card classic" href="dracula.html">  
+    <img src="images/dracula.webp" alt="دراكولا" loading="lazy">  
+    <h3>دراكولا</h3>  
+  </a>  
+  
+  <!-- روايات خيال المعجبين -->  
+  <a class="novel-card fanfic" href="novel4.html">  
+    <img src="images/dylal10.webp" alt="إطلاق العنان للظلال العشرة" loading="lazy">  
+    <h3>إطلاق العنان للظلال العشرة</h3>  
+  </a>  
+  
+  <!-- روايات كلاسيكية -->  
+  <a class="novel-card classic" href="gulifer.html">  
+    <img src="images/gulifer.webp" alt="رحلات جلفر" loading="lazy">  
+    <h3>رحلات جلفر</h3>  
+  </a>  
+  
+  <a class="novel-card classic" href="pride_and_prejudice.html">  
+    <img src="images/pride_and_prejudice.webp" alt="كبرياء وتحامل" loading="lazy">  
+    <h3>كبرياء وتحامل</h3>  
+  </a>  
+  
+  <a class="novel-card for-sale hidden" href="https://amazon.com/your-affiliate-link">  
+  <!-- 1) حاوية الشريط -->  
+  <div class="sale-ribbon">  
+    <lottie-player  
+      src="animations/sale-ribbon.json"  
+      background="transparent"  
+      speed="1"  
+      loop autoplay>  
+    </lottie-player>  
+  </div>  
+  <!-- 2) المحتوى الأصلي للبطاقة -->  
+  <img src="images/book.webp" alt="">  
+  <h3></h3>  
+  </a>  
+    <!-- كتاب 2 -->  
+<a class="novel-card for-sale hidden" href="https://amazon.com/book2-link">  
+  <div class="sale-ribbon">  
+    <lottie-player  
+      src="animations/sale-ribbon.json"  
+      background="transparent"  
+      speed="1"  
+      loop autoplay>  
+    </lottie-player>  
+  </div>  
+  <img src="images/book.webp" alt=" ">  
+  <h3></h3>  
+</a>  
+  
+<!-- كتاب 3 -->  
+<a class="novel-card for-sale hidden" href="https://amazon.com/book3-link">  
+  <div class="sale-ribbon">  
+    <lottie-player  
+      src="animations/sale-ribbon.json"  
+      background="transparent"  
+      speed="1"  
+      loop autoplay>  
+    </lottie-player>  
+  </div>  
+  <img src="images/book.webp" alt=" ">  
+  <h3> </h3>  
+    </a>  
+  </div>  
+  
+  
+  <script>  
+    function toggleSidebar() {  
+      document.getElementById('sidebar').classList.toggle('active');  
+    }  
+    function toggleTheme() {  
+      const body = document.body; const moonIcon = document.getElementById('moon-icon'); const sunIcon = document.getElementById('sun-icon');  
+      const isDark = body.classList.toggle('dark');  
+      moonIcon.style.display = isDark ? 'none' : 'block';  
+      sunIcon.style.display  = isDark ? 'block' : 'none';  
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');  
+    }  
+      window.onload = function() {  
+    const saved = localStorage.getItem('theme'); const body = document.body;  
+    const moonIcon = document.getElementById('moon-icon'); const sunIcon = document.getElementById('sun-icon');  
+    if (saved === 'dark') { body.classList.add('dark'); moonIcon.style.display = 'none'; sunIcon.style.display = 'block'; }  
+  
+    const links     = document.querySelectorAll('.sidebar a[data-filter]');  
+    const novels    = document.querySelectorAll('.novel-card');  
+    const overlay   = document.getElementById('era-overlay');  
+    const animation = document.getElementById('era-animation');  // ← **سطر إضافي**  
+  
+    links.forEach(link => {  
+      link.addEventListener('click', e => {  
+        e.preventDefault();  
+        const f = link.getAttribute('data-filter');  
+        novels.forEach(n => {  
+          const isMatch          = (f === 'all') || n.classList.contains(f);  
+          const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');  
+          n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);  
+        });  
+        if (f === 'victorian') {  
+  overlay.classList.add('visible');  
+  animation.classList.remove('hidden');  
+  document.getElementById('era-lottie').play();  // يعيد التشغيل من البداية  
+} else {  
+  overlay.classList.remove('visible');  
+  animation.classList.add('hidden');  
+    }  
+      });  
+    });  
+  
+    document.getElementById('era-toggle')  
+      .addEventListener('click', e => {  
+        e.preventDefault();  
+        const opts = document.getElementById('era-options');  
+        opts.classList.toggle('hidden');  
+        e.currentTarget.classList.toggle('open');  
+      });  
+  
+    document.querySelector('.search-box input')  
+      .addEventListener('input', function() {  
+        const q = this.value.trim().toLowerCase();  
+        document.querySelectorAll('.novel-card').forEach(n =>  
+          n.classList.toggle('hidden',  
+            !n.querySelector('h3').textContent.toLowerCase().includes(q)  
+          )  
+        );  
+      });  
+  };  
+    // عند تحميل الصفحة  
+window.addEventListener('DOMContentLoaded', () => {  
+  const inspiredBtn   = document.getElementById('inspired-toggle');  
+  const heroSection   = document.getElementById('hero-section');  
+  const novelsSection = document.querySelector('.novels-container');  
+  
+  inspiredBtn.addEventListener('click', e => {  
+    e.preventDefault();  
+    // 1) إظهار/إخفاء البطاقة  
+    heroSection.classList.toggle('hidden');  
+    // 2) إخفاء/إظهار شبكة الروايات  
+    novelsSection.classList.toggle('hidden');  
+    // 3) (اختياري) إخفاء أي أقسام أخرى إذا لزم الأمر  
+    // document.querySelector('.sidebar').classList.toggle('hidden');  
+    // document.querySelector('.navbar').classList.toggle('hidden');  
+  });  
+});  
+  </script>  
+</body>  
+    </html>
