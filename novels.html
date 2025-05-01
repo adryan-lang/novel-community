@@ -122,8 +122,9 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent 50%);
-}
+  /* عكس اتجاه التدرّج: غامق في الأعلى، شفاف في المنتصف/أسفل */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 50%);
+    }
 /* الاسم العربي أعلى البطاقة */
 .inspirer-card .name-ar {
   position: absolute;
