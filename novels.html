@@ -210,6 +210,47 @@
       );
       direction: rtl;
       }
+    /* ======== أنماط شبكة الصور المتحركة ======== */
+.hero-images {
+  display: flex;
+  gap: 0;
+  padding: 16px;
+}
+.column {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.item {
+  position: relative;
+  width: 100%;
+  /* يجعل الخلية مربّعة بثلاثة صفوف */
+  padding-bottom: calc(100% / 3);
+}
+.item img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border: 4px solid var(--hero-bg-color);
+  border-radius: 6px;
+  display: block;
+}
+.item .label {
+  position: absolute;
+  bottom: 4px; right: 4px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+    }
   </style>  
 </head>  
 <body>  
@@ -228,19 +269,19 @@
     </div>  
   </div>  
 <!-- ★ هنا تبدأ بطاقة “الملهمون” المُعدّلة ★ -->  
-  <section class="hero-card">
-    <div class="hero-images">
-      <div id="col1" class="column"><div class="wrapper"></div></div>
-      <div id="col2" class="column"><div class="wrapper"></div></div>
-      <div id="col3" class="column"><div class="wrapper"></div></div>
-    </div>
-    <div class="hero-content">
-      <p class="hero-text">
-        نحن نحتفي بأولئك الذين جعلوا من الكلمات جسورًا تعبر بنا إلى عوالم جديدة.
-        <br>
-      </p>
-    </div>
-  </section>
+<section id="hero-section" class="hero-card hidden">
+  <div class="hero-images">
+    <div id="col1" class="column"><div class="wrapper"></div></div>
+    <div id="col2" class="column"><div class="wrapper"></div></div>
+    <div id="col3" class="column"><div class="wrapper"></div></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-text">
+      نحن نحتفي بأولئك الذين جعلوا من الكلمات جسورًا تعبر بنا إلى عوالم جديدة.<br>
+      (ضع هنا تواريخ الميلاد والوفاة تحت كل صورة حسب التصميم)
+    </p>
+  </div>
+</section>
 <!-- ★ هنا تنتهي البطاقة ★ -->  
 <!-- Era Animation -->  
 <div id="era-animation" class="hidden">  
@@ -424,81 +465,80 @@
       });  
   };  
     <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      // مصفوفة تضم 20 رابط صورة
-      const images = [
-        'images/face1.jpg',  'images/face2.jpg',  'images/face3.jpg',  'images/face4.jpg',
-        'images/face5.jpg',  'images/face6.jpg',  'images/face7.jpg',  'images/face8.jpg',
-        'images/face9.jpg',  'images/face10.jpg', 'images/face11.jpg', 'images/face12.jpg',
-        'images/face13.jpg', 'images/face14.jpg', 'images/face15.jpg', 'images/face16.jpg',
-        'images/face17.jpg', 'images/face18.jpg', 'images/face19.jpg', 'images/face20.jpg'
-      ];
+  window.addEventListener('DOMContentLoaded', () => {
+    // قائمة 20 صورة
+    const images = [
+      'images/face1.jpg','images/face2.jpg','images/face3.jpg','images/face4.jpg',
+      'images/face5.jpg','images/face6.jpg','images/face7.jpg','images/face8.jpg',
+      'images/face9.jpg','images/face10.jpg','images/face11.jpg','images/face12.jpg',
+      'images/face13.jpg','images/face14.jpg','images/face15.jpg','images/face16.jpg',
+      'images/face17.jpg','images/face18.jpg','images/face19.jpg','images/face20.jpg'
+    ];
 
-      const rows     = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--rows'));
-      const dur      = getComputedStyle(document.documentElement).getPropertyValue('--transition-dur');
-      const interval = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--interval'));
-      const col1W    = document.querySelector('#col1 .wrapper');
-      const col2W    = document.querySelector('#col2 .wrapper');
-      const col3W    = document.querySelector('#col3 .wrapper');
-      const cellH    = document.getElementById('col1').clientHeight / rows;
+    const rows = 3;
+    const transition = '600ms';
+    const delay = 2000;
+    const col1W = document.querySelector('#col1 .wrapper');
+    const col2W = document.querySelector('#col2 .wrapper');
+    const col3W = document.querySelector('#col3 .wrapper');
+    // حساب ارتفاع خلية واحدة
+    const cellH = document.getElementById('col1').clientHeight / rows;
 
-      // دوال إنشاء العناصر
-      function createItem(idx) {
-        const div = document.createElement('div');
-        div.className = 'item';
-        const img = document.createElement('img');
-        img.src = images[idx % images.length];
-        img.alt = `صورة ${ (idx % images.length) + 1 }`;
-        const span = document.createElement('span');
-        span.className = 'label';
-        span.textContent = (idx % images.length) + 1;
-        div.append(img, span);
-        return div;
-      }
+    // مؤشرات البداية لكل عمود
+    let ptr1 = 0, ptr2 = rows, ptr3 = rows * 2;
 
-      // مؤشرات لكل عمود
-      let ptr1 = 0;
-      let ptr2 = rows;
-      let ptr3 = rows * 2;
+    // دالة إنشاء عنصر الصورة
+    function createItem(idx) {
+      const div = document.createElement('div'); div.className = 'item';
+      const img = document.createElement('img');
+      img.src = images[idx % images.length];
+      img.alt = `صورة ${(idx % images.length) + 1}`;
+      const label = document.createElement('span');
+      label.className = 'label';
+      label.textContent = (idx % images.length) + 1;
+      div.append(img, label);
+      return div;
+    }
 
-      // ملء الأعمدة بالبداية (rows + 1) عنصر لضمان الانزلاق السلس
-      for (let i = 0; i < rows + 1; i++) {
-        col1W.appendChild(createItem(ptr1++));
-        col2W.appendChild(createItem(ptr2++));
-        col3W.appendChild(createItem(ptr3++));
-      }
+    // ملء الأعمدة ابتدائيًا
+    for (let i = 0; i < rows + 1; i++) {
+      col1W.appendChild(createItem(ptr1++));
+      col2W.appendChild(createItem(ptr2++));
+      col3W.appendChild(createItem(ptr3++));
+    }
 
-      // دوال الحركة
-      function shiftUp(wrapper) {
-        const next = createItem(ptr1++);
-        wrapper.appendChild(next);
-        wrapper.style.transition = `transform ${dur} ease-in-out`;
-        wrapper.style.transform = `translateY(-${cellH}px)`;
-        wrapper.addEventListener('transitionend', () => {
-          wrapper.removeChild(wrapper.firstChild);
-          wrapper.style.transition = 'none';
-          wrapper.style.transform = 'translateY(0)';
-        }, { once: true });
-      }
-      function shiftDown(wrapper) {
-        const next = createItem(ptr2++);
-        wrapper.insertBefore(next, wrapper.firstChild);
-        wrapper.style.transition = `transform ${dur} ease-in-out`;
-        wrapper.style.transform = `translateY(${cellH}px)`;
-        wrapper.addEventListener('transitionend', () => {
-          wrapper.removeChild(wrapper.lastChild);
-          wrapper.style.transition = 'none';
-          wrapper.style.transform = 'translateY(0)';
-        }, { once: true });
-      }
-      // الشغل للجوانب (col1, col3) shiftUp وللمنتصف shiftDown
-      setInterval(() => {
-        shiftUp(col1W);
-        shiftDown(col2W);
-        shiftUp(col3W);
-      }, interval);
-    });
+    // صعود للأعمدة الجانبية ونزول للعمود الأوسط
+    function shiftUp(wrapper, ptr) {
+      const next = createItem(ptr.val++);
+      wrapper.appendChild(next);
+      wrapper.style.transition = `transform ${transition} ease-in-out`;
+      wrapper.style.transform = `translateY(-${cellH}px)`;
+      wrapper.addEventListener('transitionend', () => {
+        wrapper.removeChild(wrapper.firstChild);
+        wrapper.style.transition = 'none';
+        wrapper.style.transform = 'translateY(0)';
+      }, { once: true });
+    }
+    function shiftDown(wrapper, ptr) {
+      const next = createItem(ptr.val++);
+      wrapper.insertBefore(next, wrapper.firstChild);
+      wrapper.style.transition = `transform ${transition} ease-in-out`;
+      wrapper.style.transform = `translateY(${cellH}px)`;
+      wrapper.addEventListener('transitionend', () => {
+        wrapper.removeChild(wrapper.lastChild);
+        wrapper.style.transition = 'none';
+        wrapper.style.transform = 'translateY(0)';
+      }, { once: true });
+    }
+
+    // لفّات المؤشر عبر الصور
+    const r1 = { val: ptr1 }, r2 = { val: ptr2 }, r3 = { val: ptr3 };
+    setInterval(() => {
+      shiftUp(col1W, r1);
+      shiftDown(col2W, r2);
+      shiftUp(col3W, r3);
+    }, delay);
+  });
   </script>
-
 </body>
 </html>
