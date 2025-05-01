@@ -158,16 +158,25 @@
 
 /* المحتوى النصي */
 .hero-content {
+  /* الحشوة الأصلية */
   padding: 40px 16px 24px;
-  text-align: center;
+  /* ↓ إضافة حشو على الجهة المقطوعة يمنع التصاق النصّ بالقصّة ↓ */
+  padding-inline-start: calc(var(--clip-offset) + 16px);
 }
+
+/* نص البطاقة */
 .hero-text {
   font-family: 'Tajawal', sans-serif;
   font-size: 34px;
   font-weight: 800;
   line-height: 1.2;
   margin: 0;
-  }  
+  /* ↓ تحديد عرض النصّ الفعّال بحيث لا يتجاوز المنطقة الآمنة ↓ */
+  max-inline-size: calc(100% - var(--clip-offset));
+  /* عرض كتلة مركزيّة يبعد البداية والنهاية عن القصّة */
+  display: block;
+  margin: 0 auto;
+    }
   </style>  
 </head>  
 <body>  
