@@ -95,81 +95,99 @@
    height: 100%;  
  }  
  /* النهاية */  
-    :root {
-    /* ألوان وخيارات قابلة للتعديل */
-    --clip-offset: 8%;                     /* حجم القصّة */
-    --hero-bg-color: #2E2E2E;              /* خلفية البطاقة */
-    --hero-pattern-url: url('images/pattern-light.svg');
-    --hero-pattern-size: 150px;            /* حجم نقش الخلفية */
-    --hero-text-color: #F5F1E8;            /* لون النص */
-    --hero-image-border: 4px;              /* سمك إطار الصور */
-    --hero-padding: 1rem;                  /* مسافة داخلية عامة لمنع تلاصق النص */
-  }
+       :root {
+      /* متغيّرات الألوان والحواف */
+      --clip-offset: 8%;                     /* نسبة القصّ من الجهة اليسرى */
+      --hero-bg-color: #2E2E2E;              /* خلفية البطاقة */
+      --hero-pattern-url: url('images/pattern-light.svg');
+      --hero-pattern-size: 150px;            /* حجم النقش */
+      --hero-text-color: #F5F1E8;            /* لون النص */
+      --hero-image-border: 4px;              /* سمك إطار الصور */
 
-  /* ★ بطاقة “الملهمون” الرئيسية ★ */
-  .hero-card {
-    position: relative;
-    margin: 20px auto;
-    width: 90%;
-    max-width: 600px;
-    background-color: var(--hero-bg-color);
-    background-image: var(--hero-pattern-url);
-    background-size: var(--hero-pattern-size) var(--hero-pattern-size);
-    background-repeat: repeat;
-    background-blend-mode: overlay;
-    color: var(--hero-text-color);
-    clip-path: polygon(
-      var(--clip-offset) 0%,
-      100% 0%,
-      100% 100%,
-      var(--clip-offset) 100%,
-      0% calc(100% - var(--clip-offset)),
-      0% var(--clip-offset)
-    );
-    filter:
-      drop-shadow(-6px 0px 12px rgba(0,0,0,0.4))
-      drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
-    overflow: hidden;
-  }
+      /* مسافات داخلية لضمان عدم التلاصق مع الحافتين */
+      --hero-padding-start: 1rem;            /* من اليسار (حافة القصّ) */
+      --hero-padding-end:   1rem;            /* من اليمين */
+    }
 
-  /* شبكة الصور */
-  .hero-images {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    padding: 16px;
-  }
-  .hero-images img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    border: var(--hero-image-border) solid var(--hero-bg-color);
-    border-radius: 6px;
-    display: block;
-    transition: border-color 0.3s ease;
-  }
-  .hero-images img:hover {
-    border-color: var(--hero-text-color);
-  }
+    /* ★ البطاقة الرئيسية ★ */
+    .hero-card {
+      position: relative;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
+      background-color: var(--hero-bg-color);
+      background-image: var(--hero-pattern-url);
+      background-size: var(--hero-pattern-size) var(--hero-pattern-size);
+      background-repeat: repeat;
+      background-blend-mode: overlay;
+      color: var(--hero-text-color);
+      clip-path: polygon(
+        var(--clip-offset) 0%,
+        100% 0%,
+        100% 100%,
+        var(--clip-offset) 100%,
+        0% calc(100% - var(--clip-offset)),
+        0% var(--clip-offset)
+      );
+      filter:
+        drop-shadow(-6px 0px 12px rgba(0,0,0,0.4))
+        drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
+      overflow: hidden;
+    }
 
-  /* المحتوى النصي */
-  .hero-content {
-    /* مسافة داخلية من الحافة المقطوعة ومن الجانب الآخر */
-    padding-inline-start: calc(var(--clip-offset) + var(--hero-padding));
-    padding-inline-end: var(--hero-padding);
-    padding-block-start: 40px;
-    padding-block-end: 24px;
-    text-align: center;
-  }
-  .hero-text {
-    font-family: 'Tajawal', sans-serif;
-    font-size: 34px;
-    font-weight: 800;
-    line-height: 1.2;
-    margin: 0;
-    display: inline-block;  
-    /* تأكيد أن النص لا يمتد خلف القصّ */
-    max-width: calc(100% - var(--clip-offset) - 2 * var(--hero-padding));
+    /* شبكة الصور */
+    .hero-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      padding: 16px;
+    }
+    .hero-images img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border: var(--hero-image-border) solid var(--hero-bg-color);
+      border-radius: 6px;
+      display: block;
+      transition: border-color 0.3s ease;
+    }
+    .hero-images img:hover {
+      border-color: var(--hero-text-color);
+    }
+
+    /* المحتوى النصي */
+    .hero-content {
+      /* حجز مسافة من الجهتين */
+      padding-inline-start: calc(var(--clip-offset) + var(--hero-padding-start));
+      padding-inline-end:   var(--hero-padding-end);
+      padding-block-start:  40px;
+      padding-block-end:    24px;
+      /* التبرير التلقائي للنص */
+      text-align: justify;
+    }
+
+    .hero-text {
+      /* ضبط اتجاه الكتابة */
+      direction: rtl;
+      /* تبرير النصّ بين الحافتين، والسطر الأخير إلى اليمين */
+      text-align: justify;
+      text-align-last: right;
+      -webkit-text-align-last: right; /* دعم متصفحات WebKit */
+
+      font-family: 'Tajawal', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.4;
+      margin: 0;
+
+      /* منع امتداد النص خلف القصّ */
+      display: block;
+      max-width: calc(
+        100%
+        - var(--clip-offset)
+        - var(--hero-padding-start)
+        - var(--hero-padding-end)
+      );
     }
   </style>  
 </head>  
