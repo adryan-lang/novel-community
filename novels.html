@@ -95,82 +95,81 @@
    height: 100%;
  }
  /* النهاية */
-/* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */
-:root {
-  --hero-pattern: url('images/pattern-light.svg');
-}
-
-/* ★ بطاقة الملهمون الدقيقة 100% ★ */
-.hero-card {
-  position: relative;           /* لإسقاط الـ ::before بداخلها */
-  margin: 20px auto;
-  width: 90%;
-  max-width: 600px;
-  background: #000;
-  background-image: var(--hero-pattern);
-  background-size: 150px 150px;
-  background-repeat: repeat;
-  background-blend-mode: overlay;
-  color: #fff;
-  
-  /* نقّاش البطاقة نفسه بسداسي مشطوف على اليسار */
-  clip-path: polygon(
-    8%   0%,
-    100% 0%,
-    100% 100%,
-    8%   100%,
-    0%   92%,
-    0%   8%
-  );
-  overflow: hidden;
-}
-
-/* ★ الشريط الرمادي المشطوف خلف البطاقة ★ */
-.hero-card::before {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 0;
-  width: 20px;               /* عرض الشريط الرمادي */
-  background: #777;          /* لون الشريط كما في الصورة */
-  z-index: -1;               /* خلف البطاقة */
-  
-  /* نفس القطع الجانبي الأيسر للبطاقة ليطابقه */
-  clip-path: polygon(
-    /* نطابق فقط الحافة اليسرى المشطوفة */  
-    0%   8%,    /* من هذه النقطة... */
-    8%   0%,    /* إلى هذه النقطة */  
-    100% 0%,    /* الباقي كامل مستطيل */  
-    100% 100%,  
-    8%   100%,  
-    0%   92%  
-  );
-}
-
-/* محتويات البطاقة تبقى فوق الجميع */
-.hero-images,
-.hero-content {
-  position: relative;
-  z-index: 1;
-}
-
-/* بقية الكود كما كان */
-.hero-images {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  padding: 16px;
-}
-.hero-images img {
-  width: 100%; aspect-ratio: 1/1; object-fit: cover;
-  border: 4px solid #000; border-radius: 6px; display: block;
-}
-.hero-content {
-  padding: 40px 16px 24px; text-align: center;
-}
-.hero-text {
-  font-family: 'Tajawal', sans-serif; font-size: 34px;
-  font-weight: 800; line-height: 1.2; margin: 0;
+    :root {
+      --hero-pattern: url('images/pattern-light.svg');
+    }
+    /* التغليف لبطاقة الملهمون مع الشريط الرمادي */
+    .hero-wrapper {
+      position: relative;
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    /* الشريط الرمادي المشطوف */
+    .hero-wrapper::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 20px;           /* عرض الشريط */
+      background: #777;      /* لون الشريط */
+      clip-path: polygon(
+        0% 8%,    /* بداية الشريط العلوي */
+        8% 0%,    /* قطع علوي أيسر */
+        100% 0%,  /* أعلى يمين */
+        100% 100%,/* أسفل يمين */
+        8% 100%,  /* بعد قطع سفلي أيسر */
+        0% 92%    /* نهاية الشريط السفلي */
+      );
+      z-index: 0;
+    }
+    /* البطاقة السوداء داخل التغليف */
+    .hero-card {
+      position: relative;
+      background: #000;
+      background-image: var(--hero-pattern);
+      background-size: 150px 150px;
+      background-repeat: repeat;
+      background-blend-mode: overlay;
+      color: #fff;
+      padding-top: 16px;
+      /* نقّاش البطاقة بدون الشريط */
+      clip-path: polygon(
+        8%   0%,
+        100% 0%,
+        100% 100%,
+        8%   100%,
+        0%   92%,
+        0%   8%
+      );
+      z-index: 1;
+      overflow: hidden;
+    }
+    .hero-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      padding: 16px;
+    }
+    .hero-images img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border: 4px solid #000;
+      border-radius: 6px;
+      display: block;
+    }
+    .hero-content {
+      padding: 40px 16px 24px;
+      text-align: center;
+      font-family: 'Tajawal', sans-serif;
+    }
+    .hero-text {
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0;
     }
   </style>
 </head>
@@ -189,23 +188,22 @@
       <button onclick="toggleSidebar()">☰</button>
     </div>
   </div>
-<!-- ★ هنا تبدأ بطاقة “الملهمون” المُعدّلة ★ -->
-<section id="hero-section" class="hero-card hidden">
-  <div class="hero-images">
-    <img src="images/face1.jpg" alt="وجه 1" loading="lazy">
-    <img src="images/face2.jpg" alt="وجه 2" loading="lazy">
-    <img src="images/face3.jpg" alt="وجه 3" loading="lazy">
-    <img src="images/face4.jpg" alt="وجه 4" loading="lazy">
-    <img src="images/face5.jpg" alt="وجه 5" loading="lazy">
-    <img src="images/face6.jpg" alt="وجه 6" loading="lazy">
-  </div>
-  <div class="hero-content">
-    <p class="hero-text">
-نحن نحتفي بأولئك الذين جعلوا من الكلمات جسورًا تعبر بنا إلى عوالم جديدة.<br>
-      
-    </p>
-  </div>
-</section>
+  <div class="hero-wrapper">
+    <section id="hero-section" class="hero-card">
+      <div class="hero-images">
+        <img src="images/face1.jpg" alt="وجه 1">
+        <img src="images/face2.jpg" alt="وجه 2">
+        <img src="images/face3.jpg" alt="وجه 3">
+        <img src="images/face4.jpg" alt="وجه 4">
+        <img src="images/face5.jpg" alt="وجه 5">
+        <img src="images/face6.jpg" alt="وجه 6">
+      </div>
+      <div class="hero-content">
+        <p class="hero-text">
+          نحن نحتفي بأولئك الذين جعلوا من الكلمات جسورًا تعبر بنا إلى عوالم جديدة.
+        </p>
+      </div>
+    </section>
 <!-- ★ هنا تنتهي البطاقة ★ -->
 <!-- Era Animation -->
 <div id="era-animation" class="hidden">
