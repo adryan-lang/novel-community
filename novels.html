@@ -452,6 +452,18 @@
       shiftUp(col3W, r3);
     }, delay);
   });
-  </script>
+      </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // عند الضغط على "الملهمون!"
+    document.getElementById('inspired-toggle').addEventListener('click', function(e) {
+      e.preventDefault();
+      // إظهار/إخفاء بطاقة الملهمون
+      document.getElementById('hero-section').classList.toggle('hidden');
+      // إذا أحببتِ أن يغلق الشريط الجانبي تلقائيًا:
+      // document.getElementById('sidebar').classList.remove('active');
+    });
+  });
+</script>
 </body>
 </html>
