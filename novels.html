@@ -95,29 +95,40 @@
    height: 100%;  
  }  
  /* النهاية */  
-           :root {
-      /* متغيّرات الألوان والحواف */
-      --clip-offset: 8%;                     /* نسبة القصّ من الجهة اليسرى */
+               :root {
+      --clip-offset: 8%;                     /* نسبة القصّ من اليسار */
       --hero-bg-color: #2E2E2E;              /* خلفية البطاقة */
       --hero-pattern-url: url('images/pattern-light.svg');
       --hero-pattern-size: 150px;            /* حجم النقش */
       --hero-text-color: #F5F1E8;            /* لون النص */
       --hero-image-border: 4px;              /* سمك إطار الصور */
+      --hero-padding-start: 1rem;            /* مسافة من القصّ الأيسر */
+      --hero-padding-end:   1rem;            /* مسافة من الحافة اليمنى */
 
-      /* مسافات داخلية لضمان عدم التلاصق مع الحافتين */
-      --hero-padding-start: 1rem;            /* من اليسار (حافة القصّ) */
-      --hero-padding-end:   1rem;            /* من اليمين */
+      --rows: 3;                 /* عدد الصفوف */
+      --cols: 3;                 /* عدد الأعمدة */
+      --transition-dur: 600ms;   /* مدة حركة الانتقال */
+      --interval: 2000ms;        /* زمن بين كل حركة وأخرى */
+      --gap: 0;                  /* مسافة بين الأعمدة */
     }
 
-    /* ★ البطاقة الرئيسية ★ */
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* البطاقة الرئيسية */
     .hero-card {
       position: relative;
-      margin: 20px auto;
       width: 90%;
       max-width: 600px;
       background-color: var(--hero-bg-color);
       background-image: var(--hero-pattern-url);
-      background-size: var(--hero-pattern-size) var(--hero-pattern-size);
+      background-size: var(--hero-pattern-size);
       background-repeat: repeat;
       background-blend-mode: overlay;
       color: var(--hero-text-color);
@@ -135,69 +146,70 @@
       overflow: hidden;
     }
 
-    /* شبكة الصور */
+    /* توزيع ثلاثة أعمدة للصور */
     .hero-images {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
+      display: flex;
+      gap: var(--gap);
       padding: 16px;
     }
-    .hero-images img {
+    .column {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .wrapper {
+      position: absolute;
+      top: 0; left: 0;
       width: 100%;
-      aspect-ratio: 1/1;
+    }
+
+    /* خلية الصورة */
+    .item {
+      position: relative;
+      width: 100%;
+      padding-bottom: calc(100% / var(--rows)); /* نسبة مربعة */
+    }
+    .item img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       border: var(--hero-image-border) solid var(--hero-bg-color);
       border-radius: 6px;
-      display: block;
-      transition: border-color 0.3s ease;
     }
-    .hero-images img:hover {
-      border-color: var(--hero-text-color);
+    .item .label {
+      position: absolute;
+      bottom: 4px; right: 4px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-radius: 3px;
     }
 
-    /* المحتوى النصي */
+    /* المحتوى النصي أسفل الصور */
     .hero-content {
-      /* مسافة من الجهتين */
       padding-inline-start: calc(var(--clip-offset) + var(--hero-padding-start));
-      padding-inline-end:   var(--hero-padding-end);
-      padding-block-start:  40px;
-      padding-block-end:    24px;
-      /* التبرير التلقائي للنص */
-      text-align: justify;
+      padding-inline-end: var(--hero-padding-end);
+      padding-block: 40px 24px;
+      text-align: center;
     }
-
     .hero-text {
-      /* ضبط اتجاه الكتابة */
-      direction: rtl;
-
-      /* تبرير النصّ بين الحافتين */
-      text-align: justify;
-      /* السطر الأخير إلى الجهة اليمنى */
-      text-align-last: right;
-      -webkit-text-align-last: right; /* لتعريف WebKit */
-
-      /* تقليل الفجوات في التبرير */
-      text-justify: inter-character;
-      word-spacing: normal;
-      letter-spacing: normal;
-
-      /* ضبط تباعد الأسطر ليكون أقل */
+      font-family: 'Tajawal', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
       line-height: 1.2;
-
-      /* منع امتداد النص خلف القصّ */
-      display: block;
+      margin: 0;
+      display: inline-block;
       max-width: calc(
         100%
         - var(--clip-offset)
         - var(--hero-padding-start)
         - var(--hero-padding-end)
       );
-
-      font-family: 'Tajawal', sans-serif;
-      font-size: 34px;
-      font-weight: 800;
-      margin: 0;
-                                       }
+      direction: rtl;
+      }
   </style>  
 </head>  
 <body>  
@@ -216,22 +228,19 @@
     </div>  
   </div>  
 <!-- ★ هنا تبدأ بطاقة “الملهمون” المُعدّلة ★ -->  
-<section id="hero-section" class="hero-card hidden">  
-  <div class="hero-images">  
-    <img src="images/face1.jpg" alt="وجه 1" loading="lazy">  
-    <img src="images/face2.jpg" alt="وجه 2" loading="lazy">  
-    <img src="images/face3.jpg" alt="وجه 3" loading="lazy">  
-    <img src="images/face4.jpg" alt="وجه 4" loading="lazy">  
-    <img src="images/face5.jpg" alt="وجه 5" loading="lazy">  
-    <img src="images/face6.jpg" alt="وجه 6" loading="lazy">  
-  </div>  
-  <div class="hero-content">  
-    <p class="hero-text">  
-نحن نحتفي بأولئك الذين جعلوا من الكلمات جسورًا تعبر بنا إلى عوالم جديدة.<br>  
-        
-    </p>  
-  </div>  
-</section>  
+  <section class="hero-card">
+    <div class="hero-images">
+      <div id="col1" class="column"><div class="wrapper"></div></div>
+      <div id="col2" class="column"><div class="wrapper"></div></div>
+      <div id="col3" class="column"><div class="wrapper"></div></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-text">
+        نحن نحتفي بأولئك الذين جعلوا من الكلمات جسورًا تعبر بنا إلى عوالم جديدة.
+        <br>
+      </p>
+    </div>
+  </section>
 <!-- ★ هنا تنتهي البطاقة ★ -->  
 <!-- Era Animation -->  
 <div id="era-animation" class="hidden">  
@@ -414,23 +423,82 @@
         );  
       });  
   };  
-    // عند تحميل الصفحة  
-window.addEventListener('DOMContentLoaded', () => {  
-  const inspiredBtn   = document.getElementById('inspired-toggle');  
-  const heroSection   = document.getElementById('hero-section');  
-  const novelsSection = document.querySelector('.novels-container');  
-  
-  inspiredBtn.addEventListener('click', e => {  
-    e.preventDefault();  
-    // 1) إظهار/إخفاء البطاقة  
-    heroSection.classList.toggle('hidden');  
-    // 2) إخفاء/إظهار شبكة الروايات  
-    novelsSection.classList.toggle('hidden');  
-    // 3) (اختياري) إخفاء أي أقسام أخرى إذا لزم الأمر  
-    // document.querySelector('.sidebar').classList.toggle('hidden');  
-    // document.querySelector('.navbar').classList.toggle('hidden');  
-  });  
-});  
-  </script>  
-</body>  
-    </html>
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // مصفوفة تضم 20 رابط صورة
+      const images = [
+        'images/face1.jpg',  'images/face2.jpg',  'images/face3.jpg',  'images/face4.jpg',
+        'images/face5.jpg',  'images/face6.jpg',  'images/face7.jpg',  'images/face8.jpg',
+        'images/face9.jpg',  'images/face10.jpg', 'images/face11.jpg', 'images/face12.jpg',
+        'images/face13.jpg', 'images/face14.jpg', 'images/face15.jpg', 'images/face16.jpg',
+        'images/face17.jpg', 'images/face18.jpg', 'images/face19.jpg', 'images/face20.jpg'
+      ];
+
+      const rows     = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--rows'));
+      const dur      = getComputedStyle(document.documentElement).getPropertyValue('--transition-dur');
+      const interval = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--interval'));
+      const col1W    = document.querySelector('#col1 .wrapper');
+      const col2W    = document.querySelector('#col2 .wrapper');
+      const col3W    = document.querySelector('#col3 .wrapper');
+      const cellH    = document.getElementById('col1').clientHeight / rows;
+
+      // دوال إنشاء العناصر
+      function createItem(idx) {
+        const div = document.createElement('div');
+        div.className = 'item';
+        const img = document.createElement('img');
+        img.src = images[idx % images.length];
+        img.alt = `صورة ${ (idx % images.length) + 1 }`;
+        const span = document.createElement('span');
+        span.className = 'label';
+        span.textContent = (idx % images.length) + 1;
+        div.append(img, span);
+        return div;
+      }
+
+      // مؤشرات لكل عمود
+      let ptr1 = 0;
+      let ptr2 = rows;
+      let ptr3 = rows * 2;
+
+      // ملء الأعمدة بالبداية (rows + 1) عنصر لضمان الانزلاق السلس
+      for (let i = 0; i < rows + 1; i++) {
+        col1W.appendChild(createItem(ptr1++));
+        col2W.appendChild(createItem(ptr2++));
+        col3W.appendChild(createItem(ptr3++));
+      }
+
+      // دوال الحركة
+      function shiftUp(wrapper) {
+        const next = createItem(ptr1++);
+        wrapper.appendChild(next);
+        wrapper.style.transition = `transform ${dur} ease-in-out`;
+        wrapper.style.transform = `translateY(-${cellH}px)`;
+        wrapper.addEventListener('transitionend', () => {
+          wrapper.removeChild(wrapper.firstChild);
+          wrapper.style.transition = 'none';
+          wrapper.style.transform = 'translateY(0)';
+        }, { once: true });
+      }
+      function shiftDown(wrapper) {
+        const next = createItem(ptr2++);
+        wrapper.insertBefore(next, wrapper.firstChild);
+        wrapper.style.transition = `transform ${dur} ease-in-out`;
+        wrapper.style.transform = `translateY(${cellH}px)`;
+        wrapper.addEventListener('transitionend', () => {
+          wrapper.removeChild(wrapper.lastChild);
+          wrapper.style.transition = 'none';
+          wrapper.style.transform = 'translateY(0)';
+        }, { once: true });
+      }
+      // الشغل للجوانب (col1, col3) shiftUp وللمنتصف shiftDown
+      setInterval(() => {
+        shiftUp(col1W);
+        shiftDown(col2W);
+        shiftUp(col3W);
+      }, interval);
+    });
+  </script>
+
+</body>
+</html>
