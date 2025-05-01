@@ -64,10 +64,29 @@
     .has-submenu.open .sub-icon { transform: rotate(90deg); }
     .novels-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; padding: 20px; }
    .novel-card { background: #fff; border-radius: 10px; transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s; position: relative; text-decoration: none; color: inherit; }
-   .novel-card:active {
-  transform: translateY(2px) scale(0.97);
-   }
-    body.dark .novel-card { background: #1e1e1e; color: #fff; box-shadow: 0 4px 10px rgba(255,255,255,0.1); }
+    .novel-card:active {
+      transform: translateY(2px) scale(0.97);
+    }
+
+    /* ========== إضافة منع إطار الفوكَس و الـ tap-highlight ========= */
+    /* يمنع تأثير الـ tap-highlight الافتراضي على جميع الروابط */
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* يزيل إطار الفوكس عند الضغط أو التنقل بلوحة المفاتيح */
+    .novel-card:focus,
+    .novel-card:active {
+      outline: none;
+    }
+    /* يمكنك أيضاً تطبيقه على كل العناصر لو أحببت */
+    /* * { -webkit-tap-highlight-color: transparent; } */
+    /* ========================================================= */
+
+    body.dark .novel-card { 
+      background: #1e1e1e; 
+      color: #fff; 
+      box-shadow: 0 4px 10px rgba(255,255,255,0.1); 
+    }
     .novel-card img { width: 100%; height: auto; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px 8px 0 0; display: block; transition: filter 0.3s; }
     body.dark .novel-card img { filter: brightness(0.9); }
     .novel-card h3 { margin: 10px; font-size: 16px; font-weight: 500; font-family: 'Tajawal', sans-serif; text-align: right; line-height: 1.4; max-height: 3.2em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; transition: color 0.3s; }
