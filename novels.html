@@ -95,87 +95,81 @@
    height: 100%;  
  }  
  /* النهاية */  
-    /* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */  
-:root {  
-  /* … المتغيّرات الأخرى … */  
-  --hero-pattern: url('images/pattern-light.svg');  
-}  
-:root {
-  /* ألوان وخيارات قابلة للتعديل */
-  --clip-offset: 8%;                     /* حجم القصّة */
-  --hero-bg-color: #2E2E2E;              /* خلفية البطاقة */
-  --hero-pattern-url: url('images/pattern-light.svg');  
-  --hero-pattern-size: 150px;            /* حجم نقش الخلفية */
-  --hero-text-color: #F5F1E8;            /* لون النص */
-  --hero-image-border: 4px;              /* سمك إطار الصور */
-}
+    :root {
+    /* ألوان وخيارات قابلة للتعديل */
+    --clip-offset: 8%;                     /* حجم القصّة */
+    --hero-bg-color: #2E2E2E;              /* خلفية البطاقة */
+    --hero-pattern-url: url('images/pattern-light.svg');
+    --hero-pattern-size: 150px;            /* حجم نقش الخلفية */
+    --hero-text-color: #F5F1E8;            /* لون النص */
+    --hero-image-border: 4px;              /* سمك إطار الصور */
+    --hero-padding: 1rem;                  /* مسافة داخلية عامة لمنع تلاصق النص */
+  }
 
-/* ★ بطاقة “الملهمون” الرئيسية ★ */
-.hero-card {
-  position: relative;
-  margin: 20px auto;
-  width: 90%;
-  max-width: 600px;
-  background-color: var(--hero-bg-color);
-  background-image: var(--hero-pattern-url);
-  background-size: var(--hero-pattern-size) var(--hero-pattern-size);
-  background-repeat: repeat;
-  background-blend-mode: overlay;
-  color: var(--hero-text-color);
-  clip-path: polygon(
-    var(--clip-offset) 0%,
-    100% 0%,
-    100% 100%,
-    var(--clip-offset) 100%,
-    0% calc(100% - var(--clip-offset)),
-    0% var(--clip-offset)
-  );
-  filter:
-    drop-shadow(-6px 0px 12px rgba(0,0,0,0.4))
-    drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
-  overflow: hidden;
-}
+  /* ★ بطاقة “الملهمون” الرئيسية ★ */
+  .hero-card {
+    position: relative;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
+    background-color: var(--hero-bg-color);
+    background-image: var(--hero-pattern-url);
+    background-size: var(--hero-pattern-size) var(--hero-pattern-size);
+    background-repeat: repeat;
+    background-blend-mode: overlay;
+    color: var(--hero-text-color);
+    clip-path: polygon(
+      var(--clip-offset) 0%,
+      100% 0%,
+      100% 100%,
+      var(--clip-offset) 100%,
+      0% calc(100% - var(--clip-offset)),
+      0% var(--clip-offset)
+    );
+    filter:
+      drop-shadow(-6px 0px 12px rgba(0,0,0,0.4))
+      drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
+    overflow: hidden;
+  }
 
-/* شبكة الصور */
-.hero-images {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  padding: 16px;
-}
-.hero-images img {
-  width: 100%;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  border: var(--hero-image-border) solid var(--hero-bg-color);
-  border-radius: 6px;
-  display: block;
-  transition: border-color 0.3s ease;
-}
-.hero-images img:hover {
-  border-color: var(--hero-text-color);
-}
+  /* شبكة الصور */
+  .hero-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 16px;
+  }
+  .hero-images img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border: var(--hero-image-border) solid var(--hero-bg-color);
+    border-radius: 6px;
+    display: block;
+    transition: border-color 0.3s ease;
+  }
+  .hero-images img:hover {
+    border-color: var(--hero-text-color);
+  }
 
-/* المحتوى النصي */
-.hero-content {
-  /* الحشوة الأصلية */
-  padding: 40px 16px 24px;
-  /* ↓ إضافة حشو على الجهة المقطوعة يمنع التصاق النصّ بالقصّة ↓ */
-  padding-inline-start: calc(var(--clip-offset) + 16px);
-}
-
-/* نص البطاقة */
-.hero-text {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 34px;
-  font-weight: 800;
-  line-height: 1.2;
-  margin: 0;
-  /* ↓ تحديد عرض النصّ الفعّال بحيث لا يتجاوز المنطقة الآمنة ↓ */
-  max-inline-size: calc(100% - var(--clip-offset));
-  /* عرض كتلة مركزيّة يبعد البداية والنهاية عن القصّة */
-  display: block;
-  margin: 0 auto;
+  /* المحتوى النصي */
+  .hero-content {
+    /* مسافة داخلية من الحافة المقطوعة ومن الجانب الآخر */
+    padding-inline-start: calc(var(--clip-offset) + var(--hero-padding));
+    padding-inline-end: var(--hero-padding);
+    padding-block-start: 40px;
+    padding-block-end: 24px;
+    text-align: center;
+  }
+  .hero-text {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0;
+    display: inline-block;  
+    /* تأكيد أن النص لا يمتد خلف القصّ */
+    max-width: calc(100% - var(--clip-offset) - 2 * var(--hero-padding));
     }
   </style>  
 </head>  
