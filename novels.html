@@ -95,7 +95,7 @@
    height: 100%;  
  }  
  /* النهاية */  
-       :root {
+           :root {
       /* متغيّرات الألوان والحواف */
       --clip-offset: 8%;                     /* نسبة القصّ من الجهة اليسرى */
       --hero-bg-color: #2E2E2E;              /* خلفية البطاقة */
@@ -157,7 +157,7 @@
 
     /* المحتوى النصي */
     .hero-content {
-      /* حجز مسافة من الجهتين */
+      /* مسافة من الجهتين */
       padding-inline-start: calc(var(--clip-offset) + var(--hero-padding-start));
       padding-inline-end:   var(--hero-padding-end);
       padding-block-start:  40px;
@@ -169,16 +169,20 @@
     .hero-text {
       /* ضبط اتجاه الكتابة */
       direction: rtl;
-      /* تبرير النصّ بين الحافتين، والسطر الأخير إلى اليمين */
-      text-align: justify;
-      text-align-last: right;
-      -webkit-text-align-last: right; /* دعم متصفحات WebKit */
 
-      font-family: 'Tajawal', sans-serif;
-      font-size: 34px;
-      font-weight: 800;
-      line-height: 1.4;
-      margin: 0;
+      /* تبرير النصّ بين الحافتين */
+      text-align: justify;
+      /* السطر الأخير إلى الجهة اليمنى */
+      text-align-last: right;
+      -webkit-text-align-last: right; /* لتعريف WebKit */
+
+      /* تقليل الفجوات في التبرير */
+      text-justify: inter-character;
+      word-spacing: normal;
+      letter-spacing: normal;
+
+      /* ضبط تباعد الأسطر ليكون أقل */
+      line-height: 1.2;
 
       /* منع امتداد النص خلف القصّ */
       display: block;
@@ -188,7 +192,12 @@
         - var(--hero-padding-start)
         - var(--hero-padding-end)
       );
-    }
+
+      font-family: 'Tajawal', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      margin: 0;
+                                       }
   </style>  
 </head>  
 <body>  
