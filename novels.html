@@ -99,50 +99,52 @@
  }
  /* النهاية */
     /* شبكة بطاقات الملهمون! */
-    .inspirers-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      padding: 20px;
+.inspirers-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+.inspirer-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.inspirer-card img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+}
+/* التدرّج */
+.inspirer-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent 50%);
+}
+/* الاسم العربي أعلى البطاقة */
+.inspirer-card .name-ar {
+  position: absolute;
+  top: 16px;       /* يُظهر الاسم العربي أعلى تحت حافة البطاقة */
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2rem;
+  z-index: 1;
+}
+/* الاسم الإنجليزي أسفل منه */
+.inspirer-card .name-en {
+  position: absolute;
+  top: 40px;       /* أسفل الاسم العربي بمسافة 24px */
+  width: 100%;
+  text-align: center;
+  color: rgba(255,255,255,0.9);
+  font-size: 1rem;
+  z-index: 1;
     }
-    .inspirer-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-    .inspirer-card img {
-      width: 100%;
-      aspect-ratio: 3/4;
-      object-fit: cover;
-      display: block;
-    }
-    .inspirer-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent 50%);
-    }
-    .inspirer-card .name-ar {
-      position: absolute;
-      bottom: 40px;
-      width: 100%;
-      text-align: center;
-      color: #fff;
-      font-weight: 600;
-      font-size: 1.2rem;
-      z-index: 1;
-    }
-    .inspirer-card .name-en {
-      position: absolute;
-      bottom: 16px;
-      width: 100%;
-      text-align: center;
-      color: rgba(255,255,255,0.9);
-      font-size: 1rem;
-      z-index: 1;
-    }
-    /* نهاية تصميم البطاقات */
   </style>
 </head>
 <body>
