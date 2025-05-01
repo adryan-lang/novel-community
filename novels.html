@@ -97,73 +97,80 @@
  /* النهاية */
 /* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */
 :root {
-  /* … المتغيّرات الأخرى … */
   --hero-pattern: url('images/pattern-light.svg');
 }
 
 /* ★ بطاقة الملهمون الدقيقة 100% ★ */
 .hero-card {
-  position: relative;
+  position: relative;           /* لإسقاط الـ ::before بداخلها */
   margin: 20px auto;
-  width: 90%;              /* عرض البطاقة؛ عدّله حسب حاجتك */
-  max-width: 600px;         /* أقصى عرض */
-
-  /* الخلفية السوداء مع النقش */
+  width: 90%;
+  max-width: 600px;
   background: #000;
   background-image: var(--hero-pattern);
   background-size: 150px 150px;
   background-repeat: repeat;
   background-blend-mode: overlay;
   color: #fff;
-
-  /* شريط رمادي جانبي مشطوف */
-  box-shadow: -20px 0 0 #777; /* يمكنك تعديل اللون أو العرض */
-
-  /* القطع والزوايا: سداسي غير منتظم مع chamfer على اليسار */
+  
+  /* نقّاش البطاقة نفسه بسداسي مشطوف على اليسار */
   clip-path: polygon(
-    /* 1. القطع العلوي الأيسر */      8%   0%,
-    /* 2. أعلى يمين */               100% 0%,
-    /* 3. حافة يمين مستقيمة */       100% 100%,
-    /* 4. بداية الحافة السفلية بعد chamfer الأيسر */ 8%  100%,
-    /* 5. نهاية chamfer السفلي الأيسر */ 0%   92%,
-    /* 6. نهاية chamfer الجانبي الأيسر العلوي */ 0%    8%
+    8%   0%,
+    100% 0%,
+    100% 100%,
+    8%   100%,
+    0%   92%,
+    0%   8%
   );
-
-  /* ظل ثلاثي الأبعاد للبطاقة */
-  filter: drop-shadow(-6px 0px 12px rgba(0,0,0,0.4))
-          drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
   overflow: hidden;
 }
 
-/* شبكة الصور داخل البطاقة */
+/* ★ الشريط الرمادي المشطوف خلف البطاقة ★ */
+.hero-card::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0;
+  width: 20px;               /* عرض الشريط الرمادي */
+  background: #777;          /* لون الشريط كما في الصورة */
+  z-index: -1;               /* خلف البطاقة */
+  
+  /* نفس القطع الجانبي الأيسر للبطاقة ليطابقه */
+  clip-path: polygon(
+    /* نطابق فقط الحافة اليسرى المشطوفة */  
+    0%   8%,    /* من هذه النقطة... */
+    8%   0%,    /* إلى هذه النقطة */  
+    100% 0%,    /* الباقي كامل مستطيل */  
+    100% 100%,  
+    8%   100%,  
+    0%   92%  
+  );
+}
+
+/* محتويات البطاقة تبقى فوق الجميع */
+.hero-images,
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* بقية الكود كما كان */
 .hero-images {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0; /* الفاصل يتحقّق بالحافات السوداء */
+  gap: 0;
   padding: 16px;
 }
-
 .hero-images img {
-  width: 100%;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  border: 4px solid #000;    /* فاصل أسود ثابت */
-  border-radius: 6px;        /* زوايا مستديرة قليلاً */
-  display: block;
+  width: 100%; aspect-ratio: 1/1; object-fit: cover;
+  border: 4px solid #000; border-radius: 6px; display: block;
 }
-
-/* النص المركزي داخل البطاقة */
 .hero-content {
-  padding: 40px 16px 24px;  /* 40px من الأعلى، 16px جانبي، 24px أسفل */
-  text-align: center;
+  padding: 40px 16px 24px; text-align: center;
 }
-
 .hero-text {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 34px;    /* قريب من 32–36px */
-  font-weight: 800;   /* ثقيل للغاية */
-  line-height: 1.2;
-  margin: 0;
+  font-family: 'Tajawal', sans-serif; font-size: 34px;
+  font-weight: 800; line-height: 1.2; margin: 0;
     }
   </style>
 </head>
