@@ -100,63 +100,73 @@
   /* … المتغيّرات الأخرى … */  
   --hero-pattern: url('images/pattern-light.svg');  
 }  
-/* ★ بطاقة الملهمون الدقيقة 100% ★ */  
-.hero-card {  
-  position: relative;  
-  margin: 20px auto;  
-  width: 90%;              /* عرض البطاقة؛ عدّله حسب حاجتك */  
-  max-width: 600px;        /* أقصى عرض */  
-  background: #000;  
-  /* نقش الخلفية */  
-  background-image: var(--hero-pattern);  
-  background-size: 150px 150px;  
-  background-repeat: repeat;  
-  background-blend-mode: overlay;  
-  color: #fff;  
-  /* القطع والزوايا */  
-  clip-path: polygon(  
-    8% 0%,      /* بداية القطع في الزاوية العلوية اليسرى */  
-    100% 0%,    /* أعلى يمين */  
-    100% 100%,  /* أسفل يمين */  
-    8% 100%,    /* أسفل يسار */  
-    0% 92%,     /* حافة منحرفة لتناغم القطع */  
-    0% 8%       /* نهاية القطع في الزاوية العلوية اليسرى */  
-  );  
-  /* الظل الثلاثي الأبعاد */  
-  filter: drop-shadow(-6px 0px 12px rgba(0,0,0,0.4)) /* ظل جانبي أقوى */  
-          drop-shadow(0px 4px 10px rgba(0,0,0,0.2)); /* ظل سفلي خفيف */  
-  overflow: hidden;  
-    }  
-  
-/* شبكة الصور */  
-.hero-images {  
-  display: grid;  
-  grid-template-columns: repeat(3, 1fr);  
-  gap: 0; /* الفاصل نصفيّ يتحقّق بالحافات السوداء للصورة */  
-  padding: 16px;  
-}  
-  
-.hero-images img {  
-  width: 100%;  
-  aspect-ratio: 1/1;  
-  object-fit: cover;  
-  border: 4px solid #000;    /* فاصل أسود ثابت 4px */  
-  border-radius: 6px;        /* زوايا قليلاً مستديرة */  
-  display: block;  
-    }  
-  
-/* النص المركزي */  
-.hero-content {  
-  padding: 40px 16px 24px;  /* 40px من الأعلى، 16px جانبي، 24px أسفل */  
-  text-align: center;  
-}  
-  
-.hero-text {  
-  font-family: 'Tajawal', sans-serif;  
-  font-size: 34px;    /* حجم قريب من 32–36px */  
-  font-weight: 800;   /* ثقيل جدًا */  
-  line-height: 1.2;  
-  margin: 0;  
+:root {
+  /* ألوان وخيارات قابلة للتعديل */
+  --clip-offset: 8%;                     /* حجم القصّة */
+  --hero-bg-color: #2E2E2E;              /* خلفية البطاقة */
+  --hero-pattern-url: url('images/pattern-light.svg');  
+  --hero-pattern-size: 150px;            /* حجم نقش الخلفية */
+  --hero-text-color: #F5F1E8;            /* لون النص */
+  --hero-image-border: 4px;              /* سمك إطار الصور */
+}
+
+/* ★ بطاقة “الملهمون” الرئيسية ★ */
+.hero-card {
+  position: relative;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 600px;
+  background-color: var(--hero-bg-color);
+  background-image: var(--hero-pattern-url);
+  background-size: var(--hero-pattern-size) var(--hero-pattern-size);
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+  color: var(--hero-text-color);
+  clip-path: polygon(
+    var(--clip-offset) 0%,
+    100% 0%,
+    100% 100%,
+    var(--clip-offset) 100%,
+    0% calc(100% - var(--clip-offset)),
+    0% var(--clip-offset)
+  );
+  filter:
+    drop-shadow(-6px 0px 12px rgba(0,0,0,0.4))
+    drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
+  overflow: hidden;
+}
+
+/* شبكة الصور */
+.hero-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  padding: 16px;
+}
+.hero-images img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border: var(--hero-image-border) solid var(--hero-bg-color);
+  border-radius: 6px;
+  display: block;
+  transition: border-color 0.3s ease;
+}
+.hero-images img:hover {
+  border-color: var(--hero-text-color);
+}
+
+/* المحتوى النصي */
+.hero-content {
+  padding: 40px 16px 24px;
+  text-align: center;
+}
+.hero-text {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
   }  
   </style>  
 </head>  
