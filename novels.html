@@ -150,6 +150,16 @@
   font-size: 1rem;
   z-index: 1;
     }
+    /* تاريخ الميلاد–الوفاة */
+.inspirer-card .date {
+  position: absolute;
+  bottom: 16px;
+  width: 100%;
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.9rem;
+  z-index: 1;
+}
   </style>
 </head>
 <body>
@@ -291,15 +301,17 @@
 
   <!-- شبكة الملهمون! -->
   <div class="inspirers-container hidden">
-    <a class="inspirer-card" href="inspirer1.html">
-      <img src="images/stephen-king.jpg" alt="ستيفن كينغ">
-      <div class="name-ar">ستيفين كينغ</div>
-      <div class="name-en">Stephen King</div>
-    </a>
     <a class="inspirer-card" href="inspirer2.html">
-      <img src="images/kadim-al-sahir.jpg" alt="كاظم الساهر">
-      <div class="name-ar">كاظم الساهر</div>
-      <div class="name-en">Kadim Al Sahir</div>
+  <img src="images/kadim-al-sahir.jpg" alt="كاظم الساهر">
+  <div class="name-ar">كاظم الساهر</div>
+  <div class="name-en">Kadim Al Sahir</div>
+  <div class="date">1957 – —</div>  <!-- مثال: تاريخ الميلاد–الوفاة -->
+</a>
+    <a class="inspirer-card" href="inspirer2.html">
+  <img src="images/kadim-al-sahir.jpg" alt="كاظم الساهر">
+  <div class="name-ar">كاظم الساهر</div>
+  <div class="name-en">Kadim Al Sahir</div>
+  <div class="date">1901–1960</div>  <!-- مثال: تاريخ الميلاد–الوفاة -->
     </a>
     <!-- أضف مزيدًا من البطاقات حسب الحاجة -->
   </div>
