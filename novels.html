@@ -95,7 +95,7 @@
    height: 100%;
  }
  /* النهاية */
-    /* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */
+/* ★ إضافة نقش الخلفية المعقد قبل .hero-card ★ */
 :root {
   /* … المتغيّرات الأخرى … */
   --hero-pattern: url('images/pattern-light.svg');
@@ -107,34 +107,39 @@
   margin: 20px auto;
   width: 90%;              /* عرض البطاقة؛ عدّله حسب حاجتك */
   max-width: 600px;         /* أقصى عرض */
+
+  /* الخلفية السوداء مع النقش */
   background: #000;
-  /* نقش الخلفية */
   background-image: var(--hero-pattern);
   background-size: 150px 150px;
   background-repeat: repeat;
   background-blend-mode: overlay;
   color: #fff;
 
-  /* القطع والزوايا: قطع علوي وقطع سفلي على اليسار فقط */
+  /* شريط رمادي جانبي مشطوف */
+  box-shadow: -20px 0 0 #777; /* يمكنك تعديل اللون أو العرض */
+
+  /* القطع والزوايا: سداسي غير منتظم مع chamfer على اليسار */
   clip-path: polygon(
-    /* 1. بداية القطع العلوي الأيسر */ 8%   0%,
-    /* 2. أعلى يمين */               100%  0%,
-    /* 3. أسفل يمين */               100%  100%,
-    /* 4. أسفل يسار مستقيم */        0%    100%,
-    /* 5. نهاية القطع الجانبي الأيسر السفلي */ 0%    8%
+    /* 1. القطع العلوي الأيسر */      8%   0%,
+    /* 2. أعلى يمين */               100% 0%,
+    /* 3. حافة يمين مستقيمة */       100% 100%,
+    /* 4. بداية الحافة السفلية بعد chamfer الأيسر */ 8%  100%,
+    /* 5. نهاية chamfer السفلي الأيسر */ 0%   92%,
+    /* 6. نهاية chamfer الجانبي الأيسر العلوي */ 0%    8%
   );
 
-  /* الظل الثلاثي الأبعاد */
-  filter: drop-shadow(-6px 0px 12px rgba(0,0,0,0.4)) /* ظل جانبي أقوى */
-          drop-shadow(0px 4px 10px rgba(0,0,0,0.2)); /* ظل سفلي خفيف */
+  /* ظل ثلاثي الأبعاد للبطاقة */
+  filter: drop-shadow(-6px 0px 12px rgba(0,0,0,0.4))
+          drop-shadow(0px 4px 10px rgba(0,0,0,0.2));
   overflow: hidden;
 }
 
-/* شبكة الصور */
+/* شبكة الصور داخل البطاقة */
 .hero-images {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0; /* الفاصل نصفيّ يتحقّق بالحافات السوداء للصورة */
+  gap: 0; /* الفاصل يتحقّق بالحافات السوداء */
   padding: 16px;
 }
 
@@ -142,12 +147,12 @@
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
-  border: 4px solid #000;    /* فاصل أسود ثابت 4px */
-  border-radius: 6px;        /* زوايا قليلاً مستديرة */
+  border: 4px solid #000;    /* فاصل أسود ثابت */
+  border-radius: 6px;        /* زوايا مستديرة قليلاً */
   display: block;
 }
 
-/* النص المركزي */
+/* النص المركزي داخل البطاقة */
 .hero-content {
   padding: 40px 16px 24px;  /* 40px من الأعلى، 16px جانبي، 24px أسفل */
   text-align: center;
@@ -155,11 +160,11 @@
 
 .hero-text {
   font-family: 'Tajawal', sans-serif;
-  font-size: 34px;    /* حجم قريب من 32–36px */
-  font-weight: 800;   /* ثقيل جدًا */
+  font-size: 34px;    /* قريب من 32–36px */
+  font-weight: 800;   /* ثقيل للغاية */
   line-height: 1.2;
   margin: 0;
-                 }
+    }
   </style>
 </head>
 <body>
