@@ -1,0 +1,597 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قراءة الفصل – الفصل الأول</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- خط عربي فخم -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+
+  <!-- Material Icons من Google -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pbF5X0FvCm8YbZSLfuNIc6U6VJohnsonVXG+YypFh9V+2fUm1kpz8+FZerpmXl15kd2Zjl1FKwIkHMDv6m0cw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+<script type="module">
+  // ★ استيراد Firebase + Firestore ★
+  import { initializeApp }    from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAnalytics }     from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    increment
+  } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  // ★ تهيئة مشروعك بالقيم الصحيحة ★
+  const firebaseConfig = {
+    apiKey:            "AIzaSyBbvNSR8FQguOPwlLw_EHuVNzTt4LJe8rM",
+    authDomain:        "my-novels-site.firebaseapp.com",
+    projectId:         "my-novels-site",
+    storageBucket:     "my-novels-site.firebasestorage.app",
+    messagingSenderId: "902736822570",
+    appId:             "1:902736822570:web:af7780e3512944720c1e53",
+    measurementId:     "G-47GNFEQKEM"
+  };
+  const app       = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db        = getFirestore(app);
+
+  // ★ مساعدات لإنشاء المرجع ★
+  function refDoc(novelId, chapterId) {
+    return doc(db, 'reactions', novelId, 'chapters', chapterId);
+  }
+
+  // ★ جلب أو تهيئة أعداد التفاعلات ★
+  async function initReactions(novelId, chapterId) {
+    const r    = refDoc(novelId, chapterId);
+    const snap = await getDoc(r);
+    if (!snap.exists()) {
+      await setDoc(r, { like:0, love:0, haha:0, sad:0, angry:0 });
+      return { like:0, love:0, haha:0, sad:0, angry:0 };
+    }
+    return snap.data();
+  }
+
+  // ★ دالة لنقل التصويت (تخفض القديم وتزيد الجديد) ★
+  async function vote(novelId, chapterId, prevType, newType) {
+    const r       = refDoc(novelId, chapterId);
+    const updates = {};
+    if (prevType && prevType !== newType) {
+      updates[prevType] = increment(-1);
+    }
+    updates[newType] = increment(1);
+    await updateDoc(r, updates);
+  }
+
+  // ★ التنفيذ عند تحميل الصفحة ★
+  document.addEventListener('DOMContentLoaded', async () => {
+    const el        = document.getElementById('content');
+    const novelId   = el.dataset.novel;
+    const chapterId = el.dataset.chapter;
+    const voteKey   = `voted-${novelId}-${chapterId}`;
+
+    // 1) جلب الأعداد وعرضها
+    const data = await initReactions(novelId, chapterId);
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      const t = btn.dataset.reaction;
+      btn.querySelector('.count').textContent = data[t] ?? 0;
+    });
+
+    // 2) تعرف لو كان الزائر قد صوت سابقاً
+    let prev = localStorage.getItem(voteKey);
+
+    // 3) إذا صوت سابقاً ظلّل الزر المختار
+    if (prev) {
+      const activeBtn = document.querySelector(`.react-btn[data-reaction="${prev}"]`);
+      activeBtn?.classList.add('active-btn');
+    }
+
+    // 4) ربط حدث النقر لكل زر
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const type = btn.dataset.reaction;
+        if (type === prev) return;  // عدم إعادة التصويت على نفس الإيموجي
+        await vote(novelId, chapterId, prev, type);
+
+        // تحديث الواجهة: نقص من القديم وأضف إلى الجديد
+        if (prev) {
+          const oldSpan = document.querySelector(`.react-btn[data-reaction="${prev}"] .count`);
+          oldSpan.textContent = +oldSpan.textContent - 1;
+          document.querySelector(`.react-btn[data-reaction="${prev}"]`)
+                  .classList.remove('active-btn');
+        }
+        const newSpan = btn.querySelector('.count');
+        newSpan.textContent = +newSpan.textContent + 1;
+        btn.classList.add('active-btn');
+
+        // حفظ اختيار الزائر الجديد
+        localStorage.setItem(voteKey, type);
+        prev = type;
+      });
+    });
+  });
+    </script>
+<style>
+  :root {
+    --bg-color:      #f9fafb;
+    /* نحول --text-color ليخزن قيم RGB فقط (بدون #) */
+    --text-color:    31,41,55;
+    --text-opacity:  1;    /* القيمة الافتراضية */
+    --font-family:   'Cairo', sans-serif;
+    --font-size:     18px;
+  }
+
+  body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    /* الآن نستخدم rgba لربط اللون بالمتغيّرين */
+    color: rgba(var(--text-color), var(--text-opacity));
+    font-size: var(--font-size);
+    transition: background 0.3s, color 0.3s, font-size 0.3s, font-family 0.3s;
+  }
+
+  .lottie-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .active-btn {
+    @apply bg-indigo-100 ring-2 ring-indigo-300;
+  }
+</style>
+</head>
+<body class="relative overflow-x-hidden">
+  <!-- شريط التقدم -->
+  <div id="progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 z-50" style="width:0"></div>  <!-- الصندوق الرئيسي -->  <div class="max-w-full max-h-screen mx-auto px-4 py-12 overflow-y-auto">
+    <!-- العنوان -->
+    <h1 class="text-center text-4xl font-extrabold mb-6 animate-gradient" style="font-family: 'Cairo', sans-serif;">
+      الفصل الثالث: عنوان الفصل هنا
+    </h1>
+    <div class="divider h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-6"></div><!-- زر إعدادات القارئ -->
+<div class="flex justify-center mb-8">
+  <button id="open-settings"
+          class="px-6 py-3 rounded-full shadow-md hover:shadow-lg transition bg-indigo-500 text-white no-select">
+    إعدادات القارئ
+  </button>
+</div>
+
+<!-- المحتوى -->
+<div
+  id="content"
+  class="frame chapter-content no-select whitespace-pre-wrap break-words"
+  data-novel="chapters"
+  data-chapter="chapter3"
+>
+<p>[وجهة نظر سيجي]</p>
+<p>قلت إن الزمان والمكان اللذين وُلدت فيهما لا يمكن أن يكونا أسوأ. لقد جلبت النحس على نفسي، إذ سرعان ما ساءت الأمور أكثر بكثير.</p>
+<p>قاتل الشياطين.</p>
+<p>ذلك هو العالم الذي أصبحت أعيش فيه. لقد أصبح واقعي الجديد.</p>
+<p>مانغا/أنمي تدور أحداثها في حقبة تايشو من اليابان. أعداء القصة الرئيسيون هم الشياطين، كائنات تتغذى على لحم البشر وتضعف عند التعرض لأشعة الشمس. </p>
+<p>كانت تتم مطاردتهم من قِبل "قتلة الشياطين"، وهم الأبطال.</p>
+<p>كان شونين مظلمًا، حيث تقريبًا كل شخصية مسماة فقدت عائلتها على يد الشياطين بطريقة أو بأخرى. لذلك، إن كنت صادقًا، لم يكن مفاجئًا أن أواجه المصير ذاته.</p>
+<p>لكن يا إلهي، كان مصيرًا يصعب تقبله. لم أستطع استيعابه.</p>
+<p> أتذكّر أنني بكيت ونحت أيّامًا بعد فقدان عائلتي.</p>
+<p>بكيت حتى فقدت كل إحساس.</p>
+<p>لكن بعد مرور أسبوع، كنت قد تصالحت تمامًا مع وضعي. كنت محظوظًا، لأنه باستثناء الحزن الأولي الذي شعرت به، لم أحمل أي صدمات تدوم مدى الحياة.</p>
+<p>لأن طريقتي في التفكير كانت مختلفة جذريًا عن البقية؛ فعائلتي لم أعرفها إلا لثلاث سنوات، بينما عشت ثلاث عشرة سنة في حياتي السابقة بلا عائلة.</p>
+<p>فما معنى ذلك؟</p>
+<p>يعني أنني في أعماقي، كنت أعلم أنني لم أملك عائلة بحق. العائلة التي حظيت بها في حياتي الثانية كانت نِعمًا لا أستحقها.</p>
+<p>كان امتيازًا أن أعيش معهم وأستمتع بالحياة لمدة ثلاث سنوات.</p>
+<p>لذا، بدلًا من الحزن على ما فقدته، تعلّمت أن أكون شاكرًا لما حظيت به.</p>
+<p>يمكنك القول إنني تعاملت مع موتهم أفضل بكثير من طفل عرف عائلته طوال حياته. بالنسبة له، لا بد أن الأمر كان كمن دمّر عالمه بأكمله.</p>
+<p>أما بالنسبة لي، فكان الأمر كما لو أن شخصًا ما سرق كل ما أملك بعد أن ربحت اليانصيب.</p>
+<p>شعوران مختلفان لنفس الحدث.</p>
+<p>العقل أداة عظيمة.</p>
+<p>بعد أسبوع، لم أعد أشعر سوى بالكراهية تجاه من سرق مني كل شيء.</p>
+<p>كنت أمقت الكائنات التي حرمتني من دفء العائلة. لن أسامحهم أبدًا، خصوصًا ذلك الشيطان العجوز الذي رفض أن يقتلني.</p>
+<p>تبًا لذلك القبيح.</p>
+<p>لقد مرّ الآن ثمانية أيام منذ تلك الليلة، وكانت الحياة صامتة تمامًا بالنسبة لي منذ ذلك الحين.</p>
+<p>فمع تدمير سمعي بالكامل بفعل "فن دم الشيطان" لذلك العجوز، أصبحت حياتي شبيهة بحياتي السابقة: أصمّ ودون عائلة.</p>
+<p>عدنا إلى المربع الأول.</p>
+<p>لكن في فترة قصيرة، اعتدتُ الصمم مجددًا. حتى إنني استعدت مهارتي القديمة في قراءة شفاه الناس لفهم ما يقولون.</p>
+<p>يبدو أن المهارات القديمة لا تموت بسهولة.</p>
+<p>ومع أنني كنت أعيش في صمت دائم، لم أكن وحيدًا على الإطلاق.</p>
+<p>بل على العكس، لم يُتركني أحد وحدي منذ وقوع الحادثة.جميع أهل القرية اجتمعوا ليعتنوا بي ويواسونني.</p>
+<p>حتى وصل بهم الحال إلى التقاتل حول من سيستضيفني في بيته ويتولّى العناية بي.</p>
+<p>ليس ذلك فقط، بل أسرع القرويون في تنظيف القصر وتحضير جنازة كبيرة لعائلتي الراحلة.</p>
+<p>ولن تصدق، حتى أناس لم ألتقِ بهم من قبل بكوا في الجنازة أكثر مما فعلتُ أنا.</p>
+<p>ما السبب؟</p>
+<p>هل كان تعاطفًا؟</p>
+<p>هل شفقة على الطفل الصغير الذي فقد عائلته في ليلة واحدة؟</p>
+<p>هل هو لطف بشري؟</p>
+<p>لا شيء من ذلك.</p>
+<p>السبب الحقيقي هو الطمع.</p>
+<p>كما قلت من قبل، كانت عائلتي ثرية جدًا بفضل والدي وأخي، وهؤلاء الناس أرادوا التقرب مني كي أختارهم كأوصياء قانونيين عليّ.</p>
+<p>كنت لا أزال طفلًا في نظر القانون، لذا لا يمكنني وراثة ثروة عائلتي حتى أبلغ السن القانونية.</p>
+<p>وحتى ذلك الحين، ستؤول الثروة إلى الوصيّ.</p>
+<p>في الحالات العادية، من المفترض أن يتولى أحد أقاربي الوصاية، لكن بما أنه لم يكن لي أقارب آخرين، فسيكون أحد هؤلاء القرويين.</p>
+<p>رغم أنني سأستعيد ملكية إرثي لاحقًا، إلا أن هناك منافع كثيرة يمكنهم حصدها وأنا صغير.</p>
+<p>مثل: استخدام أرضنا لزراعة المحاصيل، العيش في القصر، أو حتى تبييض الأموال بحجة تربيتهم لي.</p>
+<p>مقرف للغاية، لكنه جزء من الطبيعة البشرية. الناس يفعلون أي شيء للبقاء.</p>
+<p>خصوصًا في وقت كهذا، حيث الحرب والفقر لا يتوقفان.</p>
+<p>كنت أعلم كل هذا لأنهم لم يكونوا يخفون كلامهم أمام الطفل الذي ظنوا أنه فقد سمعه تمامًا.</p>
+<p>قد أكون أصمًّا الآن، لكن كما قلت، لا زلت أقرأ شفاههم بسهولة.</p>
+<p>...</p>
+<p>"هل تستطيع أن تفهمني؟"</p>
+<p>سؤال غبي يُطرح على طفل فقد سمعه للتو، لكن لا بأس، سأجاريك أيها القروي الذي تصرّف كأنه عمي المفضل منذ فقدت والديّ.</p>
+<p>على الأقل كان لطيفًا بما يكفي ليقدّم لي طعامًا جيدًا وغرفة خاصة حتى الآن.</p>
+<p>أومأت برأسي.</p>
+<p>"حقًا؟ إذًا هل تتذكر ما حدث تلك الليلة؟ هل هاجم الشيطان عائلتك فعلًا؟"</p>
+<p>سأل وهو يبالغ في تعابير جسده.</p>
+<p>حدّقت فيه بأشدّ تعبير فارغ يمكنني منحه.</p>
+<p>الناس في هذا العصر عديمو الإحساس بحق.</p>
+<p>هل لم يدرك أنني قد أكون مصدومًا وقد أنهار مجددًا إن استمر في طرح هذا الموضوع؟</p>
+<p>أنا لست كذلك، لكن مع ذلك...</p>
+<p>ربما لم يستطيعوا كبح فضولهم، خصوصًا أن الشياطين في هذا الزمن تقف بين الخرافة والواقع.</p>
+<p>افترضوا أن شيطانًا هاجم العائلة بسبب ما وجدوه من دماء، لكن البعض قال إنه حيوان بري من الجبل، ربما دب.</p>
+<p>"لا أدري إن قال لك أحد هذا، لكنك تملك نظرة مخيفة فعلًا."</p>
+<p>قالها لنفسه، لكنني قرأتها على شفتيه.</p>
+<p>في الواقع، لم يخبرني أحد بهذا من قبل.</p>
+<p>لكني أعتقد أنه من الطبيعي أن تتغير نظرتي بعد ما مررت به.</p>
+<p>واصلت التحديق في وجه الرجل، ثم ركزت على عينيّ.عندها اخترقت نظرتي رأسه، ورأيت دماغه. </p>
+<p>حرفيًا.</p>
+<p>رأيت جمجمته ودماغه.</p>
+<p>انتقلت نظرتي إلى الأسفل، فرأيت رئتَيه تتمددان وقلبه ينبض.</p>
+<p>رأيت كيف يضخ الدم في جسده، ورأيت عضلاته تتحرك مع كل حركة.</p>
+<p>تمكنت من تمييز التمزقات العضلية الدقيقة في ذراعيه وساقيه وكتفه، مما يدل على عمله في الحقول.</p>
+<p>كان الأمر أشبه برؤية الأشعة السينية.</p>
+<p>أستطيع رؤية كل ما أريده... وما لا أريده.</p>
+<p>تمكنت من قراءة لغة جسده ككتاب مفتوح، وتوقعت حركاته من خلال تنفّسه وتقلص عضلاته.</p>
+<p>ظننت في البداية أنني أتوهم، وأن ذلك كان نتيجة صدمة لرؤية أحبتي يُلتهمون أحياء.</p>
+<p>لكن سرعان ما أدركت أن لا علاقة للأمر بالصدمة.</p>
+<p>بل كان ذلك إحدى أندر القدرات في عالم قاتل الشياطين.</p>
+<p>تُسمى "العالم الشفاف".</p>
+<p>أصحاب هذه القدرة يستطيعون رؤية ما يجري داخل أي كائن حي.</p>
+<p>يمكنهم رؤية تدفق الدم، التنفّس، تقلص العضلات، وحركة المفاصل.</p>
+<p>وبهذه الرؤية، يستطيعون التنبؤ بحركات خصومهم، واكتشاف نقاط ضعفهم، وحتى معرفة تركيبتهم الجينية، مما يساعدهم على التمييز بين الشياطين والبشر، أو حتى تتبّع أنسابهم.</p>
+<p>لا يقتصر الأمر على ذلك، بل تزيد هذه القدرة من سرعة استجابة المستخدم وحدّة إدراكه.</p>
+<p>وربما هناك جوانب أخرى لم تُذكر في المانغا.</p>
+<p>كان عدد مستخدمي "العالم الشفاف" في العالم سبعة فقط، ولا يُمكن تفعيله إلا بعد ظهور "علامة قاتل الشياطين"، وهي قدرة فريدة أخرى في هذا العالم.</p>
+<p>كان غريبًا جدًا أن أحصل على هذه القدرة دون ظهور العلامة.</p>
+<p>وتخميني الوحيد هو أن للأمر علاقة بكوني أصمّ، فكما نعلم، فقدان حاسة واحدة قد يقوّي الحواس الأخرى.</p>
+<p>بصراحة، لم أكن قلقًا بشأن كيف حصلت عليها، بل كيف سأستخدمها.</p>
+<p>"سأتركك الآن."</p>
+<p>قالها بلغة إشارات عشوائية.</p>
+<p>"نادِني إذا احتجت شيئًا."</p>
+<p>ثم غادر الغرفة وأغلق الباب المنزلق.</p>
+<p>تركني وحدي في الغرفة، جالسًا على الفوتون.</p>
+<p>بدا الصمت أثقل بعدما بقيت وحدي.</p>
+<p>تساءلت: لماذا لم أقتل نفسي بعد؟</p>
+<p>لم يكن لدي أي سبب لأواصل العيش.</p>
+<p>لقد متُّ في حياتي السابقة، وكل ما بعد ذلك كان مجرد إضافات.</p>
+<p>كما قلت، الوقت الذي قضيته مع عائلتي كان امتيازًا.</p>
+<p>وهذا العالم ليس عالمي.</p>
+<p>إنه عالم قاتل الشياطين، عالم لا أنتمي إليه.</p>
+<p>مكان لا يجب أن أكون فيه.</p>
+<p>نظرتُ حولي ولاحظت كل الاختلافات بين هذه الحياة وسابقتها.</p>
+<p>الأبواب المنزلقة، زخرفة الغرفة، الفوتونات، العصر، الثقافة، وغيرها...</p>
+<p>كل شيء مختلف تمامًا عن حياتي الأولى.</p>
+<p>شعرت أنني دخيل.</p>
+<p>كانت عائلتي الحبل الوحيد الذي يربطني بهذا العالم. هم من جعلوني أشعر بالانتماء، والآن بعد أن رحلوا، شعرت بأنني لا يجب أن أكون هنا إطلاقًا.</p>
+<p>فلماذا لم أقتل نفسي بعد؟</p>
+<p>ما الذي يمكنني أن أتوقّعه من مواصلة الحياة؟</p>
+<p>أنا أصمّ، وأنا يتيم.</p>
+<p>أليس هذا تمامًا كما كنت في حياتي السابقة؟</p>
+<p>لا، بل أسوأ، بوجود الشياطين، والحروب العالمية القادمة، والكوارث.</p>
+<p>كان من الأسهل أن أُنهي حياتي الآن وأرتاح... أو أتلاشى إلى العدم.</p>
+<p>كانت هذه الأفكار عالية الصوت وسط الصمت المحيط بي.تأمّلت طويلًا، حتى توصلت إلى نتيجة.</p>
+<p>الأمل.</p>
+<p>كان هذا هو الشيء الأكبر الذي جعلني أرغب في مواصلة الحياة.</p>
+<p>الأمل في ألّا تظل الأمور على ما هي عليه.</p>
+<p>ربما سأجد عائلة جديدة أعيش لأجلها، وربما سأكوّن صداقات، وأقع في الحب، وأجد سببًا يجعلني أخشى الموت مجددًا.</p>
+<p>لقد أصبح الأمل ركيزة من ركائز عالمي.</p>
+<p>وهناك شيء آخر منعني من إنهاء حياتي في تلك اللحظة.</p>
+<p>الشياطين.</p>
+<p>تبًا لتلك الكائنات القبيحة، خصوصًا ذلك العجوز الذي سرق مني كل شيء.</p>
+<p>سأذبح كل واحد منهم.</p>
+<p>خلقت كراهيتي هدفًا جديدًا لي، ووجدت سببًا يجعلني أواصل الحياة.</p>
+<p>ذلك الهدف أصبح القوة التي دفعتني في أحلك لحظات حياتي.</p>
+<p>كنت أعلم أنني قادر على تحقيق هذا الحلم بمعرفتي المستقبلية والعالم الشفاف.</p>
+<p>نهضت من على الفوتون وسرت نحو المرآة في الغرفة.وقفت أمامها ونظرت إلى انعكاسي.</p>
+<p>صبي صغير يحدّق بي بعينَين بنفسجيتَين تشعّان بشكل غريب، وتحيط بهما هالات سوداء.</p>
+<p>عيناه بدتا ميتتين وحيّتين في آنٍ واحد.</p>
+<p>كان يرتدي هوريًا أسود، وشعره الأرجواني مبعثر فوق رأسه.بشرته شاحبة، وكان ضخم البنية مقارنة بعمره.</p>
+<p>ذلك هو أنا.</p>
+<p>"لا بأس." قلت لنفسي.</p>
+<p>لم أرَ انعكاسي منذ أسبوع، لكنني لا أزال وسيمًا كما كنت دائمًا.</p>
+<p>كنت وسيمًا في حياتي الماضية، وأنا واثق أنني سأصبح أكثر جاذبية في هذه الحياة.</p>
+<p>حسنًا، سبب آخر لأواصل العيش على ما يبدو.</p>
+<p>ركّزت بصري ثم نظرت إلى ما يجري داخل جسدي.</p>
+<p>كان الأمر مقرفًا قليلًا، إذ رأيت دماغي، رئتَيّ، عضلاتي، قلبي، وجميع أعضائي تحت بصري.</p>
+<p>هذه هي.</p>
+<p>هذه القدرة ستكون مفيدة للغاية لأصبح أقوى.</p>
+<p>إنها حلم كل لاعب كمال أجسام يعتمد على العلم، وستسمح لي بالتدريب بأقصى درجات الكفاءة.</p>
+<p>ولن تتوقف فائدتها هنا، بل ستساعدني كثيرًا في تعلّم أنماط التنفّس.</p>
+<p>"ماذا أنتظر إذًا؟ هجوم شيطان آخر؟"</p>
+<p>فكرت بينما رأيت أن إصاباتي قد شُفيت في الغالب.</p>
+<p>ثم نزلت على الأرض وبدأت أؤدي تمرين الضغط، مراقبًا انعكاسي عن كثب.</p>
+</div>
+
+<div class="divider h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-6"></div>
+
+<!-- تفاعلات الإيموجي: أضفنا flex-wrap لالتفاف ذكي بدل التمرير الأفقي -->
+<div class="flex flex-wrap justify-center gap-4 mt-6">
+  <!-- زر Like -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="like">
+    <div id="like-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Love -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="love">
+    <div id="love-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Haha -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="haha">
+    <div id="haha-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Sad -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="sad">
+    <div id="sad-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+
+  <!-- زر Angry -->
+  <button class="react-btn flex items-center gap-1 px-3 py-2 rounded-full shadow hover:shadow-md transition select-none" data-reaction="angry">
+    <div id="angry-lottie" class="lottie-icon"></div>
+    <span class="count">0</span>
+  </button>
+    </div>
+
+<!-- أزرار التنقل بين الفصول داخل مجلد chapters -->
+<div class="chapter-nav flex justify-center items-center my-8">
+  <!-- زر السابق (ظاهر) -->
+  <a
+    href="./chapter2.html"
+    class="mx-2 flex items-center justify-center px-4 py-3 rounded-full
+           bg-indigo-500 text-white hover:bg-indigo-600
+           transition transform active:scale-95 active:shadow-inner"
+    aria-label="الفصل السابق"
+  >
+    <span class="material-icons text-2xl">arrow_forward</span>
+  </a>
+
+  <!-- زر العودة إلى الصفحة الرئيسية -->
+  <a
+    href="../novel1.html"
+    class="mx-2 flex items-center justify-center px-4 py-3 rounded-full
+           bg-gray-500 text-white hover:bg-gray-600
+           transition transform active:scale-95 active:shadow-inner"
+    aria-label="الرئيسية"
+  >
+    <span class="material-icons text-2xl">home</span>
+  </a>
+
+  <!-- زر التالي -->
+  <a
+    href="./chapter4.html"
+    class="mx-2 flex items-center justify-center px-4 py-3 rounded-full
+           bg-indigo-500 text-white hover:bg-indigo-600
+           transition transform active:scale-95 active:shadow-inner"
+    aria-label="الفصل التالي"
+  >
+    <span class="material-icons text-2xl">arrow_back</span>
+  </a>
+</div>
+
+    </div>
+  <!-- نهاية الصندوق الرئيسي -->  <!-- مودال إعدادات القارئ -->  <div id="reader-settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white text-gray-900 rounded-xl p-6 shadow-lg w-80 max-w-full">
+      <!-- رأس المودال -->
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">إعدادات القارئ</h2>
+        <button id="close-settings" class="text-gray-500 hover:text-gray-700 text-xl leading-none">&times;</button>
+      </div>
+      <!-- اختيار الثيم -->
+      <div class="flex flex-wrap gap-2 mb-4 justify-center">
+        <button onclick="setTheme('')" class="px-3 py-1 rounded-full border">عادي</button>
+        <button onclick="setTheme('dark')" class="px-3 py-1 rounded-full bg-black text-white">أسود</button>
+        <button onclick="setTheme('brown')" class="px-3 py-1 rounded-full bg-amber-200">بني</button>
+        <button onclick="setTheme('blue')" class="px-3 py-1 rounded-full bg-blue-200">أزرق</button>
+        <button onclick="setTheme('green')" class="px-3 py-1 rounded-full bg-green-200">أخضر</button>
+        <button onclick="setTheme('pink')" class="px-3 py-1 rounded-full bg-pink-200">زهري</button>
+        <button onclick="setTheme('purple')" class="px-3 py-1 rounded-full bg-purple-200">أرجواني</button>
+      </div>
+      <!-- منسدلات الإعداد -->
+      <div class="space-y-3 mb-4">
+        <div>
+          <label class="block text-sm mb-1">نوع الخط</label>
+<select onchange="document.documentElement.style.setProperty('--font-family', this.value)" class="w-full p-2 border rounded">
+  <option value="system-ui, sans-serif">خط المتصفح</option>
+  <option value="'Cairo', sans-serif" selected>خط كايرو</option>
+  <option value="'Amiri', serif">خط الأميرى</option>
+  <option value="'Tajawal', sans-serif">خط تجول</option>
+  </select>
+        </div>
+          <!-- حجم الخط -->
+  <div>
+    <label class="block text-sm mb-1">حجم الخط</label>
+    <select onchange="setFontSize(this.value)" class="w-full p-2 border rounded">
+      <option value="16px">90%</option>
+      <option value="18px" selected>100%</option>
+      <option value="22px">125%</option>
+      <option value="26px">150%</option>
+    </select>
+  </div>
+        <div>
+          <label class="block text-sm mb-1">ارتفاع الخط</label>
+          <select onchange="document.documentElement.style.setProperty('line-height', this.value)" class="w-full p-2 border rounded">
+            <option value="1.2">120%</option>
+            <option value="1.6" selected>160%</option>
+            <option value="2.0">200%</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm mb-1">درجة لون الخط</label>
+          <select onchange="document.documentElement.style.setProperty('--text-opacity', this.value)" class="w-full p-2 border rounded">
+            <option value="0.7">منخفضة</option>
+            <option value="0.85">متوسطة</option>
+            <option value="1" selected>مرتفعة</option>
+          </select>
+        </div>
+      </div>
+      <!-- شريط التنسيق بأيقونات Font Awesome -->
+<div class="flex justify-center items-center gap-4 pt-4 border-t">
+  <!-- غامق/B -->
+  <button id="bold-btn" class="px-2 py-1 border rounded focus:outline-none">
+    <span class="material-icons text-xl">format_bold</span>
+  </button>
+
+  <!-- محاذاة لليسار -->
+  <button id="left-btn" class="px-2 py-1 border rounded focus:outline-none">
+    <span class="material-icons text-xl">format_align_left</span>
+  </button>
+
+  <!-- محاذاة للمنتصف -->
+  <button id="center-btn" class="px-2 py-1 border rounded focus:outline-none">
+    <span class="material-icons text-xl">format_align_center</span>
+  </button>
+
+  <!-- محاذاة لليمين -->
+  <button id="right-btn" class="px-2 py-1 border rounded focus:outline-none">
+    <span class="material-icons text-xl">format_align_right</span>
+  </button>
+</div>
+    </div>
+  </div>  <!-- سكربت المنع -->  <script>
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey && ['c','u','s'].includes(e.key.toLowerCase())) || e.key==='F12') e.preventDefault();
+    });
+  </script>
+<!-- سكربت الوظائف الموحد -->
+<script>
+  function setFontSize(size) {
+    document.documentElement.style.setProperty('--font-size', size);
+    localStorage.setItem('fontSize', size);
+  }
+  function setTheme(theme) {
+    const root = document.documentElement;
+    switch (theme) {
+      case 'dark':
+        root.style.setProperty('--bg-color', '#1e1e1e');
+        root.style.setProperty('--text-color', '#f3f4f6');
+        break;
+      case 'brown':
+        root.style.setProperty('--bg-color', '#efdfd3');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      case 'blue':
+        root.style.setProperty('--bg-color', '#e0f2fe');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      case 'green':
+        root.style.setProperty('--bg-color', '#d1fae5');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      case 'pink':
+        root.style.setProperty('--bg-color', '#ffe4e6');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      case 'purple':
+        root.style.setProperty('--bg-color', '#ede9fe');
+        root.style.setProperty('--text-color', '#1f2937');
+        break;
+      default:
+        root.style.setProperty('--bg-color', '#f9fafb');
+        root.style.setProperty('--text-color', '#1f2937');
+    }
+    localStorage.setItem('theme', theme);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // استعادة الإعدادات
+    const fs      = localStorage.getItem('fontSize'),
+          th      = localStorage.getItem('theme'),
+          content = document.getElementById('content'),
+          prog    = document.getElementById('progress'),
+          btnTop  = document.getElementById('toTop'),
+          openBtn = document.getElementById('open-settings'),
+          closeBtn= document.getElementById('close-settings'),
+          modal   = document.getElementById('reader-settings-modal');
+
+    if (fs) setFontSize(fs);
+    if (th) setTheme(th);
+
+    // شريط التقدم وزر الرجوع للأعلى
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      prog.style.width = (window.scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
+      btnTop?.classList.toggle('hidden', window.scrollY < 300);
+    });
+    btnTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // مودال إعدادات القارئ
+    openBtn.addEventListener('click', () => modal.classList.toggle('hidden'));
+    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+
+    // تهيئة تفاعلات Lottie
+    ['like','love','haha','sad','angry'].forEach(type => {
+      const c = document.getElementById(`${type}-lottie`);
+      if (!c) return;
+      const anim = lottie.loadAnimation({
+        container: c, renderer: 'svg', loop: false, autoplay: false,
+        path: `/animations/${type}.json`
+      });
+      c.addEventListener('mouseenter', () => anim.play());
+      c.addEventListener('mouseleave', () => anim.goToAndStop(0, true));
+      c.parentElement.addEventListener('click', () => {
+        anim.play();
+      });
+    });
+
+    // ربط زرّ B وأزرار المحاذاة
+    const btns = {
+      bold:   document.getElementById('bold-btn'),
+      left:   document.getElementById('left-btn'),
+      center: document.getElementById('center-btn'),
+      right:  document.getElementById('right-btn')
+    };
+    function clearActive() {
+      Object.values(btns).forEach(b => b.classList.remove('active-btn'));
+    }
+    btns.bold.addEventListener('click', () => {
+      if (content.style.fontWeight === 'bold') {
+        content.style.fontWeight = 'normal';
+        btns.bold.classList.remove('active-btn');
+      } else {
+        content.style.fontWeight = 'bold';
+        clearActive();
+        btns.bold.classList.add('active-btn');
+      }
+    });
+    btns.left.addEventListener('click', () => {
+      content.style.textAlign = 'left'; clearActive(); btns.left.classList.add('active-btn');
+    });
+    btns.center.addEventListener('click', () => {
+      content.style.textAlign = 'center'; clearActive(); btns.center.classList.add('active-btn');
+    });
+    btns.right.addEventListener('click', () => {
+      content.style.textAlign = 'right'; clearActive(); btns.right.classList.add('active-btn');
+    });
+  });
+</script> 
+  <!-- plugin.js الأصلي -->  <script src="../js/plugin.js"></script></body>
+  </html>
