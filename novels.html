@@ -91,17 +91,7 @@
     body.dark .novel-card img { filter: brightness(0.9); }
     .novel-card h3 { margin: 10px; font-size: 16px; font-weight: 500; font-family: 'Tajawal', sans-serif; text-align: right; line-height: 1.4; max-height: 3.2em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; transition: color 0.3s; }
     .hidden { display: none !important; }
-    /* مكان الـ Lottie فوق العنوان */
-#era-animation {
-  position: fixed;
-  top: 20px;               /* المسافة من أعلى الصفحة */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;            /* أعلى من عناصر الخلفية */
-                    }
-    /* Era overlay */
-    #era-overlay { position: fixed; top: 130px; left: 50%; transform: translateX(-50%); background-color: var(--era-bg); color: var(--era-text); padding: 10px 20px; font-size: 24px; font-weight: bold; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.5s; }
-    #era-overlay.visible { opacity: 1; }
+ 
     /* البداية: تحكم في موضع وحجم شريط الـ sale-ribbon */
  .sale-ribbon {
    position: absolute;
@@ -212,19 +202,6 @@
       <button onclick="toggleSidebar()">☰</button>
     </div>
   </div>
-<!-- Era Animation -->
-<div id="era-animation" class="hidden">
-  <lottie-player
-  id="era-lottie"
-  src="animations/victorian.json"
-  background="transparent"
-  speed="1"
-  style="width:150px; height:150px;"
-  autoplay>                            <!-- ← أزلنا سطر loop تماماً -->
-</lottie-player>
-</div>
-  <!-- Era Overlay -->
-  <div id="era-overlay">العصر الفيكتوري</div>
 
   <div class="sidebar" id="sidebar">
     <button class="sidebar-close" onclick="toggleSidebar()">×</button>
@@ -446,8 +423,6 @@
 
     const links     = document.querySelectorAll('.sidebar a[data-filter]');
     const novels    = document.querySelectorAll('.novel-card');
-    const overlay   = document.getElementById('era-overlay');
-    const animation = document.getElementById('era-animation');  // ← **سطر إضافي**
 
     links.forEach(link => {
           link.addEventListener('click', e => {
