@@ -179,6 +179,22 @@
   font-size: 0.9rem;
   z-index: 1;
 }
+  /* تأثيرات ديناميكية للبطاقات */
+.inspirer-card {
+  /* إضافة خاصية الانتقال */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* عند المرور بالفأرة */
+.inspirer-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* عند الضغط أو اللمس */
+.inspirer-card:active {
+  transform: translateY(2px) scale(0.97);
+}  
   </style>
 </head>
 <body>
