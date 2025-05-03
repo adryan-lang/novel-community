@@ -424,38 +424,45 @@
          padding: 15px;
          border-radius: 8px;
          text-align: center;
-         margin: -80px auto 20px;     /* يرفعه 80px ليغطي جزءًا من الصورة */
-         position: relative;          
+         margin: -80px auto 20px;     /* يرفعه ليغطي جزءًا من الصورة */
+         position: relative;
          z-index: 1;
          max-width: 400px;
-         font-weight: bold;           /* يجعل كل نص في البانر عريضًا */
        ">
-    <h3 style="margin:0 0 10px; font-size:1.4rem;">اختبار شخصية</h3>
-    <div class="bullet" style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.2); padding:8px; border-radius:6px; margin-bottom:6px;">
+    <h3 style="margin:0 0 10px; font-size:1.4rem; font-weight:bold;">
+      اختبار شخصية
+    </h3>
+    <div class="bullet"
+         style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.2); padding:8px; border-radius:6px; margin-bottom:6px;">
       <img src="images/icon-person.png" alt="شخص" style="width:24px; height:24px;">
-      <p style="margin:0; font-size:0.9rem; text-align:right;">كن على طبيعتك وأجب بصراحة لمعرفة نوع شخصيتك.</p>
+      <p style="margin:0; font-size:0.9rem; text-align:right; font-weight:bold;">
+        كن على طبيعتك وأجب بصراحة لمعرفة نوع شخصيتك.
+      </p>
     </div>
-    <div class="bullet" style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.2); padding:8px; border-radius:6px;">
+    <div class="bullet"
+         style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.2); padding:8px; border-radius:6px;">
       <img src="images/icon-molecule.png" alt="جزيئات" style="width:24px; height:24px;">
-      <p style="margin:0; font-size:0.9rem; text-align:right;">اكتشف أي شخصية أدبية تشبهك</p>
+      <p style="margin:0; font-size:0.9rem; text-align:right; font-weight:bold;">
+        اكتشف أي شخصية أدبية تشبهك
+      </p>
     </div>
   </div>
 
   <button id="start-quiz"
           style="
-            background: var(--main-color);
-            color: #E67E22;           /* نفس البرتقالي العريض */
-            padding:10px 20px;
-            border:none;
-            border-radius:5px;
-            font-size:1rem;
-            cursor:pointer;
-            font-weight:bold;         /* نص الزر عريض */
-            display:block;
-            margin: 0 auto 20px;      /* مركزيًا مع مسافة تحت */
+            background: #E67E22;       /* برتقالي */
+            color: #ffffff;            /* نص أبيض */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto 20px;
+            font-weight: bold;         /* نص الزر عريض */
           ">
     ابدأ الاختبار
-  </button>
+    </button>
       </div>
 
   <!-- B) شاشة الأسئلة (مخفيّة افتراضيًا) -->
