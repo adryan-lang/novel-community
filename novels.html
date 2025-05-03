@@ -414,9 +414,18 @@
 <!-- ========== بداية قسم اختبار الشخصية ========== -->
 <div id="quiz-container" class="hidden" style="padding:20px;">
   <!-- إضافة صورة شارلوك هولمز فوق البانر -->
-  <img src="images/sherlock-banner.webp"
-       alt="شارلوك هولمز يدرس الكتب"
-       style="width:100%; max-width:600px; display:block; margin:0 auto 20px; border-radius:12px;">
+<!-- بعد -->
+<img src="images/sherlock-banner.webp"
+     alt="شارلوك هولمز يدرس الكتب"
+     style="
+       width:100%;
+       max-width:600px;
+       display:block;
+       margin: -60px auto 10px;    /* margin-top سالب 60px و margin-bottom 10px */
+       border-radius:12px;
+       position: relative;          /* لتمكين top */
+       top: -60px;                  /* تحريك الصورة صعوداً */
+     ">
 
   <!-- بانر أبيض بنص برتقالي غامق وعريض، مرفوع ليغطي أسفل الصورة -->
   <div class="banner"
