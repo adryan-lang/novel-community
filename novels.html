@@ -409,106 +409,189 @@
 </div> <!-- نهاية inspirers-container -->
 
   <!-- ========== بداية قسم اختبار الشخصية ========== -->
-  <div id="quiz-container" class="hidden" style="padding:20px;">
+<div id="quiz-container" class="hidden" style="padding:20px;">
 
-    <!-- 1) عنوان القسم -->
-    <h2 style="text-align:center; font-size:1.4rem; margin-bottom:15px;">
-      اكتشف أي شخصية أدبية تشبهك
-    </h2>
-
-    <!-- 2) التوضيحات السريعة -->
+  <!-- A) شاشة التمهيد -->
+  <div id="quiz-intro" style="text-align:center; margin-bottom:20px;">
+    <h2 style="font-size:1.6rem; margin-bottom:15px;">اكتشف أي شخصية أدبية تشبهك</h2>
     <div style="background:#2c3e50; color:#ecf0f1; padding:15px; border-radius:8px; text-align:right; margin-bottom:20px;">
-      <p style="margin:5px 0;"><i class="fas fa-question-circle" style="margin-left:8px;"></i> 10 أسئلة قصيرة تكشف شخصيتك الأدبية.</p>
-      <p style="margin:5px 0;"><i class="fas fa-book"            style="margin-left:8px;"></i> نقيّم العاطفة، المنطق، والاجتماع.</p>
-      <p style="margin:5px 0;"><i class="fas fa-share-alt"       style="margin-left:8px;"></i> شارك نتيجتك مع أصدقائك!</p>
+      <p><i class="fas fa-question-circle" style="margin-left:8px;"></i> 10 أسئلة قصيرة تكشف شخصيتك الأدبية.</p>
+      <p><i class="fas fa-book"            style="margin-left:8px;"></i> نقيّم العاطفة، المنطق، والاجتماع.</p>
+      <p><i class="fas fa-stopwatch"      style="margin-left:8px;"></i> دقيقة واحدة للإنهاء.</p>
     </div>
-
-    <!-- 3) مكان السؤال والخيارات -->
-    <div id="quiz-question" style="font-size:1.1rem; margin-bottom:12px;"></div>
-    <div id="quiz-options"  style="display:grid; gap:10px;"></div>
-
+    <button id="start-quiz" style="background:var(--main-color); color:#fff; padding:10px 20px; border:none; border-radius:5px; font-size:1rem; cursor:pointer;">
+      ابدأ الاختبار
+    </button>
   </div>
+
+  <!-- B) شاشة الأسئلة (مخفيّة افتراضيًا) -->
+  <div id="quiz-content" class="hidden">
+    <!-- مكان عرض السؤال -->
+    <div id="quiz-question" style="font-size:1.2rem; margin-bottom:15px;"></div>
+    <!-- بطاقات الخيارات -->
+    <div id="quiz-options" style="display:grid; gap:10px; margin-bottom:20px;"></div>
+    <!-- شريط التقدم -->
+    <div style="display:flex; align-items:center;">
+      <span id="progress-text">0 من 10</span>
+      <div style="flex:1; height:6px; background:rgba(0,0,0,0.1); margin:0 10px; border-radius:3px;">
+        <div id="progress-bar" style="width:0%; height:100%; background:var(--main-color); border-radius:3px;"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
   <!-- ========== نهاية قسم اختبار الشخصية ========== -->
-  <script>
+<script>
+  // 1) فتح/إغلاق الشريط الجانبي
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('active');
   }
+
+  // 2) تبديل ثيم النهار/الليل
   function toggleTheme() {
-    const body = document.body;
+    const body     = document.body;
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon  = document.getElementById('sun-icon');
-    const isDark = body.classList.toggle('dark');
+    const isDark   = body.classList.toggle('dark');
     moonIcon.style.display = isDark ? 'none' : 'block';
     sunIcon .style.display = isDark ? 'block' : 'none';
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }
 
+  // 4) تحميل الأسئلة وعرض السؤال رقم i
+  function loadQuestion(i) {
+    fetch('data/quiz.json')
+      .then(res => res.json())
+      .then(data => {
+        const questions = data.questions;
+        const total     = questions.length;
+        const q         = questions[i];
+
+        // عرض نص السؤال
+        const qEl = document.getElementById('quiz-question');
+        qEl.textContent = `سؤال ${i+1}: ${q.text}`;
+
+        // عرض الخيارات
+        const opts = document.getElementById('quiz-options');
+        opts.innerHTML = '';
+        q.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'quiz-option';
+          btn.textContent = opt.text;
+          btn.style.padding = '10px';
+          btn.style.border = 'none';
+          btn.style.borderRadius = '5px';
+          btn.style.cursor = 'pointer';
+          btn.addEventListener('click', () => {
+            // TODO: جمع النقاط هنا عبر opt.scores
+            if (i+1 < total) {
+              updateProgress(i+1, total);
+              loadQuestion(i+1);
+            } else {
+              showResults();
+            }
+          });
+          opts.appendChild(btn);
+        });
+
+        // تحديث شريط التقدم
+        updateProgress(i, total);
+      })
+      .catch(err => console.error('Error loading quiz.json:', err));
+  }
+
+  // 5) تحديث شريط التقدم
+  function updateProgress(current, total) {
+    const pct = Math.round((current / total) * 100);
+    document.getElementById('progress-text').textContent = `${current} من ${total}`;
+    document.getElementById('progress-bar').style.width = `${pct}%`;
+  }
+
+  // 6) عرض النتيجة (تستبدل لاحقًا بحساب الشخصية)
+  function showResults() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = `
+      <h2 style="text-align:center; margin-top:20px;">انتهى الاختبار!</h2>
+      <p style="text-align:center;">سيتم عرض نتيجتك قريبًا.</p>
+    `;
+  }
+
+  // 3) و 7) التهيئة وربط الأحداث
   window.onload = function() {
-    // ======= ثيم الليل/النهار =======
-    const saved = localStorage.getItem('theme');
-    const body  = document.body;
+    // === استعادة الثيم ===
+    const saved    = localStorage.getItem('theme');
+    const body     = document.body;
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon  = document.getElementById('sun-icon');
     if (saved === 'dark') {
       body.classList.add('dark');
       moonIcon.style.display = 'none';
-      sunIcon.style.display  = 'block';
+      sunIcon .style.display = 'block';
     }
 
-    // ======= عناصر الفلترة =======
-    const links          = document.querySelectorAll('.sidebar a[data-filter]');
-    const novels         = document.querySelectorAll('.novel-card');
-    const inspirersGrid  = document.querySelector('.inspirers-container');
-    const quizSection    = document.getElementById('quiz-container');
+    // === فلترة القائمة ===
+    const links         = document.querySelectorAll('.sidebar a[data-filter]');
+    const novels        = document.querySelectorAll('.novel-card');
+    const inspirersGrid = document.querySelector('.inspirers-container');
+    const quizSection   = document.getElementById('quiz-container');
 
     links.forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         const f = link.getAttribute('data-filter');
 
-        // 1) عرض/إخفاء الروايات
+        // 3.1) روايات
         novels.forEach(n => {
-          const isMatch          = (f === 'all') || n.classList.contains(f);
-          const hideForSaleOnAll = (f === 'all') && n.classList.contains('for-sale');
+          const okAll = (f === 'all');
+          const isMatch = okAll || n.classList.contains(f);
+          const hideForSaleOnAll = okAll && n.classList.contains('for-sale');
           n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
         });
 
-        // 2) عرض/إخفاء الملهمون!
-        inspirersGrid.classList.toggle('hidden', f !== 'inspirers');
+        // 3.2) الملهمون!
+        if (inspirersGrid) inspirersGrid.classList.toggle('hidden', f !== 'inspirers');
 
-        // 3) عرض/إخفاء اختبار الشخصية
-        quizSection  .classList.toggle('hidden', f !== 'quiz');
-
-        // 4) عصر الفيكتوري (إذا لديك overlay و animation)
-        if (typeof overlay !== 'undefined' && typeof animation !== 'undefined') {
-          if (f === 'victorian') {
-            overlay.classList.add('visible');
-            animation.classList.remove('hidden');
-            document.getElementById('era-lottie').play();
-          } else {
-            overlay.classList.remove('visible');
-            animation.classList.add('hidden');
-          }
-        }
+        // 3.3) اختبار الشخصية
+        if (quizSection)   quizSection  .classList.toggle('hidden', f !== 'quiz');
       });
     });
 
-    // القائمة الفرعية للعصر الأدبي
-    document.getElementById('era-toggle').addEventListener('click', e => {
-      e.preventDefault();
-      const opts = document.getElementById('era-options');
-      opts.classList.toggle('hidden');
-      e.currentTarget.classList.toggle('open');
-    });
-
-    // البحث الفوري
-    document.querySelector('.search-box input').addEventListener('input', function() {
-      const q = this.value.trim().toLowerCase();
-      document.querySelectorAll('.novel-card').forEach(n => {
-        n.classList.toggle('hidden',
-          !n.querySelector('h3').textContent.toLowerCase().includes(q)
-        );
+    // === شاشة البداية: زر البدء ===
+    const startBtn   = document.getElementById('start-quiz');
+    const introDiv   = document.getElementById('quiz-intro');
+    const contentDiv = document.getElementById('quiz-content');
+    if (startBtn) {
+      startBtn.addEventListener('click', () => {
+        introDiv.classList.add('hidden');
+        contentDiv.classList.remove('hidden');
+        loadQuestion(0);
       });
-    });
+    }
+
+    // === القائمة الفرعية للعصر الأدبي ===
+    const eraToggle = document.getElementById('era-toggle');
+    if (eraToggle) {
+      eraToggle.addEventListener('click', e => {
+        e.preventDefault();
+        const opts = document.getElementById('era-options');
+        opts.classList.toggle('hidden');
+        eraToggle.classList.toggle('open');
+      });
+    }
+
+    // === البحث الفوري ===
+    const searchInput = document.querySelector('.search-box input');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        const q = this.value.trim().toLowerCase();
+        novels.forEach(n => {
+          n.classList.toggle('hidden',
+            !n.querySelector('h3').textContent.toLowerCase().includes(q)
+          );
+        });
+      });
+    }
   };
-  </script>
+</script>
+</body>
+  </html>
