@@ -412,12 +412,25 @@
   </div>
 </div> <!-- نهاية inspirers-container -->
 <!-- إضافة صورة شارلوك هولمز فوق البانر -->
-<img src="images/sherlock-banner.webp"
-     alt="شارلوك هولمز يدرس الكتب"
-     style="width:100%; max-width:600px; display:block; margin:0 auto 20px; border-radius:12px;">
-    <!-- البانر نفسه كما وضّحنا سابقًا -->
-  <div class="banner" style="background:#4CAF50; padding:15px; border-radius:8px; color:#fff; text-align:center; margin:10px auto; max-width:400px;">
-    <h3 style="margin:0 0 10px; font-size:1.4rem;">اختبار شخصية </h3>
+  <img src="images/sherlock-banner.webp"
+       alt="شارلوك هولمز يدرس الكتب"
+       style="width:100%; max-width:600px; display:block; margin:0 auto 20px; border-radius:12px;">
+
+  <!-- بانر أبيض بنص برتقالي غامق وعريض، مرفوع ليغطي أسفل الصورة -->
+  <div class="banner"
+       style="
+         background: #ffffff;
+         color: #E67E22;              /* برتقالي مستخرج من صورة شارلوك */
+         padding: 15px;
+         border-radius: 8px;
+         text-align: center;
+         margin: -80px auto 20px;     /* يرفعه 80px ليغطي جزءًا من الصورة */
+         position: relative;          
+         z-index: 1;
+         max-width: 400px;
+         font-weight: bold;           /* يجعل كل نص في البانر عريضًا */
+       ">
+    <h3 style="margin:0 0 10px; font-size:1.4rem;">اختبار شخصية</h3>
     <div class="bullet" style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.2); padding:8px; border-radius:6px; margin-bottom:6px;">
       <img src="images/icon-person.png" alt="شخص" style="width:24px; height:24px;">
       <p style="margin:0; font-size:0.9rem; text-align:right;">كن على طبيعتك وأجب بصراحة لمعرفة نوع شخصيتك.</p>
@@ -428,7 +441,19 @@
     </div>
   </div>
 
-  <button id="start-quiz" style="background:var(--main-color); color:#fff; padding:10px 20px; border:none; border-radius:5px; font-size:1rem; cursor:pointer;">
+  <button id="start-quiz"
+          style="
+            background: var(--main-color);
+            color: #E67E22;           /* نفس البرتقالي العريض */
+            padding:10px 20px;
+            border:none;
+            border-radius:5px;
+            font-size:1rem;
+            cursor:pointer;
+            font-weight:bold;         /* نص الزر عريض */
+            display:block;
+            margin: 0 auto 20px;      /* مركزيًا مع مسافة تحت */
+          ">
     ابدأ الاختبار
   </button>
       </div>
