@@ -214,6 +214,8 @@
       <a href="#" data-filter="early-twentieth">أوائل القرن العشرين</a>
       <a href="#" data-filter="ancient-classics">الكلاسيكيات المبكرة</a>
     </div>
+    <!-- زر اختبار الشخصية الأدبية -->
+   <a href="#" data-filter="quiz"><i class="fas fa-user-secret"></i> اختبار الشخصية</a>
     <!-- زر الملهمون! الجديد -->
     <a href="#" data-filter="inspirers"><i class="fas fa-lightbulb"></i> الملهمون!</a>
     <a href="#" data-filter="for-sale"><i class="fas fa-shopping-cart"></i> شراء الكتب</a>
@@ -404,7 +406,29 @@
 
     <!-- أضف مزيدًا من البطاقات حسب الحاجة -->
   </div>
+</div> <!-- نهاية inspirers-container -->
 
+  <!-- ========== بداية قسم اختبار الشخصية ========== -->
+  <div id="quiz-container" class="hidden" style="padding:20px;">
+
+    <!-- 1) عنوان القسم -->
+    <h2 style="text-align:center; font-size:1.4rem; margin-bottom:15px;">
+      اكتشف أي شخصية أدبية تشبهك
+    </h2>
+
+    <!-- 2) التوضيحات السريعة -->
+    <div style="background:#2c3e50; color:#ecf0f1; padding:15px; border-radius:8px; text-align:right; margin-bottom:20px;">
+      <p style="margin:5px 0;"><i class="fas fa-question-circle" style="margin-left:8px;"></i> 10 أسئلة قصيرة تكشف شخصيتك الأدبية.</p>
+      <p style="margin:5px 0;"><i class="fas fa-book"            style="margin-left:8px;"></i> نقيّم العاطفة، المنطق، والاجتماع.</p>
+      <p style="margin:5px 0;"><i class="fas fa-share-alt"       style="margin-left:8px;"></i> شارك نتيجتك مع أصدقائك!</p>
+    </div>
+
+    <!-- 3) مكان السؤال والخيارات -->
+    <div id="quiz-question" style="font-size:1.1rem; margin-bottom:12px;"></div>
+    <div id="quiz-options"  style="display:grid; gap:10px;"></div>
+
+  </div>
+  <!-- ========== نهاية قسم اختبار الشخصية ========== -->
   <script>
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('active');
@@ -436,13 +460,19 @@
               n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
             });
 
-            // 2) معالجة “الملهمون!”
-            const inspirersGrid = document.querySelector('.inspirers-container');
-            if (f === 'inspirers') {
-              inspirersGrid.classList.remove('hidden');
-            } else {
-              inspirersGrid.classList.add('hidden');
-            }
+            // 2) معالجة الملهمون!
+   if (f === 'inspirers') {
+    inspirersGrid.classList.remove('hidden');
+   } else {
+     inspirersGrid.classList.add('hidden');
+   }
+   inspirersGrid.classList.toggle('hidden', f !== 'inspirers');
+
+  // 3) معالجة اختبار الشخصية
+  const quizSection = document.getElementById('quiz-container');
+  quizSection.classList.toggle('hidden', f !== 'quiz');
+
+    // 4) معالجة عصر الفيكتوري (كما لديك)
 
             // 3) معالجة عصر الفيكتوري كما كان
             if (f === 'victorian') {
