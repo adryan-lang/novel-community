@@ -463,13 +463,9 @@
               n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
             });
 
-            // 2) معالجة الملهمون!
-   if (f === 'inspirers') {
-    inspirersGrid.classList.remove('hidden');
-   } else {
-     inspirersGrid.classList.add('hidden');
-   }
-   inspirersGrid.classList.toggle('hidden', f !== 'inspirers');
+            // 2) معالجة “الملهمون!” و “اختبار الشخصية”
+            inspirersGrid.classList.toggle('hidden', f !== 'inspirers');
+            quizSection  .classList.toggle('hidden', f !== 'quiz');
 
   // 3) معالجة اختبار الشخصية
   const quizSection = document.getElementById('quiz-container');
