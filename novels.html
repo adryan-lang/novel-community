@@ -305,7 +305,7 @@ const PRODUCTS = [
 const $ = (s, ctx=document) => ctx.querySelector(s);
 const $$ = (s, ctx=document) => Array.from(ctx.querySelectorAll(s));
 function fmtCurrency(n){
-  try { return new Intl.NumberFormat('ar-EG', { style:'currency', currency:'BHD' }).format(n).replace('BHD', CURRENCY); }
+  try { return new Intl.NumberFormat('ar-EG', { style:'currency', currency:'أوقية' }).format(n).replace('BHD', CURRENCY); }
   catch(e){ return n + ' ' + CURRENCY; }
 }
 function escapeHtml(t){ return (t+'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#039;"}[c])); }
@@ -519,7 +519,7 @@ modalBackdrop.addEventListener('click', e => { if(e.target === modalBackdrop) cl
 $('#emptyCart').addEventListener('click', emptyCart);
 $('#checkoutBtn').addEventListener('click', ()=> {
   if(Object.keys(cart).length === 0){ alert('سلتك فارغة'); return; }
-  alert('تم إرسال طلبك (محاكاة).'); cart = {}; saveCart(); closeModal();
+  alert('تم إرسال طلبك.'); cart = {}; saveCart(); closeModal();
 });
 
 function animateCartFab(){
