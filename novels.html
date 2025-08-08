@@ -83,7 +83,16 @@ button{font-family:inherit;cursor:pointer}
 
 /* backdrop عند فتح القائمة على الموبايل */
 .mobile-backdrop{ display:none; position:fixed; inset:0; background:var(--overlay); z-index:1500; opacity:0; transition:opacity var(--transition-fast) ease; }
-.mobile-backdrop.visible{ display:block; opacity:1; }
+.mobile-backdrop{
+  display:block; /* اجعلها دائمًا block */
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--transition-fast) ease;
+}
+.mobile-backdrop.visible{
+  opacity:1;
+  pointer-events:auto;
+}
 
 /* الفئات */
 .cat-list a{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;margin-bottom:8px;transition:background 120ms}
