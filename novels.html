@@ -66,33 +66,52 @@ button{font-family:inherit;cursor:pointer}
 @media(max-width:920px){ .container{ grid-template-columns: 1fr; padding:12px } }
 
 /* ========================
-   SIDEBAR (مخفية افتراضياً)
+   SIDEBAR (مخفية افتراضياً) — استبدال هذه القطعة
    ======================== */
 /* مهم: نخفيها عبر transform لتفادي reflow => لا رجفة */
 .sidebar{
   background:var(--card); border-radius:12px; padding:16px; box-shadow:0 8px 30px rgba(2,6,23,0.06);
   height:calc(100vh - 88px); overflow:auto;
   position:relative;
-  /* hidden by default using transform */
   transform: translateX(0); /* على الشاشات الكبيرة تبقى ظاهرة */
-  transition: transform var(--transition-mid) ease, opacity var(--transition-fast) ease;
+  /* اجعل transform و opacity بنفس زمن الانتقال لتوحيد السلاسة */
+  transition: transform var(--transition-mid) ease, opacity var(--transition-mid) ease;
 }
-/* mobile overlay: sidebar مخفية خارج الشاشة */
-.sidebar.mobile-hidden { transform: translateX(110%); opacity:0; pointer-events:none; position:fixed; top:0; right:0; height:100vh; z-index:1600; width:280px; }
-.sidebar.mobile-open  { transform: translateX(0); opacity:1; pointer-events:auto; }
 
-/* backdrop عند فتح القائمة على الموبايل */
-.mobile-backdrop{ display:none; position:fixed; inset:0; background:var(--overlay); z-index:1500; opacity:0; transition:opacity var(--transition-fast) ease; }
-.mobile-backdrop{
-  display:block; /* اجعلها دائمًا block */
+/* state when sidebar is fully hidden (after close complete) */
+.sidebar.mobile-hidden {
+  position:fixed;
+  top:0; right:0; height:100vh; z-index:1600; width:280px;
+  transform: translateX(110%);
   opacity:0;
   pointer-events:none;
-  transition:opacity var(--transition-fast) ease;
+}
+
+/* state when sidebar is open on mobile */
+.sidebar.mobile-open  {
+  position:fixed;
+  top:0; right:0; height:100vh; z-index:1600; width:280px;
+  transform: translateX(0);
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* transient closing state: animate out but keep control until transition finishes */
+.sidebar.closing {
+  transform: translateX(110%);
+  opacity:0;
+}
+
+/* backdrop عند فتح القائمة على الموبايل */
+.mobile-backdrop{
+  position:fixed; inset:0; background:var(--overlay); z-index:1500;
+  opacity:0; pointer-events:none;
+  transition: opacity var(--transition-mid) ease;
 }
 .mobile-backdrop.visible{
   opacity:1;
   pointer-events:auto;
-}
+   }
 
 /* الفئات */
 .cat-list a{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;margin-bottom:8px;transition:background 120ms}
