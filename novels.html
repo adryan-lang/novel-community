@@ -1,302 +1,586 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Medical Outfit</title>
-  <link rel="icon" href="images/logo.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ميديكال شوب — مستلزمات طبية</title>
+  <meta name="description" content="متجر لبيع المستلزمات الطبية: لباس طبي، أدوات قياس، معقمات، أدوات عيادات—تسوق بسهولة وادفع لاحقاً." />
+  <link rel="icon" href="images/logo.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500&display=swap" rel="stylesheet">
-  <!-- LottieFiles Player -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Lottie Player -->
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
   <style>
-    :root {
-      --main-color: #1abc9c; /* أزرق-أخضر طبي هادئ */
-      --dark-bg: #121212;
-      --light-bg: #f2f2f2;
-      --text-dark: #fff;
-      --text-light: #000;
-      --era-bg: rgba(92, 51, 23, 0.9);
-      --era-text: #d4af37;
-    }
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background-color: var(--light-bg);
-      color: var(--text-light);
-      transition: background-color 0.3s, color 0.3s;
-    }
-    body.dark {
-      background-color: var(--dark-bg);
-      color: var(--text-dark);
-    }
-    .navbar {
-      background: var(--main-color);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .navbar img.logo { height: 40px; }
-    .navbar .search-box { flex: 1; margin: 0 20px; display: flex; align-items: center; background: rgba(255,255,255,0.2); border-radius: 8px; padding: 5px 10px; transition: background 0.3s; }
-    body.dark .navbar .search-box { background: rgba(0,0,0,0.2); }
-    .navbar .search-box input { border: none; background: transparent; color: inherit; width: 100%; padding: 5px; font-size: 16px; }
-    .navbar .search-box input::placeholder { color: #ddd; }
-    .navbar .search-box i { margin-left: 10px; }
-    .navbar .icons { display: flex; align-items: center; gap: 15px; }
-    .navbar button { background: none; border: none; color: inherit; font-size: 20px; cursor: pointer; }
-    .sidebar { position: fixed; top: 0; left: -100%; width: 250px; height: 100%; background: #34495e; color: white; padding: 20px; transition: left 0.3s ease, background 0.3s; z-index: 1001; box-shadow: 2px 0 10px rgba(0,0,0,0.3); overflow-y: auto; }
-    body.dark .sidebar { background: #222; }
-    .sidebar.active { left: 0; }
-    .sidebar-close { position: absolute; top: 10px; left: 10px; font-size: 24px; background: none; border: none; color: inherit; cursor: pointer; }
-    .sidebar h2 { margin-top: 40px; }
-    .sidebar a { display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: inherit; text-decoration: none; font-size: 18px; border-radius: 8px; transition: background-color 0.3s, transform 0.2s; }
-    .sidebar a:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
-    .sidebar a i { font-size: 18px; }
-    .sub-menu { padding: 0 20px 10px; margin-bottom: 10px; border-right: 1px solid rgba(255,255,255,0.1); }
-    .sub-menu a { display: block; padding: 8px 0; color: inherit; font-size: 16px; text-decoration: none; transition: background-color 0.3s; }
-    .sub-menu a:hover { background: rgba(255,255,255,0.1); }
-    .sub-icon { transition: transform 0.3s; margin-left: auto; }
-    .has-submenu.open .sub-icon { transform: rotate(90deg); }
-    .novels-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; padding: 20px; }
-   .novel-card { background: #fff; border-radius: 10px; transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s; position: relative; text-decoration: none; color: inherit; }
-    .novel-card:active {
-      transform: translateY(2px) scale(0.97);
+    :root{
+      --main: #1abc9c;
+      --accent: #0b8f73;
+      --muted: #6b7280;
+      --light-bg: #f6f7f9;
+      --card-bg: #ffffff;
+      --text-dark: #0f1724;
+      --radius: 12px;
+      --glass: rgba(255,255,255,0.6);
     }
 
-    /* ========== إضافة منع إطار الفوكَس و الـ tap-highlight ========= */
-    /* يمنع تأثير الـ tap-highlight الافتراضي على جميع الروابط */
-    a {
-      -webkit-tap-highlight-color: transparent;
+    /* dark variables */
+    body.dark{
+      --light-bg: #0f1724;
+      --card-bg: #121316;
+      --text-dark: #e6eef0;
+      --glass: rgba(0,0,0,0.4);
     }
-    /* يزيل إطار الفوكس عند الضغط أو التنقل بلوحة المفاتيح */
-    .novel-card:focus,
-    .novel-card:active {
-      outline: none;
-    }
-    /* يمكنك أيضاً تطبيقه على كل العناصر لو أحببت */
-    /* * { -webkit-tap-highlight-color: transparent; } */
-    /* ========================================================= */
 
-    body.dark .novel-card { 
-      background: #1e1e1e; 
-      color: #fff; 
-      box-shadow: 0 4px 10px rgba(255,255,255,0.1); 
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; font-family:'Tajawal',sans-serif; background:var(--light-bg); color:var(--text-dark); -webkit-font-smoothing:antialiased}
+    a{color:inherit; text-decoration:none; -webkit-tap-highlight-color: transparent;}
+    button{font-family:inherit}
+
+    /* NAVBAR */
+    .navbar{
+      position:sticky; top:0; z-index:1200;
+      display:flex; align-items:center; gap:12px;
+      padding:10px 16px; background:linear-gradient(90deg,var(--main),var(--accent));
+      color:white; box-shadow:0 6px 18px rgba(15,23,36,0.08);
     }
-    .novel-card img { width: 100%; height: auto; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px 8px 0 0; display: block; transition: filter 0.3s; }
-    body.dark .novel-card img { filter: brightness(0.9); }
-    .novel-card h3 { margin: 10px; font-size: 16px; font-weight: 500; font-family: 'Tajawal', sans-serif; text-align: right; line-height: 1.4; max-height: 3.2em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; transition: color 0.3s; }
-    .hidden { display: none !important; }
- 
-    /* البداية: تحكم في موضع وحجم شريط الـ sale-ribbon */
- .sale-ribbon {
-   position: absolute;
-   top: -5px;
-   right: -10px;
-   width: 70px;
-   height: 70px;
-   pointer-events: none;
-   z-index: 2;
- }
- .sale-ribbon lottie-player {
-   width: 100%;
-   height: 100%;
- }
+    .navbar .logo {
+      display:flex; align-items:center; gap:10px;
+    }
+    .navbar img.logo { height:44px; border-radius:8px; background:white; padding:4px; }
+    .navbar .search-box {
+      flex:1; display:flex; align-items:center; gap:8px;
+      margin:0 8px; background:rgba(255,255,255,0.12); padding:8px 12px; border-radius:10px;
+    }
+    .navbar .search-box input{
+      border:none; background:transparent; color:inherit; outline:none; font-size:15px; width:100%;
+    }
+    .navbar .icons{ display:flex; align-items:center; gap:10px; }
+    .icon-btn{
+      background:transparent; border:none; color:inherit; font-size:20px; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:6px; border-radius:8px;
+    }
+    .icon-btn:active{ transform:translateY(1px) }
+
+    /* LAYOUT */
+    .container{ display:grid; grid-template-columns: 250px 1fr; gap:20px; padding:22px; max-width:1200px; margin:0 auto; }
+    @media(max-width:900px){ .container{ grid-template-columns: 1fr; padding:12px } .sidebar{ position:fixed; left:-100%; top:0; } }
+
+    /* SIDEBAR */
+    .sidebar{
+      background:var(--card-bg); border-radius:12px; padding:16px; height:calc(100vh - 80px);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.06); overflow:auto;
+    }
+    .sidebar h3{ margin:0 0 10px 0; font-size:18px }
+    .cat-list a{ display:flex; justify-content:space-between; align-items:center; padding:10px; border-radius:8px; color:var(--text-dark); margin-bottom:8px; transition:background 0.15s }
+    .cat-list a:hover{ background:rgba(0,0,0,0.04) }
+    .toggle-sidebar-btn{ display:none }
+    @media(max-width:900px){ .toggle-sidebar-btn{ display:inline-flex } }
+
+    /* MAIN GRID */
+    .top-bar{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:12px; flex-wrap:wrap }
+    .shop-title{ font-size:20px; font-weight:700; display:flex; align-items:center; gap:10px }
+    .filters{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+    .filters select, .filters button{ padding:8px 10px; border-radius:8px; border:1px solid rgba(0,0,0,0.08); background:transparent; cursor:pointer }
+
+    .grid{ display:grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap:18px }
+
+    /* PRODUCT CARD */
+    .card{
+      background:var(--card-bg); border-radius:12px; overflow:hidden; box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+      display:flex; flex-direction:column; transition:transform 0.15s, box-shadow 0.15s;
+      position:relative;
+    }
+    .card:hover{ transform:translateY(-6px); box-shadow:0 12px 36px rgba(2,6,23,0.12) }
+    .card img{ width:100%; height:160px; object-fit:cover; display:block; }
+    .card-body{ padding:12px; display:flex; flex-direction:column; gap:8px; flex:1 }
+    .card h4{ margin:0; font-size:15px; font-weight:600; direction:rtl; text-align:right }
+    .card p.desc{ margin:0; font-size:13px; color:var(--muted); height:36px; overflow:hidden; text-overflow:ellipsis }
+    .price-row{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:auto }
+    .price{ font-weight:700; font-size:16px }
+    .btn-buy{ background:var(--main); color:white; border:none; padding:8px 10px; border-radius:8px; cursor:pointer }
+    .btn-buy:active{ transform:translateY(1px) }
+
+    /* SALE RIBBON (lottie) */
+    .sale-ribbon{ position:absolute; top:8px; left:8px; width:64px; height:64px; pointer-events:none; z-index:3 }
+
+    /* CART SUMMARY (floating) */
+    .cart-fab{
+      position:fixed; left:20px; bottom:20px; z-index:1400;
+      background:var(--main); color:white; padding:12px; border-radius:12px; box-shadow:0 10px 30px rgba(15,23,36,0.18);
+      display:flex; gap:10px; align-items:center; cursor:pointer;
+    }
+    .cart-count{ background:rgba(255,255,255,0.12); padding:6px 8px; border-radius:8px; font-weight:700 }
+
+    /* CART MODAL */
+    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.45); display:none; align-items:center; justify-content:center; z-index:1500 }
+    .modal{ width:100%; max-width:720px; background:var(--card-bg); border-radius:12px; padding:16px; box-shadow:0 20px 60px rgba(2,6,23,0.4) }
+    .cart-list{ max-height:380px; overflow:auto; display:flex; flex-direction:column; gap:10px; margin:12px 0 }
+    .cart-item{ display:flex; gap:10px; align-items:center; border-radius:8px; padding:8px; background:rgba(0,0,0,0.03) }
+    .cart-item img{ width:64px; height:64px; object-fit:cover; border-radius:8px }
+    .cart-meta{ flex:1 }
+    .cart-controls{ display:flex; gap:8px; align-items:center }
+    .small{ font-size:13px; color:var(--muted) }
+
+    /* empty state */
+    .empty { text-align:center; padding:40px 20px; color:var(--muted) }
+
+    /* accessibility focus */
+    .card:focus-within, .cat-list a:focus { outline:2px solid rgba(26,188,156,0.22); }
+
+    /* responsive tweaks */
+    @media(max-width:600px){
+      .navbar .search-box input{ font-size:14px }
+      .card img{ height:140px }
+    }
+
+    /* remove default focus highlight on mobile tap (nice UX) */
+    .card:active, button:active { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
 <body>
-  <div class="navbar">
-    <img src="images/mogtamaa-logo.png" class="logo" alt="شعار مجتمع الروايات">
-    <div class="search-box">
-      <input type="text" placeholder="البحث...">
-      <i class="fa fa-search"></i>
+  <div class="navbar" role="navigation" aria-label="شريط التنقل الرئيسي">
+    <div class="logo" style="gap:10px; align-items:center">
+      <img src="images/logo.png" class="logo" alt="شعار المتجر">
+      <div style="display:flex; flex-direction:column; line-height:1;">
+        <strong style="font-size:16px">ميديكال شوب</strong>
+        <span style="font-size:12px; opacity:0.9">مستلزمات طبية موثوقة</span>
+      </div>
     </div>
+
+    <div class="search-box" role="search" aria-label="بحث المنتجات">
+      <input id="searchInput" type="search" placeholder="ابحث عن منتج، فئة، أو ماركة..." aria-label="حقل البحث">
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </div>
+
     <div class="icons">
-      <button id="theme-toggle" class="toggle-btn" onclick="toggleTheme()">
-        <lottie-player id="moon-icon" src="animations/moon.json" background="transparent" speed="1" style="width:32px; height:32px; display:block;" loop autoplay></lottie-player>
-        <lottie-player id="sun-icon" src="animations/sun.json" background="transparent" speed="1" style="width:40px; height:40px; display:none;" loop autoplay></lottie-player>
+      <button id="theme-toggle" class="icon-btn" aria-label="تبديل الوضع" title="تبديل الوضع">
+        <lottie-player id="moon-icon" src="animations/moon.json" background="transparent" speed="1" style="width:30px; height:30px; display:block" loop autoplay></lottie-player>
+        <lottie-player id="sun-icon" src="animations/sun.json" background="transparent" speed="1" style="width:30px; height:30px; display:none" loop autoplay></lottie-player>
       </button>
-      <button onclick="toggleSidebar()">☰</button>
+      <button class="icon-btn toggle-sidebar-btn" id="openSidebarBtn" onclick="openSidebar()" aria-expanded="false" aria-controls="sidebar">☰</button>
     </div>
   </div>
 
-  <div class="sidebar" id="sidebar">
-    <button class="sidebar-close" onclick="toggleSidebar()">×</button>
-    <h2>القائمة</h2>
-    <a href="#" data-filter="all"><i class="fas fa-home"></i> الرئيسية</a>
-    <a href="#" data-filter="fanfic"><i class="fas fa-book-open"></i> الملابس الطبية</a>
-    <a href="#" id="era-toggle" class="has-submenu"><i class="fas fa-book"></i> المستلزمات الطبية <i class="fas fa-chevron-down sub-icon"></i></a>
-    <div id="era-options" class="sub-menu hidden">
-      <a href="#" data-filter="victorian"></a>
-      <a href="#" data-filter="early-twentieth">  </a>
-      <a href="#" data-filter="ancient-classics"> </a>
-    </div>
-    <!-- زر اختبار الشخصية الأدبية -->
-   <a href="#" data-filter="quiz"><i class="fas fa-user-secret"></i></a>
-    <!-- زر الملهمون! الجديد -->
-    <a href="#" data-filter="inspirers"><i class="fas fa-lightbulb"></i> مستلزمات العيادات</a>
-    <a href="#" data-filter="for-sale"><i class="fas fa-shopping-cart"></i> مستلزمات العيادات</a>
-    <a href="support.html"><i class="fas fa-heart"></i>من نحن / تواصل معنا</a>
+  <main class="container" role="main">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="قائمة التصنيفات">
+      <h3>التصنيفات</h3>
+      <nav class="cat-list" aria-label="فئات المنتجات">
+        <a href="#" data-filter="all" class="active">الكل <span class="small">(<span id="allCount">0</span>)</span></a>
+        <a href="#" data-filter="clothing">الملابس الطبية <span class="small">(ثياب وشنط)</span></a>
+        <a href="#" data-filter="measurement">أجهزة قياس <span class="small">(قياس ضغط، حرارة)</span></a>
+        <a href="#" data-filter="sterile">أدوات تعقيم ووقاية <span class="small">(قفازات، كمامات)</span></a>
+        <a href="#" data-filter="clinic">مستلزمات عيادات <span class="small">(أدوات، فراش)</span></a>
+        <a href="#" data-filter="accessories">إكسسوارات طبية <span class="small">(حقائب، أدوات)</span></a>
+        <a href="support.html"><i class="fa fa-heart"></i>&nbsp;من نحن / تواصل</a>
+      </nav>
+
+      <hr style="margin:14px 0; opacity:0.08" />
+      <div>
+        <h3 style="margin-bottom:8px">تصفية حسب السعر</h3>
+        <div style="display:flex; gap:8px; align-items:center">
+          <input id="minPrice" type="number" placeholder="من" style="flex:1; padding:8px; border-radius:8px; border:1px solid rgba(0,0,0,0.06)" />
+          <input id="maxPrice" type="number" placeholder="إلى" style="flex:1; padding:8px; border-radius:8px; border:1px solid rgba(0,0,0,0.06)" />
+        </div>
+        <button id="applyPrice" style="margin-top:8px; width:100%; padding:10px; border-radius:8px; border:none; background:var(--main); color:white; cursor:pointer">تطبيق</button>
+      </div>
+    </aside>
+
+    <!-- MAIN SHOP -->
+    <section aria-label="قائمة المنتجات" style="min-height:400px">
+      <div class="top-bar">
+        <div class="shop-title"><i class="fa fa-bag-medical"></i> متجر المستلزمات الطبية</div>
+        <div class="filters" aria-hidden="false">
+          <select id="sortSelect" aria-label="ترتيب">
+            <option value="popular">الأكثر مبيعًا</option>
+            <option value="price-asc">الأرخص</option>
+            <option value="price-desc">الأغلى</option>
+            <option value="new">جديد</option>
+          </select>
+          <button id="clearFilters">مسح الفلاتر</button>
+        </div>
+      </div>
+
+      <div class="grid" id="productsGrid" aria-live="polite" aria-atomic="true">
+        <!-- بطاقات المنتجات تُولَّد ديناميكياً -->
+      </div>
+    </section>
+  </main>
+
+  <!-- CART FAB -->
+  <div class="cart-fab" id="cartFab" role="button" aria-label="عرض السلة" tabindex="0">
+    <i class="fa fa-shopping-cart"></i>
+    <div>سلة التسوق</div>
+    <div class="cart-count" id="cartCount">0</div>
   </div>
 
+  <!-- CART MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="cartTitle">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 id="cartTitle">سلة التسوق</h3>
+        <div style="display:flex; gap:8px; align-items:center">
+          <strong id="cartTotal">0 د.ب</strong>
+          <button id="closeModal" class="icon-btn" aria-label="إغلاق">×</button>
+        </div>
+      </div>
 
-</div>
-  <!-- ========== نهاية قسم اختبار الشخصية ========== -->
-<script>
-  // 1) فتح/إغلاق الشريط الجانبي
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('active');
-  }
+      <div class="cart-list" id="cartList">
+        <!-- عناصر السلة -->
+      </div>
 
-  // 2) تبديل ثيم النهار/الليل
-  function toggleTheme() {
-    const body     = document.body;
-    const moonIcon = document.getElementById('moon-icon');
-    const sunIcon  = document.getElementById('sun-icon');
-    const isDark   = body.classList.toggle('dark');
-    moonIcon.style.display = isDark ? 'none' : 'block';
-    sunIcon .style.display = isDark ? 'block' : 'none';
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  }
+      <div style="display:flex; justify-content:space-between; gap:10px; margin-top:12px; align-items:center">
+        <div>
+          <div class="small">طريقة دفع تجريبية — لا يوجد باك-إند</div>
+        </div>
+        <div style="display:flex; gap:8px">
+          <button id="emptyCart" style="padding:10px 12px; border-radius:8px; border:1px solid rgba(0,0,0,0.06); background:transparent">تفريغ السلة</button>
+          <button id="checkoutBtn" style="padding:10px 12px; border-radius:8px; background:var(--main); color:white; border:none">إتمام الطلب</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  // 4) تحميل الأسئلة وعرض السؤال رقم i
-  function loadQuestion(i) {
-    fetch('data/quiz.json')
-      .then(res => res.json())
-      .then(data => {
-        const questions = data.questions;
-        const total     = questions.length;
-        const q         = questions[i];
+  <script>
+    /*************** بيانات المنتجات — عدل/أضف كما تشاء ***************/
+    const PRODUCTS = [
+      {
+        id: "p1",
+        title: "معطف طبي قابل للغسل (أزرق)",
+        desc: "قماش مضاد للبقع، عدة مقاسات، مناسب للعيادات والمستشفيات.",
+        price: 18.50,
+        category: "clothing",
+        img: "images/coat-blue.jpg",
+        stock: 50,
+        badge: ""
+      },
+      {
+        id: "p2",
+        title: "جهاز قياس ضغط الدم الرقمي",
+        desc: "جهاز محمول سهل الاستخدام مع شاشة رقمية وحفظ قياسات.",
+        price: 34.00,
+        category: "measurement",
+        img: "images/bp-monitor.jpg",
+        stock: 25,
+        badge: "new"
+      },
+      {
+        id: "p3",
+        title: "قناع طبي ثلاثي الطبقات (50 قطعة)",
+        desc: "قناع حماية مطابق للمواصفات مع فلتر فعال.",
+        price: 9.99,
+        category: "sterile",
+        img: "images/masks.jpg",
+        stock: 200,
+        badge: ""
+      },
+      {
+        id: "p4",
+        title: "معقم يدين 500 مل (جل)",
+        desc: "معقم كحولي بتركيز 70% — سريع المفعول ومرطب.",
+        price: 6.75,
+        category: "sterile",
+        img: "images/hand-sanitizer.jpg",
+        stock: 120,
+        badge: ""
+      },
+      {
+        id: "p5",
+        title: "مقعد طبي محمول للعيادات",
+        desc: "قابل للطي، خفيف الوزن، سطح سهل التنظيف.",
+        price: 48.00,
+        category: "clinic",
+        img: "images/clinic-chair.jpg",
+        stock: 8,
+        badge: "sale"
+      },
+      {
+        id: "p6",
+        title: "حقيبة أدوات طبية احترافية",
+        desc: "حافظ واسع وجيوب متعددة لأدوات الطبيب.",
+        price: 29.90,
+        category: "accessories",
+        img: "images/medical-bag.jpg",
+        stock: 34,
+        badge: ""
+      }
+    ];
 
-        // عرض نص السؤال
-        const qEl = document.getElementById('quiz-question');
-        qEl.textContent = `سؤال ${i+1}: ${q.text}`;
+    /*************** إدارة الحالة (سلة) ***************/
+    const CART_KEY = 'medical_shop_cart_v1';
+    let cart = loadCart();
 
-        // عرض الخيارات
-        const opts = document.getElementById('quiz-options');
-        opts.innerHTML = '';
-        q.options.forEach(opt => {
-          const btn = document.createElement('button');
-          btn.className = 'quiz-option';
-          btn.textContent = opt.text;
-          btn.style.padding = '10px';
-          btn.style.border = 'none';
-          btn.style.borderRadius = '5px';
-          btn.style.cursor = 'pointer';
-          btn.addEventListener('click', () => {
-            // TODO: جمع النقاط هنا عبر opt.scores
-            if (i+1 < total) {
-              updateProgress(i+1, total);
-              loadQuestion(i+1);
-            } else {
-              showResults();
-            }
-          });
-          opts.appendChild(btn);
-        });
-
-        // تحديث شريط التقدم
-        updateProgress(i, total);
-      })
-      .catch(err => console.error('Error loading quiz.json:', err));
-  }
-
-  // 5) تحديث شريط التقدم
-  function updateProgress(current, total) {
-    const pct = Math.round((current / total) * 100);
-    document.getElementById('progress-text').textContent = `${current} من ${total}`;
-    document.getElementById('progress-bar').style.width = `${pct}%`;
-  }
-
-  // 6) عرض النتيجة (تستبدل لاحقًا بحساب الشخصية)
-  function showResults() {
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = `
-      <h2 style="text-align:center; margin-top:20px;">انتهى الاختبار!</h2>
-      <p style="text-align:center;">سيتم عرض نتيجتك قريبًا.</p>
-    `;
-  }
-
-  // 3) و 7) التهيئة وربط الأحداث
-  window.onload = function() {
-    // === استعادة الثيم ===
-    const saved    = localStorage.getItem('theme');
-    const body     = document.body;
-    const moonIcon = document.getElementById('moon-icon');
-    const sunIcon  = document.getElementById('sun-icon');
-    if (saved === 'dark') {
-      body.classList.add('dark');
-      moonIcon.style.display = 'none';
-      sunIcon .style.display = 'block';
+    function loadCart(){
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {} }
+    }
+    function saveCart(){
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      renderCartCount();
+    }
+    function addToCart(productId, qty=1){
+      const p = PRODUCTS.find(x=>x.id===productId);
+      if(!p) return alert('المنتج غير موجود');
+      if((cart[productId] || 0) + qty > p.stock) {
+        return alert('الكمية المطلوبة تتجاوز المخزون المتاح.');
+      }
+      cart[productId] = (cart[productId] || 0) + qty;
+      saveCart();
+      animateAddToCart();
+    }
+    function removeFromCart(productId){
+      delete cart[productId];
+      saveCart();
+      renderCartModal();
+    }
+    function setQty(productId, qty){
+      const p = PRODUCTS.find(x=>x.id===productId);
+      if(qty <= 0) { removeFromCart(productId); return; }
+      if(qty > p.stock) { alert('الكمية المطلوبة تتجاوز المخزون'); return; }
+      cart[productId] = qty;
+      saveCart();
+      renderCartModal();
+    }
+    function emptyCart(){
+      cart = {};
+      saveCart();
+      renderCartModal();
     }
 
-    // === فلترة القائمة ===
-    const links         = document.querySelectorAll('.sidebar a[data-filter]');
-    const novels        = document.querySelectorAll('.novel-card');
-    const inspirersGrid = document.querySelector('.inspirers-container');
-    const quizSection   = document.getElementById('quiz-container');
+    /*************** واجهة المنتجات ***************/
+    const productsGrid = document.getElementById('productsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const allCount = document.getElementById('allCount');
 
-    links.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const f = link.getAttribute('data-filter');
+    function currencyFmt(n){ return n.toLocaleString('ar-EG', { style:'currency', currency:'BHD' }).replace('BHD','د.ب'); }
 
-        // 3.1) روايات
-        novels.forEach(n => {
-          const okAll = (f === 'all');
-          const isMatch = okAll || n.classList.contains(f);
-          const hideForSaleOnAll = okAll && n.classList.contains('for-sale');
-          n.classList.toggle('hidden', !isMatch || hideForSaleOnAll);
+    function renderProducts(list = PRODUCTS){
+      productsGrid.innerHTML = '';
+      allCount.textContent = list.length;
+      list.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'card product-card';
+        card.setAttribute('tabindex','0');
+        card.innerHTML = `
+          <div style="position:relative;">
+            ${p.badge ? `<div class="sale-ribbon"><lottie-player src="animations/${p.badge}.json" background="transparent" speed="1" style="width:64px; height:64px" loop autoplay></lottie-player></div>` : ''}
+            <img src="${p.img}" alt="${escapeHtml(p.title)}" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <h4>${escapeHtml(p.title)}</h4>
+            <p class="desc">${escapeHtml(p.desc)}</p>
+            <div class="price-row">
+              <div>
+                <div class="price">${currencyFmt(p.price)}</div>
+                <div class="small">المخزون: ${p.stock}</div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start">
+                <button class="btn-buy" data-id="${p.id}"><i class="fa fa-cart-plus"></i> أضف للسلة</button>
+                <a href="#" class="small" data-id="${p.id}" onclick="addQuick(this); return false;">شراء سريع</a>
+              </div>
+            </div>
+          </div>
+        `;
+        productsGrid.appendChild(card);
+      });
+
+      // ربط أزرار الشراء
+      document.querySelectorAll('.btn-buy').forEach(btn=>{
+        btn.addEventListener('click', e=>{
+          const id = btn.getAttribute('data-id');
+          addToCart(id, 1);
         });
+      });
+    }
 
-        // 3.2) الملهمون!
-        if (inspirersGrid) inspirersGrid.classList.toggle('hidden', f !== 'inspirers');
+    function escapeHtml(t){ return (t+'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#039;"}[c])); }
 
-        // 3.3) اختبار الشخصية
-        if (quizSection)   quizSection  .classList.toggle('hidden', f !== 'quiz');
+    /*************** بحث وفلترة وترتيب ***************/
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      const activeCat = document.querySelector('.cat-list a.active')?.getAttribute('data-filter') || 'all';
+      const minP = parseFloat(document.getElementById('minPrice').value || 0);
+      const maxP = parseFloat(document.getElementById('maxPrice').value || Infinity);
+      let res = PRODUCTS.filter(p=>{
+        const matchesQuery = !q || (p.title + ' ' + p.desc).toLowerCase().includes(q);
+        const matchesCat = (activeCat === 'all') || (p.category === activeCat);
+        const matchesPrice = p.price >= minP && p.price <= maxP;
+        return matchesQuery && matchesCat && matchesPrice;
+      });
+
+      // ترتيب
+      const sort = sortSelect.value;
+      if(sort === 'price-asc') res.sort((a,b)=>a.price - b.price);
+      else if(sort === 'price-desc') res.sort((a,b)=>b.price - a.price);
+      else if(sort === 'new') res = res.slice().reverse();
+
+      renderProducts(res);
+    }
+
+    /* ربط أحداث البحث والفلاتر */
+    searchInput.addEventListener('input', () => { applyFilters(); });
+    sortSelect.addEventListener('change', applyFilters);
+    document.getElementById('applyPrice').addEventListener('click', applyFilters);
+    document.getElementById('clearFilters').addEventListener('click', () => {
+      searchInput.value = ''; document.getElementById('minPrice').value=''; document.getElementById('maxPrice').value='';
+      document.querySelectorAll('.cat-list a').forEach(a=>a.classList.remove('active')); document.querySelector('.cat-list a[data-filter="all"]').classList.add('active');
+      applyFilters();
+    });
+
+    // فلاتر الفئات
+    document.querySelectorAll('.cat-list a[data-filter]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        document.querySelectorAll('.cat-list a').forEach(x=>x.classList.remove('active'));
+        a.classList.add('active');
+        applyFilters();
+        if(window.innerWidth < 900) closeSidebar();
       });
     });
 
-    // === شاشة البداية: زر البدء ===
-    const startBtn   = document.getElementById('start-quiz');
-    const introDiv   = document.getElementById('quiz-intro');
-    const contentDiv = document.getElementById('quiz-content');
-    if (startBtn) {
-      startBtn.addEventListener('click', () => {
-        introDiv.classList.add('hidden');
-        contentDiv.classList.remove('hidden');
-        loadQuestion(0);
-      });
+    /*************** السلة — عرض ومودال ***************/
+    const cartFab = document.getElementById('cartFab');
+    const cartCount = document.getElementById('cartCount');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const cartList = document.getElementById('cartList');
+    const cartTotal = document.getElementById('cartTotal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const emptyCartBtn = document.getElementById('emptyCart');
+
+    function renderCartCount(){
+      const items = Object.values(cart).reduce((s,n)=>s+n,0);
+      cartCount.textContent = items;
     }
 
-    // === القائمة الفرعية للعصر الأدبي ===
-    const eraToggle = document.getElementById('era-toggle');
-    if (eraToggle) {
-      eraToggle.addEventListener('click', e => {
-        e.preventDefault();
-        const opts = document.getElementById('era-options');
-        opts.classList.toggle('hidden');
-        eraToggle.classList.toggle('open');
+    function renderCartModal(){
+      cartList.innerHTML = '';
+      let total = 0;
+      const keys = Object.keys(cart);
+      if(keys.length === 0){
+        cartList.innerHTML = `<div class="empty">سلة الشراء فارغة</div>`;
+        cartTotal.textContent = currencyFmt(0);
+        renderCartCount();
+        return;
+      }
+      keys.forEach(id=>{
+        const qty = cart[id];
+        const p = PRODUCTS.find(x=>x.id===id);
+        const line = document.createElement('div');
+        line.className = 'cart-item';
+        line.innerHTML = `
+          <img src="${p.img}" alt="${escapeHtml(p.title)}">
+          <div class="cart-meta">
+            <div style="display:flex; justify-content:space-between; gap:8px; align-items:center">
+              <div>
+                <strong>${escapeHtml(p.title)}</strong>
+                <div class="small">${p.desc}</div>
+              </div>
+              <div class="small">${currencyFmt(p.price)}</div>
+            </div>
+            <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center; gap:8px">
+              <div class="cart-controls">
+                <button class="icon-btn qty-minus" data-id="${id}">−</button>
+                <div class="small" style="min-width:32px; text-align:center">${qty}</div>
+                <button class="icon-btn qty-plus" data-id="${id}">+</button>
+              </div>
+              <button class="icon-btn remove-item" data-id="${id}" title="إزالة"><i class="fa fa-trash"></i></button>
+            </div>
+          </div>
+        `;
+        cartList.appendChild(line);
+        total += p.price * qty;
       });
+
+      // أزرار التحكم داخل السلة
+      cartList.querySelectorAll('.qty-plus').forEach(b=>{
+        b.addEventListener('click', ()=>{ const id=b.getAttribute('data-id'); setQty(id, cart[id]+1); });
+      });
+      cartList.querySelectorAll('.qty-minus').forEach(b=>{
+        b.addEventListener('click', ()=>{ const id=b.getAttribute('data-id'); setQty(id, cart[id]-1); });
+      });
+      cartList.querySelectorAll('.remove-item').forEach(b=>{
+        b.addEventListener('click', ()=>{ const id=b.getAttribute('data-id'); removeFromCart(id); });
+      });
+
+      cartTotal.textContent = currencyFmt(total);
+      renderCartCount();
     }
 
-    // === البحث الفوري ===
-    const searchInput = document.querySelector('.search-box input');
-    if (searchInput) {
-      searchInput.addEventListener('input', function() {
-        const q = this.value.trim().toLowerCase();
-        novels.forEach(n => {
-          n.classList.toggle('hidden',
-            !n.querySelector('h3').textContent.toLowerCase().includes(q)
-          );
-        });
-      });
+    cartFab.addEventListener('click', openModal);
+    cartFab.addEventListener('keydown', (e)=> { if(e.key === 'Enter') openModal(); });
+    closeModalBtn.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e)=> { if(e.target === modalBackdrop) closeModal(); });
+    emptyCartBtn.addEventListener('click', ()=>{ if(confirm('هل تريد تفريغ السلة؟')) emptyCart(); });
+
+    checkoutBtn.addEventListener('click', ()=> {
+      // هنا عادة يتم استدعاء باك-إند — سنحاكي نجاحاً
+      if(Object.keys(cart).length === 0){ alert('سلتك فارغة'); return; }
+      alert('تم إرسال طلبك (محاكاة). شكراً لتسوقك معنا!');
+      emptyCart();
+      closeModal();
+    });
+
+    function openModal(){
+      renderCartModal();
+      modalBackdrop.style.display = 'flex';
+      modalBackdrop.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
     }
-  };
-</script>
+    function closeModal(){
+      modalBackdrop.style.display = 'none';
+      modalBackdrop.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    /*************** ثيم نهار/ليل ***************/
+    const themeToggle = document.getElementById('theme-toggle');
+    const moonIcon = document.getElementById('moon-icon');
+    const sunIcon  = document.getElementById('sun-icon');
+
+    function setTheme(isDark){
+      document.body.classList.toggle('dark', !!isDark);
+      moonIcon.style.display = isDark ? 'none' : 'block';
+      sunIcon.style.display  = isDark ? 'block' : 'none';
+      localStorage.setItem('theme',''+(isDark ? 'dark' : 'light'));
+    }
+    themeToggle.addEventListener('click', ()=> setTheme(!document.body.classList.contains('dark')));
+    // restore
+    if(localStorage.getItem('theme') === 'dark') setTheme(true);
+
+    /*************** وظائف واجهة اضافية ***************/
+    function animateAddToCart(){
+      // تأثير بسيط: توميض زر السلة
+      cartFab.animate([{ transform:'scale(1)' }, { transform:'scale(1.06)' }, { transform:'scale(1)' }], { duration:240 });
+    }
+
+    // شراء سريع — يفتح المودال ويضيف 1
+    function addQuick(el){
+      const id = el.getAttribute('data-id');
+      addToCart(id,1);
+      openModal();
+    }
+
+    /*************** فتح وإغلاق الشريط الجانبي على الشاشات الصغيرة ***************/
+    const sidebar = document.getElementById('sidebar');
+    function openSidebar(){ sidebar.style.left = '0'; document.getElementById('openSidebarBtn').setAttribute('aria-expanded','true'); }
+    function closeSidebar(){ sidebar.style.left = ''; document.getElementById('openSidebarBtn').setAttribute('aria-expanded','false'); }
+    // أغلق عند تغيير الحجم الكبير
+    window.addEventListener('resize', ()=> { if(window.innerWidth > 900) sidebar.style.left=''; });
+
+    /*************** تهيئة أولية ***************/
+    renderProducts(PRODUCTS);
+    renderCartCount();
+
+    /*************** مساعدة: إضافة صور افتراضية إذا لم توجد ***************/
+    // لو الصور غير موجودة على المسارات, استبدل بصورة افتراضية
+    document.querySelectorAll('img').forEach(img=>{
+      img.addEventListener('error', ()=> { img.src = 'images/placeholder.jpg'; });
+    });
+  </script>
 </body>
   </html>
